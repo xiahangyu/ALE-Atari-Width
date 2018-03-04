@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="src"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="src">
+				<Option output="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/src" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 src"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="src/fast">
+				<Option output="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/src" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 src/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/BestFirstSearch.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/BestFirstSearch.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/BreadthFirstSearch.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/BreadthFirstSearch.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/FullSearchTree.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/FullSearchTree.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/IW1Search.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/IW1Search.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/PlayerAgent.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/PlayerAgent.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/RandomAgent.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/RandomAgent.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SDLKeyboardAgent.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SDLKeyboardAgent.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SearchAgent.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SearchAgent.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SearchTree.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SearchTree.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SimpleBanditAgent.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SimpleBanditAgent.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SingleActionAgent.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/SingleActionAgent.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/TreeNode.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/TreeNode.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/UCTSearchTree.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/UCTSearchTree.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/UCTTreeNode.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/UCTTreeNode.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/UniformCostSearch.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/UniformCostSearch.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/bit_array.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/bit_array.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/agents/bit_matrix.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/ale_interface.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/Array.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/Constants.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/Constants.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/Defaults.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/Defaults.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/GuiUtils.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/RectList.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/RectList.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/SoundNull.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/SoundNull.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/SoundSDL.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/SoundSDL.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/Version.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/VideoModeList.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/display_screen.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/display_screen.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/export_screen.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/export_screen.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/misc_tools.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/random_tools.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/common/time.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/ale_controller.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/ale_controller.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/fifo_controller.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/fifo_controller.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/internal_controller.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/internal_controller.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/rlglue_controller.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/rlglue_controller.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/trajectory_controller.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/controllers/trajectory_controller.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/AtariVox.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/AtariVox.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Booster.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Booster.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart0840.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart0840.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart2K.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart2K.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart3E.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart3E.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart3F.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart3F.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart4A50.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart4A50.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart4K.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Cart4K.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartAR.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartAR.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartCV.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartCV.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartDPC.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartDPC.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartE0.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartE0.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartE7.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartE7.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF4.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF4.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF4SC.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF4SC.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF6.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF6.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF6SC.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF6SC.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF8.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF8.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF8SC.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartF8SC.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartFASC.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartFASC.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartFE.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartFE.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartMB.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartMB.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartMC.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartMC.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartUA.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/CartUA.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Console.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Console.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Control.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Control.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/DefProps.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Deserializer.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Deserializer.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Driving.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Driving.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Event.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Event.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/FSNode.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/FSNode.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Joystick.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Joystick.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Keyboard.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Keyboard.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/M6532.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/M6532.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/MD5.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/MD5.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/MediaSrc.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/MediaSrc.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/OSystem.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/OSystem.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Paddles.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Paddles.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Props.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Props.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/PropsSet.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/PropsSet.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Random.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Random.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Serializer.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Serializer.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Settings.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Settings.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Sound.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/SpeakJet.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/SpeakJet.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Switches.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/Switches.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/TIA.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/TIA.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/TIASnd.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/TIASnd.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/Device.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/Device.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/M6502.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/M6502.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/M6502Hi.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/M6502Hi.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/M6502Low.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/M6502Low.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/NullDev.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/NullDev.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/System.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/System.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/m6502/src/bspf/src/bspf.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/config.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/darray.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/darray.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/elements.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/holmes.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/opsynth.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/phfeat.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/phones.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/phones.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/phtoelm.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/phtoelm.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/rsynth.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/trie.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/trie.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/rsynth/useconfig.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/unzip.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/emucore/unzip.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/environment/ale_ram.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/environment/ale_screen.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/environment/ale_state.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/environment/ale_state.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/environment/phosphor_blend.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/environment/phosphor_blend.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/environment/stella_environment.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/environment/stella_environment.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/RomSettings.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/RomSettings.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/RomUtils.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/RomUtils.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/Roms.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/Roms.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/AirRaid.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/AirRaid.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Alien.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Alien.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Amidar.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Amidar.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Assault.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Assault.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Asterix.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Asterix.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Asteroids.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Asteroids.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Atlantis.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Atlantis.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/BankHeist.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/BankHeist.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/BattleZone.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/BattleZone.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/BeamRider.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/BeamRider.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Berzerk.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Berzerk.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Bowling.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Bowling.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Boxing.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Boxing.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Breakout.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Breakout.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Carnival.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Carnival.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Centipede.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Centipede.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/ChopperCommand.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/ChopperCommand.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/CrazyClimber.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/CrazyClimber.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Defender.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Defender.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/DemonAttack.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/DemonAttack.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/DoubleDunk.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/DoubleDunk.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/ElevatorAction.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/ElevatorAction.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Enduro.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Enduro.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/FishingDerby.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/FishingDerby.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Freeway.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Freeway.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Frostbite.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Frostbite.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Gopher.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Gopher.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Gravitar.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Gravitar.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Hero.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Hero.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/IceHockey.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/IceHockey.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/JamesBond.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/JamesBond.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/JourneyEscape.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/JourneyEscape.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Kangaroo.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Kangaroo.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Krull.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Krull.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/KungFuMaster.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/KungFuMaster.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/MontezumaRevenge.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/MontezumaRevenge.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/MsPacman.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/MsPacman.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/NameThisGame.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/NameThisGame.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Phoenix.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Phoenix.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Pitfall.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Pitfall.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Pong.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Pong.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Pooyan.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Pooyan.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/PrivateEye.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/PrivateEye.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/QBert.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/QBert.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/RiverRaid.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/RiverRaid.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/RoadRunner.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/RoadRunner.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/RoboTank.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/RoboTank.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Seaquest.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Seaquest.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Skiing.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Skiing.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Solaris.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Solaris.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/SpaceInvaders.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/SpaceInvaders.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/StarGunner.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/StarGunner.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Tennis.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Tennis.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/TimePilot.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/TimePilot.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Tutankham.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Tutankham.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/UpNDown.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/UpNDown.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Venture.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Venture.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/VideoPinball.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/VideoPinball.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/WizardOfWor.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/WizardOfWor.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/YarsRevenge.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/YarsRevenge.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Zaxxon.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/games/supported/Zaxxon.hpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/main.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/FSNodePOSIX.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/FSNodeWin32.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/OSystemUNIX.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/OSystemUNIX.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/OSystemWin32.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/OSystemWin32.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/SettingsUNIX.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/SettingsUNIX.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/SettingsWin32.cxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/os_dependent/SettingsWin32.hxx">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/hangyux/Studying/ResearchProject/ALE-Atari-Width-master/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
