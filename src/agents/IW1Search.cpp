@@ -25,22 +25,32 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 	/** Added by xhy, if true, apply game screens instead of ALE_RAM to IW1 */
 	m_screen_features_on = settings.getBool("screen_features_on", false);
 
+	m_bpros_features = settings.getBool("bpros_features", false);
+	if(m_bpros_features){
+		m_bprosFeature = new BPROSFeature(15, 10); // divide screen into 14 x 16 tiles of size 15 x 10 pixels
+	}
+
 	/** Modified by xhy */
-	if( m_novelty_boolean_representation){
-		if(!m_screen_features_on){
-			m_ram_novelty_table_true = new aptk::Bit_Matrix( RAM_SIZE, 8 );
-			m_ram_novelty_table_false = new aptk::Bit_Matrix( RAM_SIZE, 8 );
+	if(!m_bpros_features){
+		if(m_novelty_boolean_representation){
+			if(!m_screen_features_on){
+				m_ram_novelty_table_true = new aptk::Bit_Matrix( RAM_SIZE, 8 );
+				m_ram_novelty_table_false = new aptk::Bit_Matrix( RAM_SIZE, 8 );
+			}
+			else{
+				m_ram_novelty_table_true = new aptk::Bit_Matrix( SCREEN_SIZE, 8 );
+				m_ram_novelty_table_false = new aptk::Bit_Matrix( SCREEN_SIZE, 8 );
+			}
 		}
 		else{
-			m_ram_novelty_table_true = new aptk::Bit_Matrix( SCREEN_SIZE, 8 );
-			m_ram_novelty_table_false = new aptk::Bit_Matrix( SCREEN_SIZE, 8 );
+			if(!m_screen_features_on)
+				m_ram_novelty_table = new aptk::Bit_Matrix( RAM_SIZE, 256 );
+			else
+				m_ram_novelty_table = new aptk::Bit_Matrix( SCREEN_SIZE, 256);
 		}
 	}
 	else{
-		if(!m_screen_features_on)
-			m_ram_novelty_table = new aptk::Bit_Matrix( RAM_SIZE, 256 );
-		else
-			m_ram_novelty_table = new aptk::Bit_Matrix( SCREEN_SIZE, 256);
+		m_ram_novelty_table = new aptk::Bit_Matrix( NUM_COLORS * NUM_COLORS * m_bprosFeature->n_rows() * m_bprosFeature->n_cols(), 1);
 	}
 }
 
@@ -147,12 +157,12 @@ void IW1Search::update_novelty_table( const ALERAM& machine_state )
 void IW1Search::update_novelty_table( const IntMatrix &subtracted_screen){
 	for( int i = 0; i < 210; i++){
 		for( int j = 0; j < 160; j++){
-			byte_t pixel8 = subtracted_screen[i][j];
+			int pixel = subtracted_screen[i][j];
 			//if(subtracted_screen[i][j] != 0){//only pixles with non-zero value(not background) should be considered
 				if(m_novelty_boolean_representation){
 					unsigned char mask = 1;
 					for( int k = 0; k < 8; k++){
-						bool bit_is_set = (pixel8 & (mask << k)) != 0;
+						bool bit_is_set = (pixel & (mask << k)) != 0;
 						if(bit_is_set)
 							m_ram_novelty_table_true->set( i * 160 + j, k);
 						else
@@ -160,10 +170,20 @@ void IW1Search::update_novelty_table( const IntMatrix &subtracted_screen){
 					}
 				}
 				else
-					m_ram_novelty_table->set( i, pixel8 );
+					m_ram_novelty_table->set( i, pixel );
 			//}
 		}
 	}
+}
+
+void IW1Search::update_novelty_table(const vector<vector<vector<tuple<int, int>>>>& bprosFeatures){
+	for( int c1 = 0; c1 < bprosFeatures.size(); c1++){
+		for( int c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
+			for( int k = 0; k < bprosFeatures[c1][c2].size(); k++){
+				m_ram_novelty_table->set( (c1 * NUM_COLORS + c2) * m_bprosFeature->n_cols() * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k]) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]), 1 );
+			}
+		}
+	}	
 }
 
 bool IW1Search::check_novelty_1( const ALERAM& machine_state )
@@ -196,12 +216,12 @@ bool IW1Search::check_novelty_1( const IntMatrix &subtracted_screen)
 {
 	for( int i = 0; i < 210; i++){
 		for( int j = 0; j < 160; j++){
-			byte_t pixel8 = subtracted_screen[i][j];
+			int pixel = subtracted_screen[i][j];
 			//if(subtracted_screen[i][j] != 0){//only pixles with non-zero value should be considered
 				if(m_novelty_boolean_representation){
 					unsigned char mask = 1;
 					for( int k = 0; k < 8; k++) {
-                        bool bit_is_set = (pixel8 & (mask << k)) != 0;
+                        bool bit_is_set = (pixel & (mask << k)) != 0;
                         if (bit_is_set) {
                             if (!m_ram_novelty_table_true->isset(i * 160 + j, k))
                                 return true;
@@ -213,13 +233,70 @@ bool IW1Search::check_novelty_1( const IntMatrix &subtracted_screen)
 					}
 				}
 				else{
-					if ( !m_ram_novelty_table->isset( i, pixel8 ) )
+					if ( !m_ram_novelty_table->isset( i, pixel ) )
 						return true;
 				}
 			//}
 		}
 	}
 	return false;
+}
+
+bool IW1Search::check_novelty_1(const vector<vector<vector<tuple<int, int>>>>& bprosFeatures){
+	for( int c1 = 0; c1 < bprosFeatures.size(); c1++){
+		for( int c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
+			for( int k = 0; k < bprosFeatures[c1][c2].size(); k++){
+				if( !m_ram_novelty_table->isset( (c1 * NUM_COLORS + c2) * m_bprosFeature->n_cols() * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k]) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]), 1) )
+					return true;
+			}
+		}
+	}
+	return false;
+}
+
+void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, int a){
+	if(!m_bpros_features){
+		if(!m_screen_features_on){
+			if ( check_novelty_1( child->state.getRAM() ) ) {
+				update_novelty_table( child->state.getRAM() );			
+			}
+			else{
+				curr_node->v_children[a] = child;
+				child->is_terminal = true;
+				m_pruned_nodes++;
+				//continue;				
+			}
+		}
+		else{
+			DisplayScreen* display = m_osystem->p_display_screen;
+			if(display){
+				const IntMatrix& subtracted_screen = display->subtractBg(child->state.getScreen());
+				if( check_novelty_1(subtracted_screen)){
+					update_novelty_table(subtracted_screen);
+				}
+				else{
+					curr_node->v_children[a] = child;
+					child->is_terminal = true;
+					m_pruned_nodes++;
+					//continue;				
+				}
+			}
+		}
+	}
+	else{
+		DisplayScreen* display = m_osystem->p_display_screen;
+				const IntMatrix& subtracted_screen = display->subtractBg(child->state.getScreen());
+		const vector<vector<vector<tuple<int, int>>>>& bfs = m_bprosFeature->getBprosFeatures(subtracted_screen);
+		if( check_novelty_1(bfs)){
+			update_novelty_table(bfs);
+		}
+		else{
+			curr_node->v_children[a] = child;
+			child->is_terminal = true;
+			m_pruned_nodes++;
+			//continue;				
+		}
+	}
 }
 
 int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
@@ -250,34 +327,9 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 						this,
 						act,
 						sim_steps_per_node); 
-			
-			if(!m_screen_features_on){
-				if ( check_novelty_1( child->state.getRAM() ) ) {
-					update_novelty_table( child->state.getRAM() );
-						
-				}
-				else{
-					curr_node->v_children[a] = child;
-					child->is_terminal = true;
-					m_pruned_nodes++;
-					//continue;				
-				}
-			}
-			else{
-				DisplayScreen* display = m_osystem->p_display_screen;
-				if(display){
-					const IntMatrix& subtracted_screen = display->subtractBg(child->state.getScreen());
-					if( check_novelty_1(subtracted_screen)){
-						update_novelty_table(subtracted_screen);
-					}
-					else{
-						curr_node->v_children[a] = child;
-						child->is_terminal = true;
-						m_pruned_nodes++;
-						//continue;				
-					}
-				}
-			}
+
+			checkAndUpdate_novelty(curr_node, child, a);
+
 			if (child->depth() > m_max_depth ) m_max_depth = child->depth();
 			num_simulated_steps += child->num_simulated_steps;
 					
@@ -291,32 +343,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 			if ( m_novelty_pruning )
 			{
 			    if( child->is_terminal )
-			    {
-				    if(!m_screen_features_on){	
-						if ( check_novelty_1( child->state.getRAM() ) ){
-						    update_novelty_table( child->state.getRAM() );
-						    child->is_terminal = false;
-						}
-						else{
-						    child->is_terminal = true;
-						    m_pruned_nodes++;
-						}
-					}
-					else{
-						DisplayScreen* display = m_osystem->p_display_screen;
-						if(display){
-							const IntMatrix& subtracted_screen = display->subtractBg(child->state.getScreen());
-							if(check_novelty_1(subtracted_screen)){
-								update_novelty_table(subtracted_screen);
-								child->is_terminal = false;
-							}
-							else{
-								child->is_terminal = true;
-								m_pruned_nodes++;
-							}
-						}
-					}
-			    }
+			    	checkAndUpdate_novelty(curr_node, child, a);
 			}
 			child->updateTreeNode();
 
@@ -359,17 +386,29 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 	
 	//q.push(start_node);
 	pivots.push_back( start_node );
+
 	/** modified by xhy*/
-	if(m_screen_features_on){
+	if(!m_bpros_features){
+		if(!m_screen_features_on){	
+			update_novelty_table( start_node->state.getRAM() );
+		}
+		else{
+			DisplayScreen* display = m_osystem->p_display_screen;
+			if(display){
+				const IntMatrix& subtracted_screen = display->subtractBg(start_node->state.getScreen());
+				update_novelty_table(subtracted_screen);
+				start_node->is_terminal = false;
+			}
+		}
+	}
+	else{
 		DisplayScreen* display = m_osystem->p_display_screen;
 		if(display){
 			const IntMatrix& subtracted_screen = display->subtractBg(start_node->state.getScreen());
-			update_novelty_table(subtracted_screen);
+			const vector<vector<vector<tuple<int, int>>>>& bfs = m_bprosFeature->getBprosFeatures(subtracted_screen);
+			update_novelty_table(bfs);
 		}
 	}
-	else
-		update_novelty_table( start_node->state.getRAM() );
-
 
 	int num_simulated_steps = 0;
 

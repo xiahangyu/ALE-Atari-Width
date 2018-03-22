@@ -54,13 +54,13 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  loadBgFromMatrix("./supported_roms/group_1/alien_screens/background/background.matrix");
+  loadBgFromMatrix("./supported_roms/group_3/backgrounds/freeway/background.matrix");
 
   Action action_a, action_b;
 
   bool firstStep = true;
 
-  //int count = 1;
+    //int count = 1;
   while (!isDone()) {
     // Start a new episode if we're in a terminal state... assume these agents need to be told
     //  about episode-end
@@ -84,12 +84,12 @@ void InternalController::run() {
 
     // Display if necessary
     display();
-    //count_bghist();
-    //count++;
+      //count_bghist();
+      //count++;
   }
-  //count_bgMatrix();
-  //save_bg("./supported_roms/group_1/alien_screens/background/background.png");
-  //saveBgAsMatrix("./supported_roms/group_1/alien_screens/background/background.matrix");
+    //count_bgMatrix();
+    //save_bg("./supported_roms/group_3/backgrounds/freeway/background.png");
+    //saveBgAsMatrix("./supported_roms/group_3/backgrounds/freeway/background.matrix");
   episodeEnd();
 }
 

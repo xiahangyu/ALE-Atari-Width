@@ -99,5 +99,9 @@ typedef float return_t;
 // Added by xhy, used in IW1Search.cpp
 #define SCREEN_SIZE (210*160)
 
+#define NUM_COLORS 256
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 210
+
 #endif // __CONSTANTS_H__
 

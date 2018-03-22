@@ -16,7 +16,8 @@ MODULE_OBJS := \
 	src/agents/BreadthFirstSearch.o \
 	src/agents/IW1Search.o \
 	src/agents/BestFirstSearch.o \
-	src/agents/UniformCostSearch.o
+	src/agents/UniformCostSearch.o \
+	src/agents/BPROSFeature.o
 
 MODULE_DIRS += \
 	src/agents

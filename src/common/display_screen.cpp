@@ -228,7 +228,7 @@ const IntMatrix& DisplayScreen::subtractBg(const ALEScreen& alescreen)
 {
     for(int i = 0; i < screen_height; i++){
         for(int j = 0; j < screen_width; j++){
-            uInt8 v = alescreen.get(i, j);
+            int v = alescreen.get(i, j);
             int abs = v - bg_matrix[i][j];
             if(abs >= 0)
                 screen_matrix[i][j] = abs;

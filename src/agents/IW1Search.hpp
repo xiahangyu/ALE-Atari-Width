@@ -5,6 +5,7 @@
 #include "bit_matrix.hxx"
 #include "../environment/ale_ram.hpp"
 #include "../common/Constants.h"
+#include "BPROSFeature.hpp"
 
 #include <queue>
 
@@ -43,10 +44,14 @@ protected:
 	void	update_novelty_table( const ALERAM &machine_state );
 	/** Added by xhy, to update novelty table with subtracted game screen */
 	void	update_novelty_table( const IntMatrix &subtracted_screen);
+	void 	update_novelty_table( const vector<vector<vector<tuple<int, int>>>>& bprosFeatures);
 
 	bool	check_novelty_1( const ALERAM& machine_state );
 	/** Added by xhy*/
 	bool	check_novelty_1( const IntMatrix& subtracted_screen);
+	bool 	check_novelty_1( const vector<vector<vector<tuple<int, int>>>>& bprosFeatures);
+
+	void	checkAndUpdate_novelty(TreeNode *curr_node, TreeNode *child, int a);
 
 	virtual void	clear();
 	virtual void	move_to_best_sub_branch();
@@ -59,12 +64,16 @@ protected:
 	bool			m_stop_on_first_reward;
 	unsigned		m_reward_horizon;	
 	bool            m_novelty_boolean_representation;
+
 	// added by xhy
 	bool 			m_screen_features_on;
+	bool 			m_bpros_features;
 
 	/** Added by xhy*/
 	Settings* m_settings;
 	OSystem* m_osystem;
+
+	BPROSFeature* m_bprosFeature;
 };
 
 
