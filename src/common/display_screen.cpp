@@ -67,7 +67,12 @@ void DisplayScreen::display_screen(const MediaSource& mediaSrc) {
         uInt8 v = pi_curr_frame_buffer[i];
         ind_i = i / screen_width;
         ind_j = i - (ind_i * screen_width);
-        screen_matrix[ind_i][ind_j] = v;
+
+        v = v - bg_matrix[ind_i][ind_j];
+        if(v >= 0)
+            screen_matrix[ind_i][ind_j] = v;
+        else
+            screen_matrix[ind_i][ind_j] = -v;
     }
 
     // Give our handlers a chance to mess with the screen

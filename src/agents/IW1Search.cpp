@@ -50,7 +50,7 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 		}
 	}
 	else{
-		m_ram_novelty_table = new aptk::Bit_Matrix( NUM_COLORS * NUM_COLORS * m_bprosFeature->n_rows() * m_bprosFeature->n_cols(), 1);
+		m_ram_novelty_table = new aptk::Bit_Matrix( m_bprosFeature->get_basicFeatureSize() + m_bprosFeature->get_bprosFeatureSize(), 1);
 	}
 }
 
@@ -176,14 +176,13 @@ void IW1Search::update_novelty_table( const IntMatrix &subtracted_screen){
 	}
 }
 
-void IW1Search::update_novelty_table(const vector<vector<vector<tuple<int, int>>>>& bprosFeatures){
-	for( int c1 = 0; c1 < bprosFeatures.size(); c1++){
-		for( int c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
-			for( int k = 0; k < bprosFeatures[c1][c2].size(); k++){
-				m_ram_novelty_table->set( (c1 * NUM_COLORS + c2) * m_bprosFeature->n_cols() * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k]) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]), 1 );
-			}
-		}
-	}	
+void IW1Search::update_novelty_table( const BPROSFeature* m_bprosFeature){
+	const vector<int>& novelty_true_pos = m_bprosFeature->novel_true_pos;
+
+	for( int k = 0; k < novelty_true_pos.size(); k++){
+		int pos = novelty_true_pos[k];
+			m_ram_novelty_table->set( pos , 1 );
+	}
 }
 
 bool IW1Search::check_novelty_1( const ALERAM& machine_state )
@@ -242,16 +241,34 @@ bool IW1Search::check_novelty_1( const IntMatrix &subtracted_screen)
 	return false;
 }
 
-bool IW1Search::check_novelty_1(const vector<vector<vector<tuple<int, int>>>>& bprosFeatures){
-	for( int c1 = 0; c1 < bprosFeatures.size(); c1++){
-		for( int c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
-			for( int k = 0; k < bprosFeatures[c1][c2].size(); k++){
-				if( !m_ram_novelty_table->isset( (c1 * NUM_COLORS + c2) * m_bprosFeature->n_cols() * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k]) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]), 1) )
-					return true;
+bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
+	const vector<vector<tuple<int, int>>>& basicFeatures = m_bprosFeature->getBasicFeatures();
+	const vector<vector<vector<tuple<int, int>>>>& bprosFeatures = m_bprosFeature->getBprosFeatures();
+
+	bool novelty = false;
+	m_bprosFeature->novel_true_pos.clear();
+	for( int c = 0; c < NUM_COLORS; c++){
+		for( int k = 0; k < basicFeatures[c].size(); k++){
+			int pos = (c * m_bprosFeature->n_rows() + get<0>(basicFeatures[c][k])) * m_bprosFeature->n_cols() + get<1>(basicFeatures[c][k]);
+			if(!m_ram_novelty_table->isset( pos, 1)){
+				m_bprosFeature->novel_true_pos.push_back(pos);
+				novelty = true;
 			}
 		}
 	}
-	return false;
+
+	for( int c1 = 0; c1 < bprosFeatures.size(); c1++){
+		for( int c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
+			for( int k = 0; k < bprosFeatures[c1][c2].size(); k++){
+				int pos = m_bprosFeature->get_basicFeatureSize() + ((c1 * NUM_COLORS + c2) * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k])) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]);
+				if( !m_ram_novelty_table->isset(pos , 1) ){
+					m_bprosFeature->novel_true_pos.push_back(pos);
+					novelty = true;
+				}
+			}
+		}
+	}
+	return novelty;
 }
 
 void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, int a){
@@ -285,10 +302,10 @@ void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, i
 	}
 	else{
 		DisplayScreen* display = m_osystem->p_display_screen;
-				const IntMatrix& subtracted_screen = display->subtractBg(child->state.getScreen());
-		const vector<vector<vector<tuple<int, int>>>>& bfs = m_bprosFeature->getBprosFeatures(subtracted_screen);
-		if( check_novelty_1(bfs)){
-			update_novelty_table(bfs);
+		const IntMatrix& subtracted_screen = display->subtractBg(child->state.getScreen());
+		m_bprosFeature->getFeaturesFromScreen(subtracted_screen);
+		if( check_novelty_1(m_bprosFeature)){
+			update_novelty_table(m_bprosFeature);
 		}
 		else{
 			curr_node->v_children[a] = child;
@@ -397,7 +414,6 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 			if(display){
 				const IntMatrix& subtracted_screen = display->subtractBg(start_node->state.getScreen());
 				update_novelty_table(subtracted_screen);
-				start_node->is_terminal = false;
 			}
 		}
 	}
@@ -405,8 +421,8 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 		DisplayScreen* display = m_osystem->p_display_screen;
 		if(display){
 			const IntMatrix& subtracted_screen = display->subtractBg(start_node->state.getScreen());
-			const vector<vector<vector<tuple<int, int>>>>& bfs = m_bprosFeature->getBprosFeatures(subtracted_screen);
-			update_novelty_table(bfs);
+			m_bprosFeature->getFeaturesFromScreen(subtracted_screen);
+			update_novelty_table(m_bprosFeature);
 		}
 	}
 

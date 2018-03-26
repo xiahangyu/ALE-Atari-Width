@@ -118,7 +118,6 @@ void TreeNode::init(SearchTree * tree, Action a, int num_simulate_steps) {
     num_simulated_steps = tree->simulate_game(state, a, num_simulate_steps, 
 					      step_return, is_terminal, false);
     node_reward = (reward_t)step_return;
-  
 
     // Initialize the branch reward to the received node reward
     branch_return = node_reward;

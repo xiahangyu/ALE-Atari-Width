@@ -42,14 +42,12 @@ protected:
     void set_terminal_root(TreeNode* node); 
 
 	void	update_novelty_table( const ALERAM &machine_state );
-	/** Added by xhy, to update novelty table with subtracted game screen */
 	void	update_novelty_table( const IntMatrix &subtracted_screen);
-	void 	update_novelty_table( const vector<vector<vector<tuple<int, int>>>>& bprosFeatures);
+	void 	update_novelty_table( const BPROSFeature* m_bprosFeature);
 
 	bool	check_novelty_1( const ALERAM& machine_state );
-	/** Added by xhy*/
 	bool	check_novelty_1( const IntMatrix& subtracted_screen);
-	bool 	check_novelty_1( const vector<vector<vector<tuple<int, int>>>>& bprosFeatures);
+	bool 	check_novelty_1( BPROSFeature* m_bprosFeature);
 
 	void	checkAndUpdate_novelty(TreeNode *curr_node, TreeNode *child, int a);
 

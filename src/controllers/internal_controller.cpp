@@ -54,7 +54,7 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  loadBgFromMatrix("./supported_roms/group_3/backgrounds/freeway/background.matrix");
+  loadBgFromMatrix("./supported_roms/group_2_1/backgrounds/tennis/background.matrix");
 
   Action action_a, action_b;
 

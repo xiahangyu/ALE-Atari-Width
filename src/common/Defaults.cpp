@@ -77,6 +77,6 @@ void setDefaultSettings(Settings &settings) {
     /** Added by xhy, if true, basic features are extracted from screens.
     Mind: When basic_features are used, novelty boolean should be set to false.
     */
-    settings.setBool("bpros_features", false);
+    settings.setBool("bpros_features", true);
 
 }

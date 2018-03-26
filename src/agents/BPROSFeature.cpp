@@ -8,6 +8,9 @@ BPROSFeature::BPROSFeature(int bh, int bw):
 	num_Rows = ((SCREEN_HEIGHT % blockHeight == 0) ? SCREEN_HEIGHT/blockHeight : (SCREEN_HEIGHT/blockHeight + 1));
 	num_Columns = ((SCREEN_WIDTH % blockWidth == 0) ? SCREEN_WIDTH/blockWidth : (SCREEN_WIDTH/blockWidth + 1));
 
+	basicFeatureSize = NUM_COLORS * num_Rows * num_Columns;
+	bprosFeatureSize = NUM_COLORS * NUM_COLORS * num_Rows * num_Columns;
+
     bprosFeatures.resize(NUM_COLORS);
     for (int i = 0; i < NUM_COLORS; i++){
         bprosFeatures[i].resize(NUM_COLORS);
@@ -15,6 +18,9 @@ BPROSFeature::BPROSFeature(int bh, int bw):
 }
 
 vector<vector<tuple<int, int>>>& BPROSFeature::getBasicFeatures(const IntMatrix& screen){
+	for(int pixel = 0; pixel < NUM_COLORS; pixel ++)
+		basicFeatures[pixel].clear();
+
 	for(int r = 0; r < num_Rows; r++){
 		for(int c = 0; c < num_Columns; c++){
 			vector<bool> hasColor(NUM_COLORS, false);
@@ -22,7 +28,7 @@ vector<vector<tuple<int, int>>>& BPROSFeature::getBasicFeatures(const IntMatrix&
 				for(int j = c * blockWidth; j < (c+1) * blockWidth; j++){
 					if(i < SCREEN_HEIGHT && j < SCREEN_WIDTH){
 						int pixel =  screen[i][j];
-						if(!hasColor[pixel]){
+						if(pixel!=0 && pixel!= 1 && !hasColor[pixel]){
 							hasColor[pixel] = true;
 							tuple<int, int> pos(r, c);
 							basicFeatures[pixel].push_back(pos);
@@ -36,6 +42,12 @@ vector<vector<tuple<int, int>>>& BPROSFeature::getBasicFeatures(const IntMatrix&
 }
 
 void BPROSFeature::addRelativeFeatures( vector<vector<tuple<int,int> > > &basicFeatures){	
+	for (int c1 = 0; c1 < NUM_COLORS; c1++){
+		for( int c2 = 0; c2 < NUM_COLORS; c2++){
+			bprosFeatures[c1][c2].clear();
+		}
+    }
+
     for(int c1 = 0;c1 < NUM_COLORS; c1++){
         for(int c2 = c1; c2 < NUM_COLORS; c2++){
             if(basicFeatures[c1].size() > 0 && basicFeatures[c2].size() > 0){
@@ -66,19 +78,6 @@ void BPROSFeature::addRelativeFeatures( vector<vector<tuple<int,int> > > &basicF
     }
 }
 
-const vector<vector<vector<tuple<int, int>>>>& BPROSFeature::getBprosFeatures(const IntMatrix& screen){
-	featureSetsClear();
+void BPROSFeature::getFeaturesFromScreen(const IntMatrix& screen){
 	addRelativeFeatures(getBasicFeatures(screen));
-	return bprosFeatures;
-}
-
-void BPROSFeature::featureSetsClear(){
-	for(int pixel = 0; pixel < NUM_COLORS; pixel ++)
-		basicFeatures[pixel].clear();
-
-	for (int c1 = 0; c1 < NUM_COLORS; c1++){
-		for( int c2 = 0; c2 < NUM_COLORS; c2++){
-			bprosFeatures[c1][c2].clear();
-		}
-    }
 }
