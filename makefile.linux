@@ -12,7 +12,7 @@ LDFLAGS     :=
 INCLUDES    := -Isrc/controllers -Isrc/os_dependent -I/usr/include -Isrc/environment 
 LIBS_SDL    := -lSDL -lSDL_gfx -lSDL_image 
 LIBS_RLGLUE := -lrlutils -lrlgluenetdev
-LIBS        :=
+LIBS        := -lpython3.6m
 OBJS	    :=
 PROF        :=
 MODULES     :=
@@ -53,7 +53,7 @@ PROFILE :=
 HAVE_GCC3 = 0
 HAVE_NASM = 1
 
-INCLUDES += -Isrc/games -Isrc/emucore -Isrc/emucore/m6502/src -Isrc/emucore/m6502/src/bspf/src -Isrc/common -Isrc/controllers -Isrc/agents -Isrc/environment  
+INCLUDES += -Isrc/games -Isrc/emucore -Isrc/emucore/m6502/src -Isrc/emucore/m6502/src/bspf/src -Isrc/common -Isrc/controllers -Isrc/agents -Isrc/environment -Isrc/predictors -I/usr/include/python3.5m
 OBJS += 
 DEFINES +=  -DUNIX -DHAS_ALTIVEC -DUSE_NASM -DBSPF_UNIX -DHAVE_INTTYPES -DWINDOWED_SUPPORT  -DHAVE_GETTIMEOFDAY -DSNAPSHOT_SUPPORT 
 LDFLAGS += 
