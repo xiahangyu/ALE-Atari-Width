@@ -148,7 +148,7 @@ class AEModel(object):
                 
         with tf.variable_scope('hidden_states'):
                 self.dense3 = self.dense3 * 255
-                self.hidden = tf.cast(self.hidden, tf.int32)
+                self.hidden = tf.cast(self.dense3, tf.int32)
                 
         with tf.variable_scope('decoder'):
             with tf.variable_scope('dense_layers'):
