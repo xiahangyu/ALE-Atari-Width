@@ -152,13 +152,13 @@ class AEModel(object):
                 
         with tf.variable_scope('decoder'):
             with tf.variable_scope('dense_layers'):
-                self.dense4 = tf.contrib.layers.fully_connected(inputs = self.hidden, num_outputs = 512, activation_fn=tf.nn.sigmoid)
+                self.dense4 = tf.contrib.layers.fully_connected(inputs = self.hidden, num_outputs = 512, activation_fn=tf.sigmoid)
                 self.dense_drop4 = tf.contrib.layers.dropout(inputs = self.dense4, keep_prob = self.keep_prob)
                 
-                self.dense5 = tf.contrib.layers.fully_connected(inputs = self.dense_drop4, num_outputs = 1024, activation_fn=tf.nn.sigmoid)
+                self.dense5 = tf.contrib.layers.fully_connected(inputs = self.dense_drop4, num_outputs = 1024, activation_fn=tf.sigmoid)
                 self.dense_drop5 = tf.contrib.layers.dropout(inputs = self.dense5, keep_prob = self.keep_prob)
                 
-                self.dense6 = tf.contrib.layers.fully_connected(inputs = self.dense_drop5, num_outputs = self.conv_drop3_size, activation_fn=tf.nn.sigmoid)
+                self.dense6 = tf.contrib.layers.fully_connected(inputs = self.dense_drop5, num_outputs = self.conv_drop3_size, activation_fn=tf.sigmoid)
                 self.dense_drop6 = tf.contrib.layers.dropout(inputs = self.dense6, keep_prob = self.keep_prob)
             with tf.variable_scope('cnn_transpose_layers'):
                 self.reshape = tf.reshape(self.dense_drop6, [-1, self.conv_drop3_shape[1], self.conv_drop3_shape[2], self.conv_drop3_shape[3]])
