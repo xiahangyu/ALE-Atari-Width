@@ -26,8 +26,8 @@ def loadData(dir):
             dev_screens[i] = np.array(pixels)
 
 
-def train(mean_img):
-    ae = AEModel(mean_img=mean_img)
+def train():
+    ae = AEModel()
     sess = tf.Session()
     sess.run(tf.global_variables_initializer())
     saver = tf.train.Saver()  # max_to_keep=1
@@ -35,7 +35,7 @@ def train(mean_img):
 
     batch_size = 128
     # Fit all training data
-    n_epochs = 1
+    n_epochs = 50
     for epoch_i in range(n_epochs):
         np.random.shuffle(train_screens)
         for batch_i in range(n_train_screens // batch_size):
@@ -54,6 +54,7 @@ def train(mean_img):
 if __name__ == '__main__':
     # load atari game screens
     loadData(screen_dir)
-    mean_img = np.mean(train_screens, axis=0)
-    mean_img = np.reshape(mean_img, [1, 33600])
-    train(mean_img)
+    # mean_img = np.mean(train_screens, axis=0)
+    # mean_img = np.reshape(mean_img, [1, 33600])
+    # train(mean_img)
+    train()

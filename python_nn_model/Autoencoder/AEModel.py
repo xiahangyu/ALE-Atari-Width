@@ -98,7 +98,7 @@ class AEModel(object):
     def build(self):
         tf.reset_default_graph()
         self.x = tf.placeholder(tf.float32, [None, self.SCREEN_HEIGHT*self.SCREEN_WIDTH], name='x')
-        self.y = tf.placeholder(tf.float32, [None, self.SCREEN_HEIGHT*self.SCREEN_WIDTH], name ='y')
+        #self.y = tf.placeholder(tf.float32, [None, self.SCREEN_HEIGHT*self.SCREEN_WIDTH], name ='y')
         self.keep_prob = tf.placeholder(tf.float32)
         self.input = self.x/255
         self.input = tf.reshape(self.input, [-1, self.SCREEN_HEIGHT, self.SCREEN_WIDTH, 1], name='input')
@@ -191,7 +191,7 @@ class AEModel(object):
                 self.predict = self.flatten * 255
         
         with tf.variable_scope('loss'):
-                self.cost = tf.reduce_sum(tf.square(self.predict - self.y), name="cost")
+                self.cost = tf.reduce_sum(tf.square(self.predict - self.x), name="cost")
                 tf.summary.scalar("cost", self.cost)
 
         with tf.variable_scope('optimizer'):
