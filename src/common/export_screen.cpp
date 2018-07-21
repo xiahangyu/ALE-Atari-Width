@@ -349,7 +349,7 @@ void ExportScreen::save_matrix(const IntMatrix* screen_matrix, const string& fil
     try{
         for(int i = 0; i < i_screen_height; i++){
             for(int j = 0; j < i_screen_width; j++){
-                out << (*screen_matrix)[i][j] << endl;
+                out << (*screen_matrix)[i][j] << ' ';
             }
         }
     }

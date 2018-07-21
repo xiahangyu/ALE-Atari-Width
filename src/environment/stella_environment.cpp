@@ -154,6 +154,11 @@ reward_t StellaEnvironment::act(Action player_a_action, Action player_b_action) 
   //  past the terminal state
   for (size_t i = 0; i < m_frame_skip; i++) {
     sum_rewards += oneStepAct(player_a_action, player_b_action);
+    // reward_t reward= oneStepAct(player_a_action, player_b_action);
+    // if(reward < 0)
+    //   sum_rewards += 1000 * reward;
+    // else
+    //   sum_rewards += reward;
   }
   return sum_rewards;
 }

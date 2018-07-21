@@ -68,17 +68,34 @@ void DisplayScreen::display_screen(const MediaSource& mediaSrc) {
         ind_i = i / screen_width;
         ind_j = i - (ind_i * screen_width);
 
-        v = v - bg_matrix[ind_i][ind_j];
-        if(v >= 0)
-            screen_matrix[ind_i][ind_j] = v;
-        else
-            screen_matrix[ind_i][ind_j] = -v;
+        screen_matrix[ind_i][ind_j] = v;
+        
+        // v = v - bg_matrix[ind_i][ind_j];
+        // if(v >= 0)
+        //     screen_matrix[ind_i][ind_j] = v;
+        // else
+        //     screen_matrix[ind_i][ind_j] = -v;
+
     }
 
     // Give our handlers a chance to mess with the screen
     for (int i=handlers.size()-1; i>=0; --i) {
         handlers[i]->display_screen(screen_matrix, screen_width, screen_height);
     }
+}
+
+/** Added by xhy*/
+const IntMatrix& DisplayScreen::getDiff(const ALEScreen& curr_alescreen, const ALEScreen& next_alescreen){
+    for(int i = 0; i < screen_height; i++){
+        for(int j = 0; j < screen_width; j++){
+            int abs = curr_alescreen.get(i, j) - next_alescreen.get(i, j);
+            if(abs >= 0)
+                screen_matrix[i][j] = abs;
+            else
+                screen_matrix[i][j] = -abs;
+        }
+    }
+    return screen_matrix;
 }
 
 // added by xhy
@@ -294,10 +311,38 @@ void DisplayScreen::save_screen(const MediaSource& mediaSrc, const string& filen
         uInt8 v = pi_curr_frame_buffer[i];
         ind_i = i / screen_width;
         ind_j = i - (ind_i * screen_width);
-        screen_matrix[ind_i][ind_j] = v;
+        
+        //screen_matrix[ind_i][ind_j] = v;
+        
+        v = v - bg_matrix[ind_i][ind_j];
+        if(v >= 0)
+            screen_matrix[ind_i][ind_j] = v;
+        else
+            screen_matrix[ind_i][ind_j] = -v;
     }
 
     export_screen->export_any_matrix(&screen_matrix, filename);
+}
+
+/** Added by xhy*/
+void DisplayScreen::saveScreenAsMatrix(const MediaSource& mediaSrc, const string& filename){
+    uInt8* pi_curr_frame_buffer = mediaSrc.currentFrameBuffer();
+    int ind_i, ind_j;
+    for (int i = 0; i < screen_width * screen_height; i++) {
+        uInt8 v = pi_curr_frame_buffer[i];
+        ind_i = i / screen_width;
+        ind_j = i - (ind_i * screen_width);
+        
+        //screen_matrix[ind_i][ind_j] = v;
+        
+        v = v - bg_matrix[ind_i][ind_j];
+        if(v >= 0)
+            screen_matrix[ind_i][ind_j] = v;
+        else
+            screen_matrix[ind_i][ind_j] = -v;
+    }
+
+    export_screen->save_matrix(&screen_matrix, filename);
 }
 
 #endif

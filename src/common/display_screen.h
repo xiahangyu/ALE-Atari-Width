@@ -75,6 +75,8 @@ public:
 
     void usage();
 
+    /** Added by xhy*/
+    const IntMatrix& getDiff(const ALEScreen& curr_alescreen, const ALEScreen& next_alescreen);
     /** Added by xhy, returns game screen in a format of matrix with background subtracted*/
     const IntMatrix& subtractBg(const MediaSource& mediaSrc);
     /** Added by xhy, subtract current alescreen with background*/
@@ -82,6 +84,8 @@ public:
 
     /** Added by xhy, for saving screen */
     void save_screen(const MediaSource& mediaSrc, const string& filename);
+    /** Added by xhy*/
+    void saveScreenAsMatrix(const MediaSource& mediaSrc, const string& filename);
 
     /** Added by xhy, for counting background histogram*/
     void count_bghist();

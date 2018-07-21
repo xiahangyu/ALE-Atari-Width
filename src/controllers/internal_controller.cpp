@@ -54,14 +54,15 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  loadBgFromMatrix("./supported_roms/group_3/backgrounds/freeway/background.matrix");
+  loadBgFromMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
 
   Action action_a, action_b;
 
   bool firstStep = true;
 
-    //int count = 1;
-  while (!isDone()) {
+  int count = 1;
+  while (!isDone() && count < 5000) {
+    std::cout << count << std::endl;
     // Start a new episode if we're in a terminal state... assume these agents need to be told
     //  about episode-end
     if (m_environment.isTerminal()) {
@@ -84,12 +85,17 @@ void InternalController::run() {
 
     // Display if necessary
     display();
-      //count_bghist();
-      //count++;
+    
+    string filename = "./supported_roms/group_1/backgrounds/alien/screens/png/" + std::to_string(count) + ".png";
+    save_screen(filename);
+    filename = "./supported_roms/group_1/backgrounds/alien/screens/matrix/" + std::to_string(count) + ".matrix";
+    saveScreenAsMatrix(filename);
+    // count_bghist();
+    count++;
   }
-    //count_bgMatrix();
-    //save_bg("./supported_roms/group_3/backgrounds/freeway/background.png");
-    //saveBgAsMatrix("./supported_roms/group_3/backgrounds/freeway/background.matrix");
+  // count_bgMatrix();
+  // save_bg("./supported_roms/group_1/backgrounds/alien/background/background.png");
+  // saveBgAsMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
   episodeEnd();
 }
 

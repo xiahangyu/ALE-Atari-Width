@@ -5,7 +5,7 @@
 #include <tuple>
 using namespace std;
 
-class BPROSFeature {
+class BPROSFeature { 
 public:
 	BPROSFeature(int bh, int bw);
 	void getFeaturesFromScreen(const IntMatrix& screen);
@@ -19,7 +19,7 @@ public:
 	int get_basicFeatureSize(){return basicFeatureSize;}
 	int get_bprosFeatureSize(){return bprosFeatureSize;}
 
-	vector<int> novel_true_pos;
+	vector<int> novel_true_pos;	//Modified in IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature)
 private:
 	vector<vector<tuple<int, int>>>& getBasicFeatures(const IntMatrix& screen);
 	void addRelativeFeatures(vector<vector<tuple<int,int> > > &basicFeatures);
@@ -32,8 +32,8 @@ private:
 	int basicFeatureSize;
 	int bprosFeatureSize;
 
-	vector<vector<tuple<int, int>>> basicFeatures;
-	vector<vector<vector<tuple<int, int>>>> bprosFeatures;
+	vector<vector<tuple<int, int>>> basicFeatures;	//(color, blockPos) pairs
+	vector<vector<vector<tuple<int, int>>>> bprosFeatures;	//(color1, color2, relativeBlockPos) pairs
 };
 
 #endif //__BPROS_Feature_HPP__

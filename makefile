@@ -13,7 +13,7 @@ LDFLAGS     :=
 INCLUDES    := -I/usr/local/include -Isrc/controllers -Isrc/os_dependent -I/usr/include -I/opt/local/SDL/include -Isrc/environment  
 LIBS_SDL := -lSDL -lSDLmain -lSDL_gfx -lSDL_image
 LIBS_RLGLUE := -lrlutils -lrlgluenetdev
-LIBS	    := -L/opt/local/lib 
+LIBS	    := -L/opt/local/lib -L/Library/Frameworks/Python.framework/Versions/3.6/lib -lpython3.6m
 OBJS	    :=
 PROF        :=
 MODULES     :=
@@ -55,7 +55,7 @@ PROFILE :=
 HAVE_GCC3 = 1
 HAVE_NASM = 1
 
-INCLUDES += -Isrc/games -Isrc/emucore -Isrc/emucore/m6502/src -Isrc/emucore/m6502/src/bspf/src -Isrc/common -Isrc/controllers -Isrc/agents -Isrc/environment  
+INCLUDES += -Isrc/games -Isrc/emucore -Isrc/emucore/m6502/src -Isrc/emucore/m6502/src/bspf/src -Isrc/common -Isrc/controllers -Isrc/agents -Isrc/environment -Isrc/predictors -I/Library/Frameworks/Python.framework/Versions/3.6/include/python3.6m
 OBJS += 
 DEFINES +=  -DUNIX -DHAS_ALTIVEC -DUSE_NASM -DBSPF_UNIX -DHAVE_INTTYPES -DWINDOWED_SUPPORT  -DHAVE_GETTIMEOFDAY -DSNAPSHOT_SUPPORT 
 LDFLAGS += 
@@ -127,7 +127,8 @@ MODULES += \
 	src/os_dependent \
 	src/agents \
   src/games \
-  src/environment
+  src/environment \
+  src/predictors
 
 
 ######################################################################

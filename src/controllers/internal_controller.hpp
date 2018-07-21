@@ -45,7 +45,7 @@ private:
 	float m_episode_tf;
 
 
-    	int m_episode_score; // Keeping track of score
+    int m_episode_score; // Keeping track of score
 	int m_episode_number; // Keeping track of episode 
 
 	std::auto_ptr<PlayerAgent> m_agent_left; // Agents 

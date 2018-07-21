@@ -6,6 +6,7 @@
 #include "../environment/ale_ram.hpp"
 #include "../common/Constants.h"
 #include "BPROSFeature.hpp"
+#include "../predictors/CNN_AE.hpp"
 
 #include <queue>
 
@@ -44,10 +45,12 @@ protected:
 	void	update_novelty_table( const ALERAM &machine_state );
 	void	update_novelty_table( const IntMatrix &subtracted_screen);
 	void 	update_novelty_table( const BPROSFeature* m_bprosFeature);
+	void 	update_novelty_table( const int* hidden_state);
 
 	bool	check_novelty_1( const ALERAM& machine_state );
 	bool	check_novelty_1( const IntMatrix& subtracted_screen);
 	bool 	check_novelty_1( BPROSFeature* m_bprosFeature);
+	bool 	check_novelty_1( const int* hidden_state);
 
 	void	checkAndUpdate_novelty(TreeNode *curr_node, TreeNode *child, int a);
 
@@ -66,12 +69,14 @@ protected:
 	// added by xhy
 	bool 			m_screen_features_on;
 	bool 			m_bpros_features;
+	bool 			m_ae_features;
 
 	/** Added by xhy*/
 	Settings* m_settings;
 	OSystem* m_osystem;
 
 	BPROSFeature* m_bprosFeature;
+	CNNAE* m_ae;
 };
 
 

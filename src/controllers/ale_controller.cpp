@@ -91,6 +91,13 @@ void ALEController::save_screen(const string& filename) {
     display->save_screen(m_osystem->console().mediaSource(), filename);
 }
 
+void ALEController::saveScreenAsMatrix(const string& filename){
+  DisplayScreen* display = m_osystem->p_display_screen;
+
+  if(display)
+    display->saveScreenAsMatrix(m_osystem->console().mediaSource(), filename);
+}
+
 reward_t ALEController::applyActions(Action player_a, Action player_b) {
   reward_t sum_rewards = 0;
   // Perform different operations based on the first player's action 

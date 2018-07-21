@@ -88,7 +88,7 @@ public:
 	
 protected:
 	Bit_Array*   m_data;
-	unsigned     m_M;
+	unsigned     m_M;	//unsigned means unsigned int, 4 bytes.
 	unsigned     m_N;
 };
 

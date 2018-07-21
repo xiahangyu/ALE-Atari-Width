@@ -72,7 +72,6 @@ static ALEController* createController(OSystem* osystem, std::string type) {
 
 /* application entry point */
 int main(int argc, char* argv[]) {
-
   disableBufferedIO();
 
   std::cerr << welcomeMessage() << endl;
