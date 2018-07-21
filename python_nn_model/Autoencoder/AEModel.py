@@ -147,12 +147,12 @@ class AEModel(object):
                 self.dense3 = tf.contrib.layers.fully_connected(inputs = self.dense2, num_outputs = self.HIDDEN_STATE_SIZE, activation_fn=tf.sigmoid)
                 
         with tf.variable_scope('hidden_states'):
-                self.hidden = self.dense3 * 255
+                self.dense3 = self.dense3 * 255
                 self.hidden = tf.cast(self.hidden, tf.int32)
                 
         with tf.variable_scope('decoder'):
             with tf.variable_scope('dense_layers'):
-                self.dense4 = tf.contrib.layers.fully_connected(inputs = self.hidden, num_outputs = 512, activation_fn=tf.sigmoid)
+                self.dense4 = tf.contrib.layers.fully_connected(inputs = self.dense3, num_outputs = 512, activation_fn=tf.sigmoid)
                 self.dense_drop4 = tf.contrib.layers.dropout(inputs = self.dense4, keep_prob = self.keep_prob)
                 
                 self.dense5 = tf.contrib.layers.fully_connected(inputs = self.dense_drop4, num_outputs = 1024, activation_fn=tf.sigmoid)
