@@ -12,21 +12,21 @@ dev_screens = np.zeros((batch_size, screen_height*screen_width))
 n_dev_screens = batch_size
 
 screen_dir = "./screens/freeway/"
-current_batch = 1
+current_pos = 1
 def nextBatch(dir):
     batch_screen = np.zeros((batch_size, screen_height*screen_width))
     for i in range(0, batch_size):
-        path = dir + str(current_batch + i) + ".matrix"
+        path = dir + str(current_pos + i) + ".matrix"
         with open(path, "r") as f:
             pixels = f.read().split(' ')[:-1]
             pixels = list(map(int, pixels))
             batch_screen[i] = np.array(pixels)
 
-    current_batch = current_batch + batch_size
-    if current_batch > n_train_screens:
-        print("Error: current_batch > n_train_screens")
-    else if current_batch == n_train_screens:
-        current_batch = 1
+    current_pos = current_pos + batch_size
+    if current_pos > n_train_screens:
+        print("Error: current_pos > n_train_screens")
+    elif current_pos == n_train_screens:
+        current_pos = 1
     return batch_screen
 
 def train():
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     # mean_img = np.reshape(mean_img, [1, 33600])
     # train(mean_img)
     for i in range(0, batch_size):
-        path = dir + str(n_train_screens + i) + ".matrix"
+        path = screen_dir + str(n_train_screens + i) + ".matrix"
         with open(path, "r") as f:
             pixels = f.read().split(' ')[:-1]
             pixels = list(map(int, pixels))
