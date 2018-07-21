@@ -62,7 +62,7 @@ class TreeNode {
 	bool is_duplicate() { return duplicate; }
 
 	int num_nodes();
-    int depth(){ return m_depth;}
+    unsigned depth(){ return m_depth;}
 
 	ALEState state;
 

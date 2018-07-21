@@ -193,7 +193,7 @@ void IW1Search::update_novelty_table( const IntMatrix &subtracted_screen){
 void IW1Search::update_novelty_table( const BPROSFeature* m_bprosFeature){
 	const vector<int>& novelty_true_pos = m_bprosFeature->novel_true_pos;
 
-	for( int k = 0; k < novelty_true_pos.size(); k++){
+	for( unsigned k = 0; k < novelty_true_pos.size(); k++){
 		int pos = novelty_true_pos[k];
 			m_ram_novelty_table->set( pos , 1 );
 	}
@@ -280,7 +280,7 @@ bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
 	bool novelty = false;
 	m_bprosFeature->novel_true_pos.clear();
 	for( int c = 0; c < NUM_COLORS; c++){
-		for( int k = 0; k < basicFeatures[c].size(); k++){
+		for( unsigned k = 0; k < basicFeatures[c].size(); k++){
 			int pos = (c * m_bprosFeature->n_rows() + get<0>(basicFeatures[c][k])) * m_bprosFeature->n_cols() + get<1>(basicFeatures[c][k]);
 			if(!m_ram_novelty_table->isset( pos, 1)){
 				m_bprosFeature->novel_true_pos.push_back(pos);
@@ -289,9 +289,9 @@ bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
 		}
 	}
 
-	for( int c1 = 0; c1 < bprosFeatures.size(); c1++){
-		for( int c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
-			for( int k = 0; k < bprosFeatures[c1][c2].size(); k++){
+	for( unsigned c1 = 0; c1 < bprosFeatures.size(); c1++){
+		for( unsigned c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
+			for( unsigned k = 0; k < bprosFeatures[c1][c2].size(); k++){
 				int pos = m_bprosFeature->get_basicFeatureSize() + ((c1 * NUM_COLORS + c2) * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k])) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]);
 				if( !m_ram_novelty_table->isset(pos , 1) ){
 					m_bprosFeature->novel_true_pos.push_back(pos);
@@ -403,7 +403,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 	int num_simulated_steps =0;
 	int num_actions = available_actions.size();
 	bool leaf_node = (curr_node->v_children.empty());
-	static int max_nodes_per_frame = max_sim_steps_per_frame / sim_steps_per_node;
+	static unsigned max_nodes_per_frame = max_sim_steps_per_frame / sim_steps_per_node;
 	m_expanded_nodes++;
 	// Expand all of its children (simulates the result)
 	if(leaf_node){
@@ -478,7 +478,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 void IW1Search::expand_tree(TreeNode* start_node) {
 	if(!start_node->v_children.empty()){
 	    start_node->updateTreeNode();
-	    for (int a = 0; a < available_actions.size(); a++) {
+	    for (unsigned a = 0; a < available_actions.size(); a++) {
 			TreeNode* child = start_node->v_children[a];
 			if( !child->is_terminal ){
 			        child->num_nodes_reusable = child->num_nodes();
