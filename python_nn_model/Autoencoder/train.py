@@ -36,10 +36,12 @@ def train():
     saver = tf.train.Saver()  # max_to_keep=1
     writer = tf.summary.FileWriter("./AE_nn_log", sess.graph)
 
+    print("training...")
     # Fit all training data
     n_epochs = 50
     for epoch_i in range(n_epochs):
         for batch_i in range(n_train_screens // batch_size):
+            print(batch_i)
             batch_xs = nextBatch(screen_dir)
             # train = np.array([img - mean_img for img in batch_xs])
             sess.run(ae.optimizer, feed_dict={ae.x: batch_xs})

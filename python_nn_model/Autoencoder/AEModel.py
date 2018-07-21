@@ -108,7 +108,7 @@ class AEModel(object):
         with tf.variable_scope('encoder'):
             with tf.variable_scope('cnn_layers'):
                 self.conv1 = tf.contrib.layers.conv2d(inputs = self.input,
-                                                      num_outputs = 32,
+                                                      num_outputs = 16,
                                                       kernel_size = 3,
                                                       stride = 1,
                                                       padding = 'SAME',
@@ -117,7 +117,7 @@ class AEModel(object):
                 self.conv_drop1 = tf.contrib.layers.dropout(inputs = self.conv1, keep_prob = self.keep_prob)
 
                 self.conv2 = tf.contrib.layers.conv2d(inputs = self.conv_drop1,
-                                                      num_outputs = 64,
+                                                      num_outputs = 32,
                                                       kernel_size = 3,
                                                       stride = 1,
                                                       padding = 'SAME',
@@ -126,7 +126,7 @@ class AEModel(object):
                 self.conv_drop2 = tf.contrib.layers.dropout(inputs = self.conv2, keep_prob = self.keep_prob)
 
                 self.conv3 = tf.contrib.layers.conv2d(inputs = self.conv_drop2,
-                                                      num_outputs = 128,
+                                                      num_outputs = 64,
                                                       kernel_size = 3,
                                                       stride = 1,
                                                       padding = 'SAME',
@@ -164,7 +164,7 @@ class AEModel(object):
                 self.reshape = tf.reshape(self.dense_drop6, [-1, self.conv_drop3_shape[1], self.conv_drop3_shape[2], self.conv_drop3_shape[3]])
     
                 self.cnn_trans1 = tf.contrib.layers.conv2d_transpose(inputs = self.reshape,
-                                                                     num_outputs = 64, 
+                                                                     num_outputs = 32, 
                                                                      kernel_size = 3,
                                                                      stride = 1,
                                                                      padding = 'SAME',
@@ -172,7 +172,7 @@ class AEModel(object):
                 self.cnn_trans_drop1 = tf.contrib.layers.dropout(inputs = self.cnn_trans1, keep_prob = self.keep_prob)
                 
                 self.cnn_trans2 = tf.contrib.layers.conv2d_transpose(inputs = self.cnn_trans_drop1,
-                                                                     num_outputs = 32, 
+                                                                     num_outputs = 16, 
                                                                      kernel_size = 3,
                                                                      stride = 1,
                                                                      padding = 'SAME',
