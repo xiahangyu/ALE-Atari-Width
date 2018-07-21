@@ -123,7 +123,7 @@ protected:
 
     //added by xhy, screen background and histogram, and subtracted game screen
     IntMatrix bg_matrix;
-    int bg_histogram[210][160][257] = {0};
+    int bg_histogram[210][160][257] = {{{0}}};
 };
 #else
 /** A dummy class that simply ignores display events. */
