@@ -110,7 +110,7 @@ class AEModel(object):
                 self.conv1 = tf.contrib.layers.conv2d(inputs = self.input,
                                                       num_outputs = 16,
                                                       kernel_size = 3,
-                                                      stride = 1,
+                                                      stride = 2,
                                                       padding = 'SAME',
                                                       activation_fn = tf.sigmoid)
                 #self.maxp1 = tf.contrib.layers.max_pool2d(inputs = self.conv1, kernel_size = 2, stride=1, padding='SAME')
@@ -119,7 +119,7 @@ class AEModel(object):
                 self.conv2 = tf.contrib.layers.conv2d(inputs = self.conv_drop1,
                                                       num_outputs = 32,
                                                       kernel_size = 3,
-                                                      stride = 1,
+                                                      stride = 2,
                                                       padding = 'SAME',
                                                       activation_fn = tf.sigmoid)
                 #self.maxp2 = tf.contrib.layers.max_pool2d(inputs = self.conv2, kernel_size = 2, stride=1, padding='SAME')
@@ -128,7 +128,7 @@ class AEModel(object):
                 self.conv3 = tf.contrib.layers.conv2d(inputs = self.conv_drop2,
                                                       num_outputs = 64,
                                                       kernel_size = 3,
-                                                      stride = 1,
+                                                      stride = 2,
                                                       padding = 'SAME',
                                                       activation_fn = tf.sigmoid)
                 #self.maxp3 = tf.contrib.layers.max_pool2d(inputs = self.conv3, kernel_size = 2, stride=1, padding='SAME')
@@ -166,7 +166,7 @@ class AEModel(object):
                 self.cnn_trans1 = tf.contrib.layers.conv2d_transpose(inputs = self.reshape,
                                                                      num_outputs = 32, 
                                                                      kernel_size = 3,
-                                                                     stride = 1,
+                                                                     stride = 2,
                                                                      padding = 'SAME',
                                                                      activation_fn = tf.sigmoid)
                 self.cnn_trans_drop1 = tf.contrib.layers.dropout(inputs = self.cnn_trans1, keep_prob = self.keep_prob)
@@ -174,7 +174,7 @@ class AEModel(object):
                 self.cnn_trans2 = tf.contrib.layers.conv2d_transpose(inputs = self.cnn_trans_drop1,
                                                                      num_outputs = 16, 
                                                                      kernel_size = 3,
-                                                                     stride = 1,
+                                                                     stride = 2,
                                                                      padding = 'SAME',
                                                                      activation_fn = tf.sigmoid)
                 self.cnn_trans_drop2 = tf.contrib.layers.dropout(inputs = self.cnn_trans2, keep_prob = self.keep_prob)
@@ -182,7 +182,7 @@ class AEModel(object):
                 self.cnn_trans3 = tf.contrib.layers.conv2d_transpose(inputs = self.cnn_trans_drop2,
                                                                      num_outputs = 1, 
                                                                      kernel_size = 3,
-                                                                     stride = 1,
+                                                                     stride = 2,
                                                                      padding = 'SAME',
                                                                      activation_fn = tf.sigmoid)
                 self.cnn_trans_drop3 = tf.contrib.layers.dropout(inputs = self.cnn_trans3, keep_prob = self.keep_prob)
