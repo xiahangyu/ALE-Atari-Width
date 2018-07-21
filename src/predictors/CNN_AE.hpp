@@ -4,7 +4,7 @@
 #include<Python.h>
 #include "../common/Constants.h"
 
-#define AE_HIDDEN_STATE_SIZE 34560
+#define AE_HIDDEN_STATE_SIZE 128
 
 class CNNAE {
 public:

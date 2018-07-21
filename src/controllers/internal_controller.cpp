@@ -71,15 +71,18 @@ void InternalController::run() {
     }
     else {
       if (firstStep) {
+        std::cout << "first step" << std::endl;
         // Start a new episode; obtain actions
         episodeStart(action_a, action_b);
         firstStep = false;
       }
       else
         // Poll agents for actions
+        std::cout << "episode step" << std::endl;
         episodeStep(action_a, action_b);
     
-      // Apply said actions
+      // Apply said actions'
+      std::cout << "applyActions" << std::endl;
       m_episode_score += applyActions(action_a, action_b);
     }
 
