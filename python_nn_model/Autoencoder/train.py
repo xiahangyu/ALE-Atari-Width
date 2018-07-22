@@ -26,9 +26,7 @@ def nextBatch(dir):
             batch_screen[i] = np.array(pixels)
 
     current_pos += batch_size
-    if current_pos > n_train_screens:
-        print("Error: current_pos > n_train_screens")
-    elif current_pos == n_train_screens:
+    if current_pos >= n_train_screens:
         current_pos = 1
     return batch_screen
 

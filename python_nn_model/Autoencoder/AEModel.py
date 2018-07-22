@@ -74,7 +74,7 @@ class AEModel(object):
         self.predict = tf.reshape(current_input, [-1, self.input_shape[1]], name = "predict")
 
         with tf.variable_scope("cost"):
-          self.cost = tf.nn.sigmoid_cross_entropy_with_logits(logits = self.predict, labels = self.x, name="cost")
+          self.cost = tf.reduce_sum(tf.square(self.predict - self.x), name="cost")
           tf.summary.scalar("cost", self.cost)
 
         with tf.variable_scope("optimize"):
