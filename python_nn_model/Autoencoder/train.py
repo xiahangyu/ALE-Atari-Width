@@ -4,7 +4,7 @@ from AEModel import AEModel
 
 batch_size = 128
 
-n_train_screens = 3840
+n_train_screens = 2432
 screen_height = 210
 screen_width = 160
 
@@ -12,7 +12,7 @@ dev_screens = np.zeros((batch_size, screen_height*screen_width))
 n_dev_screens = batch_size
 
 
-screen_dir = "./screens/freeway/"
+screen_dir = "./screens/alien/"
 current_pos = 1
 def nextBatch(dir):
     batch_screen = np.zeros((batch_size, screen_height*screen_width))
