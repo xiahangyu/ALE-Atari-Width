@@ -42,7 +42,7 @@ def train(mean_img):
             print(batch_i)
             batch_xs = train_screens[batch_i*batch_size : batch_i*batch_size + batch_size]
             sess.run(ae.optimizer, feed_dict={ae.x: batch_xs})
-        print(epoch_i, sess.run(ae.cost, feed_dict={ae.x: batch_xs}), sess.run(ae.cost, feed_dict={ae.x: dev_screens}))
+        print(epoch_i, sess.run(ae.cost, feed_dict={ae.x: dev_screens}))
         summary, cost = sess.run([ae.merged, ae.cost], feed_dict={ae.x: dev_screens})
         writer.add_summary(summary, epoch_i)
     saver.save(sess, './ckpt/model')
@@ -54,5 +54,4 @@ def train(mean_img):
 if __name__ == '__main__':
     loadData(screen_dir)
     mean_img = np.mean(train_screens, 0)
-    print(mean_img.shape)
     train(mean_img)

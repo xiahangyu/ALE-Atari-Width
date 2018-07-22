@@ -3,19 +3,20 @@ import numpy as np
 from libs.activations import lrelu
 
 class AEModel(object):
-    def __init__(self, mean_img=np.zeros([1, 33600])) :
-        self.HIDDEN_STATE_SIZE = 128
+    def __init__(self, mean_img = np.zeros([33600])) :
+        self.HIDDEN_STATE_SIZE = 256
         self.SCREEN_HEIGHT = 210
         self.SCREEN_WIDTH = 160
         self.n_filters = [1, 16, 32, 64]
-        self.filter_sizes = 3
+        self.filter_sizes = [3, 3, 3, 3]
         self.input_shape = [None, 33600]
         self.keep_prob = 0.8
 
+        mean_img = np.reshape(mean_img, newshape = [33600])
         self.build(mean_img)
 
 
-    def build(self, mean_img=np.zeros([1, 33600])):
+    def build(self, mean_img = np.zeros([33600])):
         tf.reset_default_graph()
         self.x = tf.placeholder(tf.float32, self.input_shape, name='x')
         self.mean = tf.Variable(mean_img, trainable=False, dtype=tf.float32)
@@ -30,7 +31,7 @@ class AEModel(object):
             for layer_i, n_output in enumerate(self.n_filters[1:]):
                 n_input = current_input.get_shape().as_list()[3]
                 shapes.append(current_input.get_shape().as_list())
-                w = tf.Variable(tf.random_normal([self.filter_sizes, self.filter_sizes, n_input, n_output], stddev=0.1))
+                w = tf.Variable(tf.random_normal([self.filter_sizes[layer_i], self.filter_sizes[layer_i], n_input, n_output], stddev=0.1))
                 b = tf.Variable(tf.random_normal([n_output], stddev=0.1))
                 encoder.append(w)
                 conv = tf.nn.relu(tf.add(tf.nn.conv2d(current_input, w, strides=[1, 2, 2, 1], padding='SAME'), b))
@@ -40,26 +41,32 @@ class AEModel(object):
             cnn_output_size = cnn_output_shape[1] * cnn_output_shape[2] * cnn_output_shape[3]
           with tf.variable_scope("dense_layers"):
             flatten = tf.contrib.layers.flatten(inputs = current_input)
-            dense1 = tf.contrib.layers.fully_connected(flatten, num_outputs=256, activation_fn=tf.nn.relu)
+            dense1 = tf.contrib.layers.fully_connected(flatten, num_outputs=1024, activation_fn=tf.nn.relu)
             dense_drop1 = tf.contrib.layers.dropout(inputs = dense1, keep_prob = self.keep_prob)
-                
-            dense2 = tf.contrib.layers.fully_connected(inputs = dense_drop1, num_outputs=self.HIDDEN_STATE_SIZE, activation_fn=tf.nn.relu)
+
+            dense2 = tf.contrib.layers.fully_connected(dense_drop1, num_outputs=512, activation_fn=tf.nn.relu)
             dense_drop2 = tf.contrib.layers.dropout(inputs = dense2, keep_prob = self.keep_prob)
+                
+            dense3 = tf.contrib.layers.fully_connected(inputs = dense_drop2, num_outputs=self.HIDDEN_STATE_SIZE, activation_fn=tf.nn.relu)
+            dense_drop3 = tf.contrib.layers.dropout(inputs = dense3, keep_prob = self.keep_prob)
         
         with tf.variable_scope("hidden"):
-            self.hidden = tf.cast(dense_drop2, tf.int32)
+            self.hidden = tf.cast(dense_drop3, tf.int32)
 
         encoder.reverse()
         shapes.reverse()
         with tf.variable_scope("decoder"):
           with tf.variable_scope("dense_layers"):
-            dense3 = tf.contrib.layers.fully_connected(inputs = dense2, num_outputs = 256, activation_fn=tf.nn.relu)
-            dense_drop3 = tf.contrib.layers.dropout(inputs = dense3, keep_prob = self.keep_prob)
-                
-            dense4 = tf.contrib.layers.fully_connected(inputs = dense_drop3, num_outputs = cnn_output_size, activation_fn=tf.nn.relu)
+            dense4 = tf.contrib.layers.fully_connected(inputs = dense_drop3, num_outputs = 512, activation_fn=tf.nn.relu)
             dense_drop4 = tf.contrib.layers.dropout(inputs = dense4, keep_prob = self.keep_prob)
 
-            reshape = tf.reshape(dense_drop4, [-1, cnn_output_shape[1], cnn_output_shape[2], cnn_output_shape[3]])
+            dense5 = tf.contrib.layers.fully_connected(inputs = dense_drop4, num_outputs = 1024, activation_fn=tf.nn.relu)
+            dense_drop5 = tf.contrib.layers.dropout(inputs = dense5, keep_prob = self.keep_prob)
+                
+            dense6 = tf.contrib.layers.fully_connected(inputs = dense_drop5, num_outputs = cnn_output_size, activation_fn=tf.nn.relu)
+            dense_drop6 = tf.contrib.layers.dropout(inputs = dense6, keep_prob = self.keep_prob)
+
+            reshape = tf.reshape(dense_drop6, [-1, cnn_output_shape[1], cnn_output_shape[2], cnn_output_shape[3]])
           with tf.variable_scope("cnn_transpose_layers"):
             for layer_i, shape in enumerate(shapes):
                 w = encoder[layer_i]
