@@ -74,6 +74,7 @@ protected:
 	/** Added by xhy*/
 	Settings* m_settings;
 	OSystem* m_osystem;
+	DisplayScreen* m_display;
 
 	BPROSFeature* m_bprosFeature;
 	CNNAE* m_ae;

@@ -17,6 +17,7 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 	/** Added by xhy*/
 	m_settings = &settings;
 	m_osystem = m_settings->get_OSystem();
+	m_display = m_osystem->p_display_screen;
 
 	/** Added by xhy, if true, apply game screens instead of ALE_RAM to IW1 */
 	m_screen_features_on = settings.getBool("screen_features_on", false);
@@ -75,6 +76,12 @@ IW1Search::~IW1Search() {
 	}
 	else
 		delete m_ram_novelty_table;
+
+	if(m_bpros_features)
+		delete m_bprosFeature;
+
+	if(m_ae_features)
+		delete m_ae;
 }
 
 /* *********************************************************************
@@ -330,8 +337,7 @@ bool IW1Search::check_novelty_1(const int* hidden_state){
 
 void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, int a){
 	if(m_bpros_features){
-		DisplayScreen* display = m_osystem->p_display_screen;
-		const IntMatrix& subtracted_screen = display->subtractBg(child->state.getScreen());
+		const IntMatrix& subtracted_screen = m_display->subtractBg(child->state.getScreen());
 		m_bprosFeature->getFeaturesFromScreen(subtracted_screen);
 		if( check_novelty_1(m_bprosFeature)){
 			update_novelty_table(m_bprosFeature);
@@ -346,9 +352,8 @@ void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, i
 	}
 	else if(m_ae_features){
 		//std::cout << "    a" << std::endl;
-		DisplayScreen* display = m_osystem->p_display_screen;
-		if(display){
-			const IntMatrix& subtracted_screen = display->subtractBg(child->state.getScreen());
+		if(m_display){
+			const IntMatrix& subtracted_screen = m_display->subtractBg(child->state.getScreen());
 			//std::cout << "    b" << std::endl;
 			const int* hidden_state = m_ae->predict(subtracted_screen);
 			//std::cout << "    c" << std::endl;
@@ -380,9 +385,8 @@ void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, i
 			}
 		}
 		else{
-			DisplayScreen* display = m_osystem->p_display_screen;
-			if(display){
-				const IntMatrix& screen_diff = display->getDiff(curr_node->state.getScreen(), child->state.getScreen());
+			if(m_display){
+				const IntMatrix& screen_diff = m_display->getDiff(curr_node->state.getScreen(), child->state.getScreen());
 				if( check_novelty_1(screen_diff)){
 					update_novelty_table(screen_diff);
 					child->is_terminal = false;
@@ -402,6 +406,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 {
 	int num_simulated_steps =0;
 	int num_actions = available_actions.size();
+	std::cout << "num_actions" << num_actions << std::endl;
 	bool leaf_node = (curr_node->v_children.empty());
 	static unsigned max_nodes_per_frame = max_sim_steps_per_frame / sim_steps_per_node;
 	m_expanded_nodes++;
@@ -415,7 +420,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 	}
 
 	for (int a = 0; a < num_actions; a++) {
-		//std::cout << "    " << a << std::endl;
+		std::cout << "    " << a << std::endl;
 		Action act = curr_node->available_actions[a];
 		
 		TreeNode * child;
@@ -423,14 +428,15 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 		// If re-expanding an internal node, don't creates new nodes
 		if (leaf_node) {
 			m_generated_nodes++;
+			std::cout << "	generate:" << a << std::endl;
 			child = new TreeNode(	curr_node,	
 						curr_node->state,
 						this,
 						act,
 						sim_steps_per_node); 
-			//std::cout << "      new node" << std::endl;
+			std::cout << "	generated child:" << a << std::endl;
 			checkAndUpdate_novelty(curr_node, child, a);
-			//std::cout << "      check" << std::endl;
+			std::cout << "      checked" << std::endl;
 			if (child->depth() > m_max_depth ) 
 				m_max_depth = child->depth();
 			num_simulated_steps += child->num_simulated_steps;
@@ -438,19 +444,19 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 			curr_node->v_children[a] = child;
 		}
 		else {
+			std::cout << "	reuse child:" << a << " ";
 			child = curr_node->v_children[a];
-			//std::cout << "      old node" << std::endl;
+			std::cout << "	action:" << child->act << std::endl;
 			// This recreates the novelty table (which gets resetted every time
 			// we change the root of the search tree)
 			if ( m_novelty_pruning )
 			{
-				//std::cout << "        1" << std::endl;
 			    if( child->is_terminal )
 			    	checkAndUpdate_novelty(curr_node, child, a);
-			    //std::cout << "        2" << std::endl;
 			}
+			std::cout << "	update:" <<std::endl;
 			child->updateTreeNode();
-
+			std::cout << "	updated:" <<std::endl;
 			if (child->depth() > m_max_depth ) m_max_depth = child->depth();
 
 			// DONT COUNT REUSED NODES
@@ -467,6 +473,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 		}
 		//std::cout << "        expanded expanded" << std::endl;
 	}
+	std::cout << "	expanded:" <<std::endl;
 	return num_simulated_steps;
 }
 
@@ -490,21 +497,20 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 	std::list< TreeNode* > pivots;
 	
 	//q.push(start_node);
+	assert(start_node!=NULL);
 	pivots.push_back( start_node );
 
 	/** modified by xhy*/
 	if(m_bpros_features){
-		DisplayScreen* display = m_osystem->p_display_screen;
-		if(display){
-			const IntMatrix& subtracted_screen = display->subtractBg(start_node->state.getScreen());
+		if(m_display){
+			const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
 			m_bprosFeature->getFeaturesFromScreen(subtracted_screen);
 			update_novelty_table(m_bprosFeature);
 		}
 	}
 	else if(m_ae_features){
-		DisplayScreen* display = m_osystem->p_display_screen;
-		if(display){
-			const IntMatrix& subtracted_screen = display->subtractBg(start_node->state.getScreen());
+		if(m_display){
+			const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
 			const int* hidden_state = m_ae->predict(subtracted_screen);
 			update_novelty_table(hidden_state);
 		}
@@ -514,10 +520,9 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 			update_novelty_table( start_node->state.getRAM() );
 		}
 		else{
-			DisplayScreen* display = m_osystem->p_display_screen;
-			if(display){
-				//const IntMatrix& subtracted_screen = display->subtractBg(start_node->state.getScreen());
-				const IntMatrix& screen_diff = display->getDiff(start_node->state.getScreen(), start_node->state.getScreen());
+			if(m_display){
+				//const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
+				const IntMatrix& screen_diff = m_display->getDiff(start_node->state.getScreen(), start_node->state.getScreen());
 				update_novelty_table(screen_diff);
 			}
 		}
@@ -535,9 +540,9 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 		std::cout << "# Pivots size: " << pivots.size() << std::endl;
 		std::cout << "First pivot reward: " << pivots.front()->node_reward << std::endl;
 		pivots.front()->m_depth = 0;
-		//std::cout << "1" << std::endl;
+		std::cout << "1" << std::endl;
 		int steps = expand_node( pivots.front(), q );
-		//std::cout << "2" << std::endl;
+		std::cout << "2" << std::endl;
 		num_simulated_steps += steps;
 
 		if (num_simulated_steps >= max_sim_steps_per_frame) {
@@ -557,9 +562,9 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 				pivots.push_back( curr_node );
 				continue;
 			}
-			//std::cout << "3" << std::endl;
+			std::cout << "3" << std::endl;
 			steps = expand_node( curr_node, q );	
-			//std::cout << "4" << std::endl;
+			std::cout << "4" << std::endl;
 			num_simulated_steps += steps;
 			// Stop once we have simulated a maximum number of steps
 			if (num_simulated_steps >= max_sim_steps_per_frame) {
@@ -578,8 +583,16 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 		}
 
 	} while ( !pivots.empty() );
+
+
 	
+	pivots.clear();
+	while(!q.empty()){
+		q.pop();
+	}
+	std::cout << "tree expanded " << std::endl;
 	update_branch_return(start_node);
+	std::cout << "tree updated " << std::endl;
 }
 
 void IW1Search::clear()

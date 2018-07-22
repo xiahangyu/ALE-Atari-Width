@@ -29,10 +29,13 @@ CNNAE::CNNAE(){
 }
 
 CNNAE::~CNNAE(){
+	delete pScreen;
+	delete pFunc;
+	delete pMod;
 	Py_Finalize();
 }
 
-int* CNNAE::predict(const IntMatrix &subtracted_screen){
+const int* CNNAE::predict(const IntMatrix &subtracted_screen){
     //std::cout << "    predict 1" << std::endl;
     for(int i = 0; i < SCREEN_HEIGHT; i++)
     	for(int j = 0; j < SCREEN_WIDTH; j++)
@@ -56,16 +59,13 @@ int* CNNAE::predict(const IntMatrix &subtracted_screen){
         exit(-1);
     }
 
-	static int hidden_state[AE_HIDDEN_STATE_SIZE];
     for(int i = 0; i < AE_HIDDEN_STATE_SIZE; i++){
         PyArg_Parse(PyList_GetItem(pRetVal, i), "i", &hidden_state[i]);
     }
     //std::cout << "    predict 6" << std::endl;
 
-    if(!pParm)
-    	delete pParm;
-    if(!pRetVal)
-    	delete pRetVal;
+    delete pParm;
+    delete pRetVal;
     //std::cout << "    predict 7" << std::endl;
     return hidden_state;
 }

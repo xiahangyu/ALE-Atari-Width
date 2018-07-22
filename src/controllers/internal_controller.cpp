@@ -89,11 +89,11 @@ void InternalController::run() {
     // Display if necessary
     display();
     
-    // string filename = "./supported_roms/group_1/backgrounds/alien/screens/png/" + std::to_string(count) + ".png";
-    // save_screen(filename);
-    // filename = "./supported_roms/group_1/backgrounds/alien/screens/matrix/" + std::to_string(count) + ".matrix";
-    // saveScreenAsMatrix(filename);
-    // count_bghist();
+    string filename = "./supported_roms/group_1/backgrounds/alien/screens/png/" + std::to_string(count) + ".png";
+    save_screen(filename);
+    filename = "./supported_roms/group_1/backgrounds/alien/screens/matrix/" + std::to_string(count) + ".matrix";
+    saveScreenAsMatrix(filename);
+    count_bghist();
     count++;
   }
   // count_bgMatrix();

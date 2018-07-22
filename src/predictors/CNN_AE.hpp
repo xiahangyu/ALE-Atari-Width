@@ -10,11 +10,12 @@ class CNNAE {
 public:
 	CNNAE();
 	virtual ~CNNAE();
-	int* predict(const IntMatrix &subtracted_screen);	//Get the hidden state of input subtracted_screen
+	const int* predict(const IntMatrix &subtracted_screen);	//Get the hidden state of input subtracted_screen
 private:
 	PyObject* pMod = NULL;
     PyObject* pFunc = NULL;
     PyObject* pScreen = NULL;
+    int hidden_state[AE_HIDDEN_STATE_SIZE] = {0};
 };
 
 #endif
