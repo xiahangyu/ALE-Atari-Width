@@ -3,7 +3,7 @@ import numpy as np
 from libs.activations import lrelu
 
 class AEModel(object):
-    def __init__(self) :
+    def __init__(self, mean_img=np.zeros([1, 33600])) :
         self.HIDDEN_STATE_SIZE = 128
         self.SCREEN_HEIGHT = 210
         self.SCREEN_WIDTH = 160
@@ -12,13 +12,15 @@ class AEModel(object):
         self.input_shape = [None, 33600]
         self.keep_prob = 0.8
 
-        self.build()
+        self.build(mean_img)
 
 
-    def build(self):
+    def build(self, mean_img=np.zeros([1, 33600])):
         tf.reset_default_graph()
         self.x = tf.placeholder(tf.float32, self.input_shape, name='x')
-        current_input = tf.reshape(self.x, [-1, self.SCREEN_HEIGHT, self.SCREEN_WIDTH, 1])
+        self.mean = tf.Variable(mean_img, trainable=False, dtype=tf.float32)
+        current_input = tf.subtract(self.x, self.mean)
+        current_input = tf.reshape(current_input, [-1, self.SCREEN_HEIGHT, self.SCREEN_WIDTH, 1])
 
         
         encoder = []
@@ -45,8 +47,6 @@ class AEModel(object):
             dense_drop2 = tf.contrib.layers.dropout(inputs = dense2, keep_prob = self.keep_prob)
         
         with tf.variable_scope("hidden"):
-            dense_drop2 = tf.sigmoid(dense_drop2)
-            dense_drop2 = dense_drop2 * 255
             self.hidden = tf.cast(dense_drop2, tf.int32)
 
         encoder.reverse()
@@ -70,9 +70,8 @@ class AEModel(object):
                         padding='SAME'), b))
                 drop = tf.nn.dropout(conv_transpose, self.keep_prob)
                 current_input = drop
-            current_input = tf.sigmoid(current_input)
-            current_input = current_input * 255
-            self.predict = tf.reshape(current_input, [-1, self.input_shape[1]], name = "predict")
+            current_input = tf.reshape(current_input, [-1, self.input_shape[1]])
+            self.predict = tf.add(current_input, self.mean, name = "predict")
 
         with tf.variable_scope("cost"):
           self.cost = tf.reduce_sum(tf.square(self.predict - self.x), name="cost")
