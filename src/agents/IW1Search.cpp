@@ -43,11 +43,11 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 		std::cout << "Connected!" << std::endl;
 
 		if(m_novelty_boolean_representation){
-			m_ram_novelty_table_true = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE * 4, 8 );
-			m_ram_novelty_table_false = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE * 4, 8 );
+			m_ram_novelty_table_true = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE , 10 );
+			m_ram_novelty_table_false = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE , 10 );
 		}
 		else{
-			m_ram_novelty_table = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE * 4, 256);
+			m_ram_novelty_table = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE , 1024);
 		}
 	}
 	else{
@@ -231,22 +231,34 @@ void IW1Search::update_novelty_table( const BPROSFeature* m_bprosFeature){
 void IW1Search::update_novelty_table(const int* hidden_state){
 	for(int i = 0; i < AE_HIDDEN_STATE_SIZE; i++){
 		int state = hidden_state[i];
-		for(int j = 0; j < 4; j++){
-			int byte = state % 256;
-			state /= 256;
-			if(m_novelty_boolean_representation){
-				unsigned char mask = 1;
-				for( int k = 0; k < 8; k++){
-					bool bit_is_set = (byte & (mask << k)) != 0;
-					if(bit_is_set)
-						m_ram_novelty_table_true->set(i*4+j, k);
-					else
-						m_ram_novelty_table_false->set(i*4+j, k);
-				}
+		// for(int j = 0; j < 4; j++){
+		// 	int byte = state % 256;
+		// 	state /= 256;
+		// 	if(m_novelty_boolean_representation){
+		// 		unsigned char mask = 1;
+		// 		for( int k = 0; k < 10; k++){
+		// 			bool bit_is_set = (byte & (mask << k)) != 0;
+		// 			if(bit_is_set)
+		// 				m_ram_novelty_table_true->set(i*4+j, k);
+		// 			else
+		// 				m_ram_novelty_table_false->set(i*4+j, k);
+		// 		}
+		// 	}
+		// 	else
+		// 		m_ram_novelty_table->set(i*4+j, byte);
+		// }
+		if(m_novelty_boolean_representation){
+			unsigned char mask = 1;
+			for( int k = 0; k < 10; k++){
+				bool bit_is_set = (state & (mask << k)) != 0;
+				if(bit_is_set)
+					m_ram_novelty_table_true->set(i, k);
+				else
+					m_ram_novelty_table_false->set(i, k);
 			}
-			else
-				m_ram_novelty_table->set(i*4+j, byte);
 		}
+		else
+			m_ram_novelty_table->set(i, state);
 	}
 }
 
@@ -368,28 +380,46 @@ bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
 bool IW1Search::check_novelty_1(const int* hidden_state){
 	for(int i = 0; i < AE_HIDDEN_STATE_SIZE; i++){
 		int state = hidden_state[i];
-		for(int j = 0; j < 4; j++){
-			int byte = state % 256;
-			state /= 256;
-			if(m_novelty_boolean_representation){
+		// for(int j = 0; j < 4; j++){
+		// 	int byte = state % 256;
+		// 	state /= 256;
+		// 	if(m_novelty_boolean_representation){
+		// 		unsigned char mask = 1;
+		// 		for( int k = 0; k < 8; k++) {
+	 //                bool bit_is_set = (byte & (mask << k)) != 0;
+	 //                if (bit_is_set) {
+	 //                    if (!m_ram_novelty_table_true->isset(i*4+j, k))
+	 //                        return true;
+	 //                }
+		// 			else{
+	 //                    if (!m_ram_novelty_table_false->isset(i*4+j, k))
+	 //                        return true;
+	 //                }
+		// 		}
+		// 	}
+		// 	else{
+		// 		if ( !m_ram_novelty_table->isset(i*4+j, byte ) )
+		// 			return true;
+		// 	}
+		// }
+		if(m_novelty_boolean_representation){
 				unsigned char mask = 1;
-				for( int k = 0; k < 8; k++) {
-	                bool bit_is_set = (byte & (mask << k)) != 0;
+				for( int k = 0; k < 10; k++) {
+	                bool bit_is_set = (state & (mask << k)) != 0;
 	                if (bit_is_set) {
-	                    if (!m_ram_novelty_table_true->isset(i*4+j, k))
+	                    if (!m_ram_novelty_table_true->isset(i, k))
 	                        return true;
 	                }
 					else{
-	                    if (!m_ram_novelty_table_false->isset(i*4+j, k))
+	                    if (!m_ram_novelty_table_false->isset(i, k))
 	                        return true;
 	                }
 				}
 			}
 			else{
-				if ( !m_ram_novelty_table->isset(i*4+j, byte ) )
+				if ( !m_ram_novelty_table->isset(i, state ) )
 					return true;
 			}
-		}
 	}
 	return false;
 }

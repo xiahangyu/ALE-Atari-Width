@@ -61,6 +61,8 @@ const int* CNNAE::predict(const IntMatrix &subtracted_screen){
 
     for(int i = 0; i < AE_HIDDEN_STATE_SIZE; i++){
         PyArg_Parse(PyList_GetItem(pRetVal, i), "i", &hidden_state[i]);
+        if(hidden_state[i] >= 1024)
+        	hidden_state[i] = 0;
     }
     //std::cout << "    predict 6" << std::endl;
 

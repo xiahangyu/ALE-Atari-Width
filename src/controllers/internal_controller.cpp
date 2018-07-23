@@ -54,7 +54,7 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  //loadBgFromMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
+  loadBgFromMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
 
   Action action_a, action_b;
 
@@ -89,11 +89,11 @@ void InternalController::run() {
     // Display if necessary
     display();
 
-    string png_fn = "./supported_roms/group_3/backgrounds/freeway/screens/png/" + std::to_string(count) + ".png";
-    save_screen(png_fn);
-    string matrix_fn = "./supported_roms/group_3/backgrounds/freeway/screens/matrix/" + std::to_string(count) + ".matrix";
-    string matrix_act_fn = "./supported_roms/group_3/backgrounds/freeway/screens/matrix_act/" + std::to_string(count) + ".matrix";
-    saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
+    // string png_fn = "./supported_roms/group_1/backgrounds/alien/screens/png/" + std::to_string(count) + ".png";
+    // save_screen(png_fn);
+    // string matrix_fn = "./supported_roms/group_1/backgrounds/alien/screens/matrix/" + std::to_string(count) + ".matrix";
+    // string matrix_act_fn = "./supported_roms/group_1/backgrounds/alien/screens/matrix_act/" + std::to_string(count) + ".matrix";
+    // saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
     // count_bghist();
     count++;
   }
