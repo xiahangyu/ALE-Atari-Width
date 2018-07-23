@@ -312,13 +312,13 @@ void DisplayScreen::save_screen(const MediaSource& mediaSrc, const string& filen
         ind_i = i / screen_width;
         ind_j = i - (ind_i * screen_width);
         
-        //screen_matrix[ind_i][ind_j] = v;
+        screen_matrix[ind_i][ind_j] = v;
         
-        v = v - bg_matrix[ind_i][ind_j];
-        if(v >= 0)
-            screen_matrix[ind_i][ind_j] = v;
-        else
-            screen_matrix[ind_i][ind_j] = -v;
+        // v = v - bg_matrix[ind_i][ind_j];
+        // if(v >= 0)
+        //     screen_matrix[ind_i][ind_j] = v;
+        // else
+        //     screen_matrix[ind_i][ind_j] = -v;
     }
 
     export_screen->export_any_matrix(&screen_matrix, filename);
@@ -333,16 +333,35 @@ void DisplayScreen::saveScreenAsMatrix(const MediaSource& mediaSrc, const string
         ind_i = i / screen_width;
         ind_j = i - (ind_i * screen_width);
         
-        //screen_matrix[ind_i][ind_j] = v;
+        screen_matrix[ind_i][ind_j] = v;
         
-        v = v - bg_matrix[ind_i][ind_j];
-        if(v >= 0)
-            screen_matrix[ind_i][ind_j] = v;
-        else
-            screen_matrix[ind_i][ind_j] = -v;
+        // v = v - bg_matrix[ind_i][ind_j];
+        // if(v >= 0)
+        //     screen_matrix[ind_i][ind_j] = v;
+        // else
+        //     screen_matrix[ind_i][ind_j] = -v;
     }
-
     export_screen->save_matrix(&screen_matrix, filename);
+}
+
+/** Added by xhy*/
+void DisplayScreen::saveScreenAsMatrixAct(const MediaSource& mediaSrc, const string& filename, Action& action_a){
+    uInt8* pi_curr_frame_buffer = mediaSrc.currentFrameBuffer();
+    int ind_i, ind_j;
+    for (int i = 0; i < screen_width * screen_height; i++) {
+        uInt8 v = pi_curr_frame_buffer[i];
+        ind_i = i / screen_width;
+        ind_j = i - (ind_i * screen_width);
+        
+        screen_matrix[ind_i][ind_j] = v;
+        
+        // v = v - bg_matrix[ind_i][ind_j];
+        // if(v >= 0)
+        //     screen_matrix[ind_i][ind_j] = v;
+        // else
+        //     screen_matrix[ind_i][ind_j] = -v;
+    }
+    export_screen->save_matrixAct(&screen_matrix, filename, action_a);
 }
 
 #endif

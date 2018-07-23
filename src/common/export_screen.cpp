@@ -363,6 +363,27 @@ void ExportScreen::save_matrix(const IntMatrix* screen_matrix, const string& fil
         out.close();
 }
 
+void ExportScreen::save_matrixAct(const IntMatrix* screen_matrix, const string& filename, Action& action_a){
+    std::ofstream out(filename, ios::out);
+
+    try{
+        for(int i = 0; i < i_screen_height; i++){
+            for(int j = 0; j < i_screen_width; j++){
+                out << (*screen_matrix)[i][j] << ' ';
+            }
+        }
+        out << action_a << ' ';
+    }
+    catch(const char* msg){
+        if(out.is_open())
+            out.close();
+        cerr << msg << endl;
+    }
+
+    if(out.is_open())
+        out.close();
+}
+
 
 /** Added by xhy, load a screen matrix from a matrix file*/
 void ExportScreen::load_matrix(IntMatrix* screen_matrix, const string& filename){

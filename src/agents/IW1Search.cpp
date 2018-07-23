@@ -28,6 +28,7 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 
 	/** Modified by xhy */
 	if(m_bpros_features){
+		std::cout<<"Bpros features on!"<<std::endl;
 		m_bprosFeature = new BPROSFeature(15, 10); // divide screen into 14 x 16 tiles of size 15 x 10 pixels
 		m_ram_novelty_table = new aptk::Bit_Matrix( m_bprosFeature->get_basicFeatureSize() + m_bprosFeature->get_bprosFeatureSize(), 1);
 	}
@@ -42,11 +43,11 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 		std::cout << "Connected!" << std::endl;
 
 		if(m_novelty_boolean_representation){
-			m_ram_novelty_table_true = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE, 8 );
-			m_ram_novelty_table_false = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE, 8 );
+			m_ram_novelty_table_true = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE * 4, 8 );
+			m_ram_novelty_table_false = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE * 4, 8 );
 		}
 		else{
-			m_ram_novelty_table = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE, 256);
+			m_ram_novelty_table = new aptk::Bit_Matrix( AE_HIDDEN_STATE_SIZE * 4, 256);
 		}
 	}
 	else{
@@ -77,10 +78,10 @@ IW1Search::~IW1Search() {
 	else
 		delete m_ram_novelty_table;
 
-	if(m_bpros_features)
+	if(m_bprosFeature)
 		delete m_bprosFeature;
 
-	if(m_ae_features)
+	if(m_ae)
 		delete m_ae;
 }
 
@@ -174,12 +175,33 @@ void IW1Search::update_novelty_table( const ALERAM& machine_state )
 			m_ram_novelty_table->set( i, machine_state.get(i) );
 }
 
-/** Added by xhy, to update novelty table with subtracted game screen*/
-void IW1Search::update_novelty_table( const IntMatrix &subtracted_screen){
+/** Added by xhy*/
+void IW1Search::update_novelty_table( const ALEScreen& curr_alescreen){
 	for( int i = 0; i < 210; i++){
 		for( int j = 0; j < 160; j++){
-			int pixel = subtracted_screen[i][j];
-			//if(subtracted_screen[i][j] != 0){//only pixles with non-zero value(not background) should be considered
+			int pixel = curr_alescreen.get(i,j);
+			if(m_novelty_boolean_representation){
+				unsigned char mask = 1;
+				for( int k = 0; k < 8; k++){
+					bool bit_is_set = (pixel & (mask << k)) != 0;
+					if(bit_is_set)
+						m_ram_novelty_table_true->set( i * 160 + j, k);
+					else
+						m_ram_novelty_table_false->set( i * 160 + j, k);
+				}
+			}
+			else
+				m_ram_novelty_table->set(i * 160 + j, pixel );
+		}
+	}
+}
+
+/** Added by xhy, to update novelty table with subtracted game screen*/
+void IW1Search::update_novelty_table( const IntMatrix &screen){
+	for( int i = 0; i < 210; i++){
+		for( int j = 0; j < 160; j++){
+			int pixel = screen[i][j];
+			//if(screen[i][j] != 0){//only pixles with non-zero value(not background) should be considered
 				if(m_novelty_boolean_representation){
 					unsigned char mask = 1;
 					for( int k = 0; k < 8; k++){
@@ -208,19 +230,23 @@ void IW1Search::update_novelty_table( const BPROSFeature* m_bprosFeature){
 
 void IW1Search::update_novelty_table(const int* hidden_state){
 	for(int i = 0; i < AE_HIDDEN_STATE_SIZE; i++){
-		int pixel = hidden_state[i];
-		if(m_novelty_boolean_representation){
-			unsigned char mask = 1;
-			for( int k = 0; k < 8; k++){
-				bool bit_is_set = (pixel & (mask << k)) != 0;
-				if(bit_is_set)
-					m_ram_novelty_table_true->set(i, k);
-				else
-					m_ram_novelty_table_false->set(i, k);
+		int state = hidden_state[i];
+		for(int j = 0; j < 4; j++){
+			int byte = state % 256;
+			state /= 256;
+			if(m_novelty_boolean_representation){
+				unsigned char mask = 1;
+				for( int k = 0; k < 8; k++){
+					bool bit_is_set = (byte & (mask << k)) != 0;
+					if(bit_is_set)
+						m_ram_novelty_table_true->set(i*4+j, k);
+					else
+						m_ram_novelty_table_false->set(i*4+j, k);
+				}
 			}
+			else
+				m_ram_novelty_table->set(i*4+j, byte);
 		}
-		else
-			m_ram_novelty_table->set(i, pixel);
 	}
 }
 
@@ -250,12 +276,41 @@ bool IW1Search::check_novelty_1( const ALERAM& machine_state )
 }
 
 /** Added by xhy*/
-bool IW1Search::check_novelty_1( const IntMatrix &subtracted_screen)
+bool IW1Search::check_novelty_1( const ALEScreen& curr_alescreen)
 {
 	for( int i = 0; i < 210; i++){
 		for( int j = 0; j < 160; j++){
-			int pixel = subtracted_screen[i][j];
-			//if(subtracted_screen[i][j] != 0){//only pixles with non-zero value should be considered
+			int pixel = curr_alescreen.get(i, j);
+			if(m_novelty_boolean_representation){
+				unsigned char mask = 1;
+				for( int k = 0; k < 8; k++) {
+                    bool bit_is_set = (pixel & (mask << k)) != 0;
+                    if (bit_is_set) {
+                        if (!m_ram_novelty_table_true->isset(i * 160 + j, k))
+                            return true;
+                    }
+					else{
+                        if (!m_ram_novelty_table_false->isset(i * 160 + j, k))
+                            return true;
+                        }
+				}
+			}
+			else{
+				if ( !m_ram_novelty_table->isset( i * 160 + j, pixel ) )
+					return true;
+			}
+		}
+	}
+	return false;
+}
+
+/** Added by xhy*/
+bool IW1Search::check_novelty_1( const IntMatrix &screen)
+{
+	for( int i = 0; i < 210; i++){
+		for( int j = 0; j < 160; j++){
+			int pixel = screen[i][j];
+			//if(screen[i][j] != 0){//only pixles with non-zero value should be considered
 				if(m_novelty_boolean_representation){
 					unsigned char mask = 1;
 					for( int k = 0; k < 8; k++) {
@@ -312,24 +367,28 @@ bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
 
 bool IW1Search::check_novelty_1(const int* hidden_state){
 	for(int i = 0; i < AE_HIDDEN_STATE_SIZE; i++){
-		int pixel = hidden_state[i];
-		if(m_novelty_boolean_representation){
-			unsigned char mask = 1;
-			for( int k = 0; k < 8; k++) {
-                bool bit_is_set = (pixel & (mask << k)) != 0;
-                if (bit_is_set) {
-                    if (!m_ram_novelty_table_true->isset(i, k))
-                        return true;
-                }
-				else{
-                    if (!m_ram_novelty_table_false->isset(i, k))
-                        return true;
-                }
+		int state = hidden_state[i];
+		for(int j = 0; j < 4; j++){
+			int byte = state % 256;
+			state /= 256;
+			if(m_novelty_boolean_representation){
+				unsigned char mask = 1;
+				for( int k = 0; k < 8; k++) {
+	                bool bit_is_set = (byte & (mask << k)) != 0;
+	                if (bit_is_set) {
+	                    if (!m_ram_novelty_table_true->isset(i*4+j, k))
+	                        return true;
+	                }
+					else{
+	                    if (!m_ram_novelty_table_false->isset(i*4+j, k))
+	                        return true;
+	                }
+				}
 			}
-		}
-		else{
-			if ( !m_ram_novelty_table->isset(i, pixel ) )
-				return true;
+			else{
+				if ( !m_ram_novelty_table->isset(i*4+j, byte ) )
+					return true;
+			}
 		}
 	}
 	return false;
@@ -386,9 +445,10 @@ void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, i
 		}
 		else{
 			if(m_display){
-				const IntMatrix& screen_diff = m_display->getDiff(curr_node->state.getScreen(), child->state.getScreen());
-				if( check_novelty_1(screen_diff)){
-					update_novelty_table(screen_diff);
+				//const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
+				// const IntMatrix& screen_diff = m_display->getDiff(curr_node->state.getScreen(), child->state.getScreen());
+				if( check_novelty_1(child->state.getScreen())){
+					update_novelty_table(child->state.getScreen());
 					child->is_terminal = false;
 				}
 				else{
@@ -406,7 +466,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 {
 	int num_simulated_steps =0;
 	int num_actions = available_actions.size();
-	std::cout << "num_actions" << num_actions << std::endl;
+	//std::cout << "num_actions" << num_actions << std::endl;
 	bool leaf_node = (curr_node->v_children.empty());
 	static unsigned max_nodes_per_frame = max_sim_steps_per_frame / sim_steps_per_node;
 	m_expanded_nodes++;
@@ -420,7 +480,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 	}
 
 	for (int a = 0; a < num_actions; a++) {
-		std::cout << "    " << a << std::endl;
+		//std::cout << "    " << a << std::endl;
 		Action act = curr_node->available_actions[a];
 		
 		TreeNode * child;
@@ -428,15 +488,15 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 		// If re-expanding an internal node, don't creates new nodes
 		if (leaf_node) {
 			m_generated_nodes++;
-			std::cout << "	generate:" << a << std::endl;
+			//std::cout << "	generate:" << a << std::endl;
 			child = new TreeNode(	curr_node,	
 						curr_node->state,
 						this,
 						act,
 						sim_steps_per_node); 
-			std::cout << "	generated child:" << a << std::endl;
+			//std::cout << "	generated child:" << a << std::endl;
 			checkAndUpdate_novelty(curr_node, child, a);
-			std::cout << "      checked" << std::endl;
+			//std::cout << "      checked" << std::endl;
 			if (child->depth() > m_max_depth ) 
 				m_max_depth = child->depth();
 			num_simulated_steps += child->num_simulated_steps;
@@ -444,9 +504,9 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 			curr_node->v_children[a] = child;
 		}
 		else {
-			std::cout << "	reuse child:" << a << " ";
+			//std::cout << "	reuse child:" << a << " ";
 			child = curr_node->v_children[a];
-			std::cout << "	action:" << child->act << std::endl;
+			//std::cout << "	action:" << child->act << std::endl;
 			// This recreates the novelty table (which gets resetted every time
 			// we change the root of the search tree)
 			if ( m_novelty_pruning )
@@ -454,9 +514,9 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 			    if( child->is_terminal )
 			    	checkAndUpdate_novelty(curr_node, child, a);
 			}
-			std::cout << "	update:" <<std::endl;
+			//std::cout << "	update:" <<std::endl;
 			child->updateTreeNode();
-			std::cout << "	updated:" <<std::endl;
+			//std::cout << "	updated:" <<std::endl;
 			if (child->depth() > m_max_depth ) m_max_depth = child->depth();
 
 			// DONT COUNT REUSED NODES
@@ -473,7 +533,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 		}
 		//std::cout << "        expanded expanded" << std::endl;
 	}
-	std::cout << "	expanded:" <<std::endl;
+	//std::cout << "	expanded:" <<std::endl;
 	return num_simulated_steps;
 }
 
@@ -522,8 +582,8 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 		else{
 			if(m_display){
 				//const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
-				const IntMatrix& screen_diff = m_display->getDiff(start_node->state.getScreen(), start_node->state.getScreen());
-				update_novelty_table(screen_diff);
+				//const IntMatrix& screen_diff = m_display->getDiff(start_node->state.getScreen(), start_node->state.getScreen());
+				update_novelty_table(start_node->state.getScreen());
 			}
 		}
 	}
@@ -540,9 +600,9 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 		std::cout << "# Pivots size: " << pivots.size() << std::endl;
 		std::cout << "First pivot reward: " << pivots.front()->node_reward << std::endl;
 		pivots.front()->m_depth = 0;
-		std::cout << "1" << std::endl;
+		//std::cout << "1" << std::endl;
 		int steps = expand_node( pivots.front(), q );
-		std::cout << "2" << std::endl;
+		//std::cout << "2" << std::endl;
 		num_simulated_steps += steps;
 
 		if (num_simulated_steps >= max_sim_steps_per_frame) {
@@ -562,9 +622,9 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 				pivots.push_back( curr_node );
 				continue;
 			}
-			std::cout << "3" << std::endl;
+			//std::cout << "3" << std::endl;
 			steps = expand_node( curr_node, q );	
-			std::cout << "4" << std::endl;
+			//std::cout << "4" << std::endl;
 			num_simulated_steps += steps;
 			// Stop once we have simulated a maximum number of steps
 			if (num_simulated_steps >= max_sim_steps_per_frame) {
@@ -590,9 +650,9 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 	while(!q.empty()){
 		q.pop();
 	}
-	std::cout << "tree expanded " << std::endl;
+	//std::cout << "tree expanded " << std::endl;
 	update_branch_return(start_node);
-	std::cout << "tree updated " << std::endl;
+	//std::cout << "tree updated " << std::endl;
 }
 
 void IW1Search::clear()

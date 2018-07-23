@@ -53,7 +53,7 @@ class ALEController {
     /** Added by xhy, for saving screens. */
     void save_screen(const string& filename);
     /** Added by xhy*/
-    void saveScreenAsMatrix(const string& filename);
+    void saveScreenAsMatrix(const string& filename, const string& matrix_act_fn, Action& action_a);
 
   protected:
     OSystem* m_osystem;

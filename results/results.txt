@@ -1,7 +1,9 @@
 Alien:
-	BGSFeatures_18000_0_10000		470
-	BPROSFeatures_18000_0_10000		730
-	RAMFeatures_18000_0_10000		780
+   Boolean false:
+	BGSFeatures_18000_0_10000		s:470	d:14	ela:10
+	BPROSFeatures_18000_0_10000		s:730	d:4	els:1.17
+	RAMFeatures_18000_0_10000		s:780	d:25	ela:7
+	PY_CNN_AE_18000_0_10000			s:	d:3	ela:46
 
 Freeway:
 	BGSFeatures_18000_0_10000		30

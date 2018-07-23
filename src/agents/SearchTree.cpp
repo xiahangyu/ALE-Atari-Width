@@ -26,7 +26,7 @@ SearchTree::SearchTree(RomSettings * rom_settings, Settings & settings,
     is_built(false),
     p_root(NULL),
     ignore_duplicates(true),
-    reward_magnitude(0),
+    reward_magnitude(1),
     m_rom_settings(rom_settings),
     available_actions(_actions),
     total_simulation_steps(0)
@@ -222,7 +222,7 @@ int SearchTree::simulate_game(	ALEState & state, Action act, int num_steps,
 			
 		return_t r = normalize_rewards ? normalize(curr_reward) : curr_reward;
 		if(r<0)
-			r = 10000*r;
+			r = 1000*r;
 
 		// Add curr_reward to the trajectory return
 		if (discount_return) {
@@ -255,8 +255,7 @@ return_t SearchTree::normalize(reward_t reward) {
     if (reward_magnitude == 0)
       reward_magnitude = abs(reward);
     return (reward + 0.0) / reward_magnitude;
-  }
-  
+  } 
 }
 
 int SearchTree::num_nodes() {

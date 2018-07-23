@@ -86,6 +86,7 @@ public:
     void save_screen(const MediaSource& mediaSrc, const string& filename);
     /** Added by xhy*/
     void saveScreenAsMatrix(const MediaSource& mediaSrc, const string& filename);
+    void saveScreenAsMatrixAct(const MediaSource& mediaSrc, const string& filename, Action& action_a);
 
     /** Added by xhy, for counting background histogram*/
     void count_bghist();

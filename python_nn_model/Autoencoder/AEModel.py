@@ -4,7 +4,7 @@ from libs.activations import lrelu
 
 class AEModel(object):
     def __init__(self, mean_img = np.zeros([33600])) :
-        self.HIDDEN_STATE_SIZE = 256
+        self.HIDDEN_STATE_SIZE = 128
         self.SCREEN_HEIGHT = 210
         self.SCREEN_WIDTH = 160
         self.n_filters = [1, 16, 32, 64]
@@ -41,10 +41,10 @@ class AEModel(object):
             cnn_output_size = cnn_output_shape[1] * cnn_output_shape[2] * cnn_output_shape[3]
           with tf.variable_scope("dense_layers"):
             flatten = tf.contrib.layers.flatten(inputs = current_input)
-            dense1 = tf.contrib.layers.fully_connected(flatten, num_outputs=1024, activation_fn=tf.nn.relu)
+            dense1 = tf.contrib.layers.fully_connected(flatten, num_outputs=512, activation_fn=tf.nn.relu)
             dense_drop1 = tf.contrib.layers.dropout(inputs = dense1, keep_prob = self.keep_prob)
 
-            dense2 = tf.contrib.layers.fully_connected(dense_drop1, num_outputs=512, activation_fn=tf.nn.relu)
+            dense2 = tf.contrib.layers.fully_connected(dense_drop1, num_outputs=256, activation_fn=tf.nn.relu)
             dense_drop2 = tf.contrib.layers.dropout(inputs = dense2, keep_prob = self.keep_prob)
                 
             dense3 = tf.contrib.layers.fully_connected(inputs = dense_drop2, num_outputs=self.HIDDEN_STATE_SIZE, activation_fn=tf.nn.relu)
@@ -57,10 +57,10 @@ class AEModel(object):
         shapes.reverse()
         with tf.variable_scope("decoder"):
           with tf.variable_scope("dense_layers"):
-            dense4 = tf.contrib.layers.fully_connected(inputs = dense_drop3, num_outputs = 512, activation_fn=tf.nn.relu)
+            dense4 = tf.contrib.layers.fully_connected(inputs = dense_drop3, num_outputs = 256, activation_fn=tf.nn.relu)
             dense_drop4 = tf.contrib.layers.dropout(inputs = dense4, keep_prob = self.keep_prob)
 
-            dense5 = tf.contrib.layers.fully_connected(inputs = dense_drop4, num_outputs = 1024, activation_fn=tf.nn.relu)
+            dense5 = tf.contrib.layers.fully_connected(inputs = dense_drop4, num_outputs = 512, activation_fn=tf.nn.relu)
             dense_drop5 = tf.contrib.layers.dropout(inputs = dense5, keep_prob = self.keep_prob)
                 
             dense6 = tf.contrib.layers.fully_connected(inputs = dense_drop5, num_outputs = cnn_output_size, activation_fn=tf.nn.relu)

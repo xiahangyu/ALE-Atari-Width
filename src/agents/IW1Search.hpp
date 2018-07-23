@@ -42,13 +42,15 @@ protected:
 
     void set_terminal_root(TreeNode* node); 
 
-	void	update_novelty_table( const ALERAM &machine_state );
-	void	update_novelty_table( const IntMatrix &subtracted_screen);
+	void	update_novelty_table( const ALERAM &machine_state);
+	void	update_novelty_table( const ALEScreen& curr_alescreen);
+	void	update_novelty_table( const IntMatrix &screen);
 	void 	update_novelty_table( const BPROSFeature* m_bprosFeature);
 	void 	update_novelty_table( const int* hidden_state);
 
-	bool	check_novelty_1( const ALERAM& machine_state );
-	bool	check_novelty_1( const IntMatrix& subtracted_screen);
+	bool	check_novelty_1( const ALERAM& machine_state);
+	bool	check_novelty_1( const ALEScreen& curr_alescreen);
+	bool	check_novelty_1( const IntMatrix& screen);
 	bool 	check_novelty_1( BPROSFeature* m_bprosFeature);
 	bool 	check_novelty_1( const int* hidden_state);
 

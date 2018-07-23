@@ -76,6 +76,7 @@ class ExportScreen {
 
         /** Added by xhy, save a screen matrix as the way it is to a file */
         void save_matrix(const IntMatrix* screen_matrix, const string& filename);
+        void save_matrixAct(const IntMatrix* screen_matrix, const string& filename, Action& action_a);
         /** Added by xhy, load a screen matrix from a matrix file*/
         void load_matrix(IntMatrix* screen_matrix, const string& filename);
     protected:

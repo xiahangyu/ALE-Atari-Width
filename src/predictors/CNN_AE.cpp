@@ -64,8 +64,8 @@ const int* CNNAE::predict(const IntMatrix &subtracted_screen){
     }
     //std::cout << "    predict 6" << std::endl;
 
-    delete pParm;
-    delete pRetVal;
+    // delete pParm;
+    // delete pRetVal;
     //std::cout << "    predict 7" << std::endl;
     return hidden_state;
 }

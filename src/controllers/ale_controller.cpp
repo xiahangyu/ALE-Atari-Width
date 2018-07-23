@@ -91,11 +91,13 @@ void ALEController::save_screen(const string& filename) {
     display->save_screen(m_osystem->console().mediaSource(), filename);
 }
 
-void ALEController::saveScreenAsMatrix(const string& filename){
+void ALEController::saveScreenAsMatrix(const string& matrix_fn, const string& matrix_act_fn, Action& action_a){
   DisplayScreen* display = m_osystem->p_display_screen;
 
-  if(display)
-    display->saveScreenAsMatrix(m_osystem->console().mediaSource(), filename);
+  if(display){
+    display->saveScreenAsMatrix(m_osystem->console().mediaSource(), matrix_fn);
+    display->saveScreenAsMatrixAct(m_osystem->console().mediaSource(), matrix_act_fn, action_a);
+  }
 }
 
 reward_t ALEController::applyActions(Action player_a, Action player_b) {

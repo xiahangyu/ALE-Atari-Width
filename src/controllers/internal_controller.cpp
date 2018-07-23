@@ -54,15 +54,15 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  loadBgFromMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
+  //loadBgFromMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
 
   Action action_a, action_b;
 
   bool firstStep = true;
 
   int count = 1;
-  while (!isDone() && count < 5000) {
-    std::cout << count << std::endl;
+  while (!isDone() && count < 5120) {
+    std::cout << "count:" << count << std::endl;
     // Start a new episode if we're in a terminal state... assume these agents need to be told
     //  about episode-end
     if (m_environment.isTerminal()) {
@@ -71,28 +71,29 @@ void InternalController::run() {
     }
     else {
       if (firstStep) {
-        std::cout << "first step" << std::endl;
+        //std::cout << "first step" << std::endl;
         // Start a new episode; obtain actions
         episodeStart(action_a, action_b);
         firstStep = false;
       }
       else
         // Poll agents for actions
-        std::cout << "episode step" << std::endl;
-        episodeStep(action_a, action_b);
+        //std::cout << "episode step" << std::endl;
+        episodeStep(action_a, action_b);  //b is not used
     
       // Apply said actions'
-      std::cout << "applyActions" << std::endl;
+      //std::cout << "applyActions" << std::endl;
       m_episode_score += applyActions(action_a, action_b);
     }
 
     // Display if necessary
     display();
-    
-    // string filename = "./supported_roms/group_1/backgrounds/alien/screens/png/" + std::to_string(count) + ".png";
-    // save_screen(filename);
-    // filename = "./supported_roms/group_1/backgrounds/alien/screens/matrix/" + std::to_string(count) + ".matrix";
-    // saveScreenAsMatrix(filename);
+
+    string png_fn = "./supported_roms/group_3/backgrounds/freeway/screens/png/" + std::to_string(count) + ".png";
+    save_screen(png_fn);
+    string matrix_fn = "./supported_roms/group_3/backgrounds/freeway/screens/matrix/" + std::to_string(count) + ".matrix";
+    string matrix_act_fn = "./supported_roms/group_3/backgrounds/freeway/screens/matrix_act/" + std::to_string(count) + ".matrix";
+    saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
     // count_bghist();
     count++;
   }
