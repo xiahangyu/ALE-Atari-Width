@@ -11,7 +11,7 @@ train_screens = np.zeros((n_train_screens, screen_height*screen_width))
 n_dev_screens = batch_size
 dev_screens = np.zeros((n_dev_screens, screen_height*screen_width))
 
-screen_dir = "./screens/alien/"
+screen_dir = "./screens/alien/matrix/"
 def loadData(dir):
     for i in range(0, n_train_screens):
         path = dir + str(i + 1) + ".matrix"
