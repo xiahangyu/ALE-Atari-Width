@@ -1,79 +1,76 @@
 import tensorflow as tf
 import numpy as np
-from libs.activations import lrelu
+import constants as const
+from layers import layer
+
+K = const.K
+NUM_STEP = const.NUM_STEP
+T = const.T
+BATCH_SIZE = const.BATCH_SIZE
 
 class AEModel(object):
-    def __init__(self, mean_img = np.zeros([33600])) :
-        self.HIDDEN_STATE_SIZE = 1024
-        self.SCREEN_HEIGHT = 210
-        self.SCREEN_WIDTH = 160
-        self.n_filters = [1, 64, 128, 128, 128]
-        self.filter_sizes = [8, 6, 6, 4]
-        self.input_shape = [None, 33600]
-        self.keep_prob = 0.8
+    def __init__(self, mean_img = np.zeros([1, 1, 33600])) :
+        mean_img = np.reshape(mean_img, newshape=[1, 1, 33600])
 
-        mean_img = np.reshape(mean_img, newshape = [33600])
-        self.build(mean_img)
-
-
-    def build(self, mean_img = np.zeros([33600])):
         tf.reset_default_graph()
-        self.x = tf.placeholder(tf.float32, self.input_shape, name='x')
+        self.x = tf.placeholder(tf.float32, [None, K, 33600], name='x')
+        self.y = tf.placeholder(tf.float32, [None, NUM_STEP, 33600], name='y')
+        self.n_step_acts = tf.placeholder(tf.float32, [None, NUM_STEP, 18], name='n_step_acts')
+        self.one_step_act = tf.placeholder(tf.float32, [None, 18], name='one_step_act')
+
         self.mean = tf.Variable(mean_img, trainable=False, dtype=tf.float32)
-        current_input = tf.subtract(self.x, self.mean)
-        current_input = tf.reshape(current_input, [-1, self.SCREEN_HEIGHT, self.SCREEN_WIDTH, 1])
+        self.x_mean = (self.x-self.mean)/255
 
-        
-        encoder = []
-        shapes = []
-        with tf.variable_scope("encoder"):
-          with tf.variable_scope("cnn_layers"):
-            for layer_i, n_output in enumerate(self.n_filters[1:]):
-                n_input = current_input.get_shape().as_list()[3]
-                shapes.append(current_input.get_shape().as_list())
-                w = tf.Variable(tf.random_normal([self.filter_sizes[layer_i], self.filter_sizes[layer_i], n_input, n_output], stddev=0.1))
-                b = tf.Variable(tf.random_normal([n_output], stddev=0.1))
-                encoder.append(w)
-                conv = tf.nn.relu(tf.add(tf.nn.conv2d(current_input, w, strides=[1, 2, 2, 1], padding='SAME'), b))
-                #drop = tf.nn.dropout(conv, keep_prob = self.keep_prob)
-                current_input = conv
-            cnn_output_shape = current_input.get_shape().as_list()
-            cnn_output_size = cnn_output_shape[1] * cnn_output_shape[2] * cnn_output_shape[3]
-          with tf.variable_scope("dense_layers"):
-            flatten = tf.contrib.layers.flatten(inputs = current_input)
-            dense1 = tf.contrib.layers.fully_connected(flatten, num_outputs=self.HIDDEN_STATE_SIZE, activation_fn=tf.nn.relu)
-            #dense_drop1 = tf.contrib.layers.dropout(inputs = dense1, keep_prob = self.keep_prob)
-        
-        with tf.variable_scope("hidden"):
-            self.hidden = tf.cast(dense1, tf.int32)
+        self.train_nn()
+        self.one_step_pred_nn()
 
-        encoder.reverse()
-        shapes.reverse()
-        with tf.variable_scope("decoder"):
-          with tf.variable_scope("dense_layers"):
-            dense2 = tf.contrib.layers.fully_connected(inputs = dense1, num_outputs = cnn_output_size, activation_fn=tf.nn.relu)
-            #dense_drop6 = tf.contrib.layers.dropout(inputs = dense6, keep_prob = self.keep_prob)
 
-            reshape = tf.reshape(dense2, [-1, cnn_output_shape[1], cnn_output_shape[2], cnn_output_shape[3]])
-          with tf.variable_scope("cnn_transpose_layers"):
-            for layer_i, shape in enumerate(shapes):
-                w = encoder[layer_i]
-                b = tf.Variable(tf.random_normal([w.get_shape().as_list()[2]], stddev=0.1))
-                conv_transpose = tf.nn.relu(tf.add(tf.nn.conv2d_transpose(current_input, w,
-                        tf.stack([tf.shape(self.x)[0], shape[1], shape[2], shape[3]]),
-                        strides=[1, 2, 2, 1],
-                        padding='SAME'), b))
-                #drop = tf.nn.dropout(conv_transpose, self.keep_prob)
-                current_input = conv_transpose
-            current_input = tf.reshape(current_input, [-1, self.input_shape[1]])
-            self.predict = tf.add(current_input, self.mean, name = "predict")
+    def predict(self, current_k_screens, current_act):
+        #encode
+        encode, conv_shapes = layer.conv_encoder(current_k_screens)
+
+        #action_transform
+        pred_encode = layer.action_transform(encode, current_act)
+
+        #decode
+        pred = layer.conv_decoder(pred_encode, conv_shapes)
+
+        #next step input
+        pred_mean = (pred-self.mean)/255
+        print(pred_mean.get_shape().as_list())
+        ns_ksub1_indices = tf.constant([[i, k] for i in range(0, BATCH_SIZE) for k in range(1, K) ]) 
+        ns_ksub1_screens = tf.gather_nd(current_k_screens, ns_ksub1_indices)
+        ns_ksub1_screens = tf.reshape(ns_ksub1_screens, tf.stack([tf.shape(current_k_screens)[0], K-1, 33600]))
+        ns_k_screens = tf.concat([ns_ksub1_screens, pred_mean], 1)
+        return pred, ns_k_screens
+
+
+    def train_nn(self):
+        y_hat_list = []
+        with tf.variable_scope("train_nn"):
+            current_k_screens = self.x_mean
+            for step in range(0, NUM_STEP):
+                current_act_indices = tf.constant([[i, step] for i in range(BATCH_SIZE)]) 
+                current_act = tf.gather_nd(self.n_step_acts, current_act_indices)  #act [None, 18]
+
+                y_pred, next_k_screens = self.predict(current_k_screens, current_act)
+                current_k_screens = next_k_screens
+                y_hat_list.append(y_pred)
 
         with tf.variable_scope("cost"):
-          self.cost = tf.reduce_sum(tf.square(self.predict - self.x), name="cost")
-          tf.summary.scalar("cost", self.cost)
+            y_hat = tf.concat(y_hat_list, axis = 1)
+            self.cost = tf.reduce_mean(tf.square(y_hat - self.y), name="cost")
 
         with tf.variable_scope("optimize"):
-          learning_rate = 0.01
-          self.optimizer = tf.train.AdamOptimizer(learning_rate, name="optimizer").minimize(self.cost)
+            learning_rate = 0.001
+            self.optimizer = tf.train.AdamOptimizer(learning_rate, name="optimizer").minimize(self.cost)
 
-        self.merged = tf.summary.merge_all()
+
+    #predict the next screen
+    def one_step_pred_nn(self):
+        current_k_screens = self.x_mean
+        encode, conv_shapes = layer.conv_encoder(current_k_screens)
+        pred_encode = layer.action_transform(encode, self.one_step_act)
+        pred = layer.conv_decoder(pred_encode, conv_shapes)
+        self.pred = tf.cast(pred, tf.int32, name = "pred")
+

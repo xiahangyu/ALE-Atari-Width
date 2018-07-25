@@ -68,8 +68,8 @@ def buildData():
 
     for i in range(0, n_dev_screens-T):
         dev_x[i] = dev_screens[i:i+K]
-        dev_y[i] = dev_screens[i+K:i+T]
-        dev_act[i] = dev_screens_act[i+K-1:i+T-1]
+        dev_y[i] = dev_screens[i+K]
+        dev_act[i] = dev_screens_act[i+K-1]
     print("data builed")
 
 
@@ -91,10 +91,18 @@ def train(mean_img):
             batch_x = train_x[batch_i*batch_size : batch_i*batch_size + batch_size]
             batch_y = train_y[batch_i*batch_size : batch_i*batch_size + batch_size]
             batch_act = train_act[batch_i*batch_size : batch_i*batch_size + batch_size]
-            sess.run(ae.optimizer, feed_dict={ae.x: batch_x, ae.y: batch_y, ae.n_step_acts: batch_act})
-        print(epoch_i, sess.run(ae.cost, feed_dict={ae.x: dev_x, ae.y: dev_y, ae.n_step_acts: dev_act}))
-        #summary, cost = sess.run([ae.merged, ae.cost], feed_dict={ae.x: dev_screens})
-        #writer.add_summary(summary, epoch_i)
+
+            step_x = batch_x
+            step_y = np.reshape(batch_y[:, 0, :], (-1, 1, 33600))
+            step_act = np.reshape( batch_act[ :, 0, :], (-1, NUM_ACTIONS))
+            for step in range(0, NUM_STEP):
+                _, pred = sess.run([ae.optimizer, ae.pred], feed_dict={ae.x: batch_x, ae.y: step_y, ae.act: step_act})
+
+                step_x = np.concatenate((step_x, pred), axis=1)[:, 1:, :]
+                step_y = np.reshape(batch_y[ :, step+1, :], (-1, 1, 33600))
+                step_act = np.reshape( batch_act[ :, step+1, :], (-1, NUM_ACTIONS))
+        print(epoch_i, sess.run(ae.cost, feed_dict={ae.x: dev_x, ae.y: dev_y, ae.act: dev_act}))
+
     py_saver.save(sess, './ckpt/model')
     c_saver.save(sess, "c_ckpt/graph.ckpt")
     tf.train.write_graph(sess.graph_def, 'c_ckpt/', 'graph.pbtxt', as_text=True)
