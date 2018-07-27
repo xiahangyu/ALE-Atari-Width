@@ -77,14 +77,13 @@ n_batch = n_train_screens//BATCH_SIZE
 def train(mean_img):
     ae = AEModel(mean_img = mean_img)
     sess = tf.Session()
-    sess.run(tf.global_variables_initializer())
-
     py_saver = tf.train.Saver()
     c_saver = tf.train.Saver(tf.global_variables())
+    writer = tf.summary.FileWriter("./AE_nn_log/", sess.graph)
 
-    writer = tf.summary.FileWriter("./AE_nn_log", sess.graph)
+    sess.run(tf.global_variables_initializer())
 
-    n_epochs = 100
+    n_epochs = 50
     early_stopping = 0
     last_cost = 0
     for epoch_i in range(n_epochs):
