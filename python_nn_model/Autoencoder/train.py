@@ -82,7 +82,7 @@ def train(mean_img):
     py_saver = tf.train.Saver()
     c_saver = tf.train.Saver(tf.global_variables())
 
-    #writer = tf.summary.FileWriter("./AE_nn_log", sess.graph)
+    writer = tf.summary.FileWriter("./AE_nn_log", sess.graph)
 
     n_epochs = 100
     early_stopping = 0
@@ -97,7 +97,8 @@ def train(mean_img):
 #             for i in range(0,33600):
 #                 print(y_hh[0][0][i])
             sess.run(ae.optimizer, feed_dict={ae.x: batch_x, ae.y: batch_y, ae.n_step_acts: batch_act})
-        cost = sess.run(ae.cost, feed_dict={ae.x: dev_x, ae.y: dev_y ,ae.n_step_acts: dev_act})
+        summary, cost = sess.run([ae.merged, ae.cost], feed_dict={ae.x: dev_x, ae.y: dev_y ,ae.n_step_acts: dev_act})
+        writer.add_summary(summary, epoch_i)
         print("epoch", epoch_i, ":", cost)
         if cost >= last_cost:
             early_stopping+=1

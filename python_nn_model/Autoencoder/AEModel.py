@@ -24,6 +24,8 @@ class AEModel(object):
         self.train_nn()
         self.one_step_pred_nn()
 
+        self.merged = tf.summary.merge_all()
+
 
     def predict(self, current_k_screens, current_act):
         #encode
@@ -61,6 +63,7 @@ class AEModel(object):
 #             diff = tf.square(self.y_hat - self.y)
 #             diff = tf.contrib.layers.flatten(diff)
             self.cost = tf.reduce_mean(tf.square(self.y_hat - self.y), name="cost")
+            tf.summary.scalar("cost", self.cost)
 
         with tf.variable_scope("optimize"):
             learning_rate = 0.01
