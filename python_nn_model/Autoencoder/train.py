@@ -99,6 +99,7 @@ def train(mean_img):
             sess.run(ae.optimizer, feed_dict={ae.x: batch_x, ae.y: batch_y, ae.n_step_acts: batch_act})
         summary, cost = sess.run([ae.merged, ae.cost], feed_dict={ae.x: dev_x, ae.y: dev_y ,ae.n_step_acts: dev_act})
         writer.add_summary(summary, epoch_i)
+        writer.flush()
         print("epoch", epoch_i, ":", cost)
         if cost >= last_cost:
             early_stopping+=1
@@ -109,8 +110,8 @@ def train(mean_img):
     py_saver.save(sess, './ckpt/model')
     c_saver.save(sess, "./c_ckpt/graph.ckpt")
     tf.train.write_graph(sess.graph_def, './c_ckpt/', 'graph.pbtxt', as_text=True)
-    
-    #writer.close()
+
+    writer.close()
     sess.close()
 
 
