@@ -64,7 +64,7 @@ class layer():
             w3 = tf.get_variable("pred_encode_weights", [2048,2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
             b3 = tf.get_variable("pred_encode_bias", [2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
             pred_encode = tf.matmul(decode_factor, w3) + b3
-            
+
         hidden1 = tf.cast(encode_factor, tf.int32, name = "hidden1")
         hidden2 = tf.cast(pred_encode, tf.int32, name = "hidden2")
         return pred_encode
@@ -80,7 +80,7 @@ class layer():
             with tf.variable_scope("dense_layers", reuse=tf.AUTO_REUSE):
                 w = tf.get_variable("dense_weights", [2048, 14*10*128], initializer=tf.random_uniform_initializer(-0.1,0.1))
                 b = tf.get_variable("dense_bias", [14*10*128], initializer=tf.random_uniform_initializer(-0.1,0.1))
-                dense = tf.matmul(pred_encode, w) + b
+                dense = tf.nn.relu(tf.matmul(pred_encode, w) + b)
 
                 conv_trans_input = tf.reshape(dense, tf.stack([tf.shape(pred_encode)[0], cnn_shapes[4][1], cnn_shapes[4][2], cnn_shapes[4][3]]))
 
