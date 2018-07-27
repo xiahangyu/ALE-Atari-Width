@@ -54,8 +54,6 @@ class layer():
             w1 = tf.get_variable("encoder_factor_weights", [2048,2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
             b1 = tf.get_variable("encoder_factor_bias", [2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
             encode_factor = tf.matmul(encode, w1) + b1
-            
-        hidden1 = tf.cast(encode_factor, tf.int32, name = "hidden1")
 
             w2 = tf.get_variable("act_emb_weights", [18,2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
             b2 = tf.get_variable("act_emb_bias", [2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
@@ -66,6 +64,8 @@ class layer():
             w3 = tf.get_variable("pred_encode_weights", [2048,2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
             b3 = tf.get_variable("pred_encode_bias", [2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
             pred_encode = tf.matmul(decode_factor, w3) + b3
+            
+        hidden1 = tf.cast(encode_factor, tf.int32, name = "hidden1")
         hidden2 = tf.cast(pred_encode, tf.int32, name = "hidden2")
         return pred_encode
 

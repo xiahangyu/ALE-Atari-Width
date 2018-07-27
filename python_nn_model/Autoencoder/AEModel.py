@@ -28,21 +28,22 @@ class AEModel(object):
 
 
     def predict(self, current_k_screens, current_act):
-        #encode
-        encode, conv_shapes = layer.conv_encoder(current_k_screens)
+        with tf.variable_scope("predict"):
+            #encode
+            encode, conv_shapes = layer.conv_encoder(current_k_screens)
 
-        #action_transform
-        pred_encode = layer.action_transform(encode, current_act)
+            #action_transform
+            pred_encode = layer.action_transform(encode, current_act)
 
-        #decode
-        pred_mean = layer.conv_decoder(pred_encode, conv_shapes)
-        pred = pred_mean + self.mean
-        
-        #next step input
-        ns_ksub1_indices = tf.constant([[i, k] for i in range(0, BATCH_SIZE) for k in range(1, K) ]) 
-        ns_ksub1_screens = tf.gather_nd(current_k_screens, ns_ksub1_indices)
-        ns_ksub1_screens = tf.reshape(ns_ksub1_screens, [-1, K-1, 33600])
-        ns_k_screens = tf.concat([ns_ksub1_screens, pred_mean], 1)
+            #decode
+            pred_mean = layer.conv_decoder(pred_encode, conv_shapes)
+            pred = pred_mean + self.mean
+            
+            #next step input
+            ns_ksub1_indices = tf.constant([[i, k] for i in range(0, BATCH_SIZE) for k in range(1, K) ]) 
+            ns_ksub1_screens = tf.gather_nd(current_k_screens, ns_ksub1_indices)
+            ns_ksub1_screens = tf.reshape(ns_ksub1_screens, [-1, K-1, 33600])
+            ns_k_screens = tf.concat([ns_ksub1_screens, pred_mean], 1)
         return pred, ns_k_screens
 
 
