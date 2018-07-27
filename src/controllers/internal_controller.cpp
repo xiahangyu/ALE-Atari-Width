@@ -54,7 +54,7 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  loadBgFromMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
+  //loadBgFromMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
 
   Action action_a, action_b;
 
@@ -84,6 +84,9 @@ void InternalController::run() {
       // Apply said actions'
       //std::cout << "applyActions" << std::endl;
       m_episode_score += applyActions(action_a, action_b);
+
+      m_environment.last5_screens[m_environment.update_pos] = m_environment.getScreen();
+      m_environment.update_pos = (m_environment.update_pos+1)%5;
     }
 
     // Display if necessary

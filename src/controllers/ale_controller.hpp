@@ -29,7 +29,7 @@ class ALEController {
 
     /** Main loop. Returns once ALE terminates. */
     virtual void run() = 0;
-
+    
   protected:
     friend class ALEInterface;
 

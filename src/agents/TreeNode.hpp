@@ -96,7 +96,13 @@ class TreeNode {
 	ActionVect              available_actions;
 	bool                    already_expanded;
     
-        unsigned                num_nodes_reusable;
+    unsigned                num_nodes_reusable;
+
+    /* added by xhy*/
+    void set_last5_screens(const ALEScreen* new_last5_screens, int new_update_pos);
+    void update_last5_screens();
+    ALEScreen last5_screens[5]; //The last 5 game screens
+    int update_pos; //index of last5_screen to update when next screen comes
 };
 
 

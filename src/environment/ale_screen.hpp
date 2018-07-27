@@ -27,7 +27,7 @@ typedef unsigned char pixel_t;
 /** A simple wrapper around an Atari screen. */ 
 class ALEScreen { 
   public:
-    ALEScreen(int h, int w);
+    ALEScreen(int h=210, int w=160);
     ALEScreen(const ALEScreen &rhs);
 
     ALEScreen& operator=(const ALEScreen &rhs);

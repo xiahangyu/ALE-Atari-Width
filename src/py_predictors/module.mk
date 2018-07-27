@@ -1,8 +1,7 @@
 MODULE := src/predictors
 
 MODULE_OBJS := \
-	src/predictors/cnnAE_model_loader.o \
-	src/predictors/cnnAE.o \
+	src/predictors/CNN_AE.o \
 
 MODULE_DIRS += \
 	src/predictors

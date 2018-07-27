@@ -6,7 +6,7 @@
 #include "../environment/ale_ram.hpp"
 #include "../common/Constants.h"
 #include "BPROSFeature.hpp"
-#include "../predictors/CNN_AE.hpp"
+#include "../predictors/cnnAE.hpp"
 
 #include <queue>
 

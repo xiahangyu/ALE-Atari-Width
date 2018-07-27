@@ -78,5 +78,6 @@ void setDefaultSettings(Settings &settings) {
     Mind: When basic_features are used, novelty boolean should be set to false.
     */
     settings.setBool("bpros_features", false);
-    settings.setBool("ae_features", true);
+    settings.setBool("ae_features", false);
+    settings.setBool("seq_ae_features", true);
 }

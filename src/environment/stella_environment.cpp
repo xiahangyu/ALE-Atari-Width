@@ -52,6 +52,10 @@ StellaEnvironment::StellaEnvironment(OSystem* osystem, RomSettings* settings):
     m_frame_skip = 1;
   }
   m_player_B = false;
+
+  update_pos = 0;
+  last5_screens[update_pos] = m_screen;
+  update_pos = 1;
 }
 
 /** Resets the system to its start state. */
@@ -59,7 +63,7 @@ void StellaEnvironment::reset() {
   // RNG for generating environments
   // MRJ: This is done now in src/ale_interface.hpp, at function createOSystem()
   // Random randGen;
-  
+
   m_state.resetEpisodeFrameNumber();
   // Reset the paddles
   m_state.resetPaddles(m_osystem->event());
@@ -179,6 +183,8 @@ reward_t StellaEnvironment::oneStepAct(Action player_a_action, Action player_b_a
   emulate(player_a_action, player_b_action);
   // Increment the number of frames seen so far
   m_state.incrementFrame();
+
+
 
   return m_settings->getReward();
 }

@@ -41,7 +41,6 @@ TreeNode::TreeNode(	TreeNode* parent, ALEState &parentState):
   act(Action::PLAYER_A_NOOP),
   already_expanded(false),
   num_nodes_reusable(0)
-
 {
 }
 
@@ -107,9 +106,6 @@ void TreeNode::updateTreeNode(){
 		accumulated_reward = p_parent->accumulated_reward + node_reward;
 		discounted_accumulated_reward = p_parent->discounted_accumulated_reward + discounted_node_reward;
 	}
-
-
-
 }
 
 void TreeNode::init(SearchTree * tree, Action a, int num_simulate_steps) { 
@@ -134,4 +130,16 @@ int TreeNode::num_nodes() {
   }
 
   return numNodes + 1;
+}
+
+void TreeNode::set_last5_screens(const ALEScreen* new_last5_screens, int new_update_pos){
+	for(int i = 0; i < 5; i++){
+		last5_screens[i] = new_last5_screens[i];
+	}
+	update_pos = new_update_pos;
+}
+
+void TreeNode::update_last5_screens(){
+	last5_screens[update_pos] = state.getScreen();
+	update_pos = (update_pos+1)%5 ;
 }

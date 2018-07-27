@@ -19,7 +19,7 @@ class AEModel(object):
         self.one_step_act = tf.placeholder(tf.float32, [None, 18], name='one_step_act')
 
         self.mean = tf.Variable(mean_img, trainable=False, dtype=tf.float32)
-        self.x_mean = (self.x-self.mean)/255
+        self.x_mean = self.x-self.mean
 
         self.train_nn()
         self.one_step_pred_nn()
@@ -33,14 +33,13 @@ class AEModel(object):
         pred_encode = layer.action_transform(encode, current_act)
 
         #decode
-        pred = layer.conv_decoder(pred_encode, conv_shapes)
-
+        pred_mean = layer.conv_decoder(pred_encode, conv_shapes)
+        pred = pred_mean + self.mean
+        
         #next step input
-        pred_mean = (pred-self.mean)/255
-        print(pred_mean.get_shape().as_list())
         ns_ksub1_indices = tf.constant([[i, k] for i in range(0, BATCH_SIZE) for k in range(1, K) ]) 
         ns_ksub1_screens = tf.gather_nd(current_k_screens, ns_ksub1_indices)
-        ns_ksub1_screens = tf.reshape(ns_ksub1_screens, tf.stack([tf.shape(current_k_screens)[0], K-1, 33600]))
+        ns_ksub1_screens = tf.reshape(ns_ksub1_screens, [-1, K-1, 33600])
         ns_k_screens = tf.concat([ns_ksub1_screens, pred_mean], 1)
         return pred, ns_k_screens
 
@@ -58,11 +57,13 @@ class AEModel(object):
                 y_hat_list.append(y_pred)
 
         with tf.variable_scope("cost"):
-            y_hat = tf.concat(y_hat_list, axis = 1)
-            self.cost = tf.reduce_mean(tf.square(y_hat - self.y), name="cost")
+            self.y_hat = tf.concat(y_hat_list, axis = 1)
+#             diff = tf.square(self.y_hat - self.y)
+#             diff = tf.contrib.layers.flatten(diff)
+            self.cost = tf.reduce_mean(tf.square(self.y_hat - self.y), name="cost")
 
         with tf.variable_scope("optimize"):
-            learning_rate = 0.001
+            learning_rate = 0.01
             self.optimizer = tf.train.AdamOptimizer(learning_rate, name="optimizer").minimize(self.cost)
 
 
@@ -71,6 +72,6 @@ class AEModel(object):
         current_k_screens = self.x_mean
         encode, conv_shapes = layer.conv_encoder(current_k_screens)
         pred_encode = layer.action_transform(encode, self.one_step_act)
-        pred = layer.conv_decoder(pred_encode, conv_shapes)
+        pred_mean = layer.conv_decoder(pred_encode, conv_shapes)
+        pred = pred_mean + self.mean
         self.pred = tf.cast(pred, tf.int32, name = "pred")
-

@@ -103,5 +103,12 @@ typedef float return_t;
 
 #define NUM_COLORS 256
 
+#define T 8
+#define K 5
+#define NUM_STEP 3
+
+#define HIDDEN1_SIZE 2048
+#define HIDDEN2_SIZE 2048 
+
 #endif // __CONSTANTS_H__
 

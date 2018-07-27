@@ -7,13 +7,19 @@ srcdir      ?= .
 USE_SDL     := 1
 # Set this to 1 to enable the RLGlue interface
 USE_RLGLUE  := 0
+# Set this to 1 to enable C++ tensorflow
+USE_CPPTF	:= 1
+# Set this to 1 to enable python-dev
+USE_PY		:= 1
 DEFINES     := -DRLGENV_NOMAINLOOP
-LDFLAGS     :=
+LDFLAGS     := #-g -Wall -D_DEBUG -Wshadow -Wno-sign-compare -w
 # /opt/local/include for MacPorts
-INCLUDES    := -I/usr/local/include -Isrc/controllers -Isrc/os_dependent -I/usr/include -I/opt/local/SDL/include -Isrc/environment  
-LIBS_SDL := -lSDL -lSDLmain -lSDL_gfx -lSDL_image
+INCLUDES    := -I/usr/local/include -Isrc/controllers -Isrc/os_dependent -I/usr/include -I/opt/local/SDL/include -Isrc/environment   
+LIBS_SDL 	:= -lSDL -lSDLmain -lSDL_gfx -lSDL_image
 LIBS_RLGLUE := -lrlutils -lrlgluenetdev
-LIBS	    := -L/opt/local/lib -L/Library/Frameworks/Python.framework/Versions/3.6/lib -lpython3.6m
+LIBS_CPPTF	:= -ltensorflow_framework -L/usr/local/lib/libtensorflow_cc -ltensorflow_cc
+LIBS_PYDEV	:= -L/Library/Frameworks/Python.framework/Versions/3.6/lib -lpython3.6m
+LIBS	    := -L/opt/local/lib -L/usr/local/lib `pkg-config --cflags --libs protobuf`
 OBJS	    :=
 PROF        :=
 MODULES     :=
@@ -55,10 +61,10 @@ PROFILE :=
 HAVE_GCC3 = 1
 HAVE_NASM = 1
 
-INCLUDES += -Isrc/games -Isrc/emucore -Isrc/emucore/m6502/src -Isrc/emucore/m6502/src/bspf/src -Isrc/common -Isrc/controllers -Isrc/agents -Isrc/environment -Isrc/predictors -I/Library/Frameworks/Python.framework/Versions/3.6/include/python3.6m
+INCLUDES += -Isrc/games -Isrc/emucore -Isrc/emucore/m6502/src -Isrc/emucore/m6502/src/bspf/src -Isrc/common -Isrc/controllers -Isrc/agents -Isrc/environment -Isrc/predictors 
 OBJS += 
 DEFINES +=  -DUNIX -DHAS_ALTIVEC -DUSE_NASM -DBSPF_UNIX -DHAVE_INTTYPES -DWINDOWED_SUPPORT  -DHAVE_GETTIMEOFDAY -DSNAPSHOT_SUPPORT 
-LDFLAGS += 
+LDFLAGS +=  
 
 ifeq ("$(USE_SDL)", "1")
   DEFINES +=  -D__USE_SDL
@@ -70,10 +76,22 @@ ifeq ("$(USE_RLGLUE)", "1")
   LIBS += $(LIBS_RLGLUE)
 endif
 
+ifeq ("$(USE_CPPTF)", "1")
+  DEFINES +=  -D__USE_CPPTF
+  LIBS += $(LIBS_CPPTF)
+  INCLUDES += -I/usr/local/include/tf -I/usr/local/include/eigen3
+endif
+
+ifeq ("$(USE_PYDEV)", "1")
+  DEFINES +=  -D__USE_PYDEV
+  LIBS += $(LIBS_PYDEV)
+  INCLUDES += -I/Library/Frameworks/Python.framework/Versions/3.6/include/python3.6m
+endif
+
 # Uncomment this for stricter compile time code verification
 # CXXFLAGS+= -Werror
 
-CXXFLAGS += -Wall -Wno-multichar -Wunused -fPIC
+CXXFLAGS += -Wall -Wno-multichar -Wunused -fPIC  
 
 ifeq ("$(DEBUG)", "1")
   CXXFLAGS += -g -O0 
@@ -128,7 +146,7 @@ MODULES += \
 	src/agents \
   src/games \
   src/environment \
-  src/predictors
+  src/predictors \
 
 
 ######################################################################

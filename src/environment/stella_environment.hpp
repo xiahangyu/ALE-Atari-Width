@@ -74,6 +74,11 @@ class StellaEnvironment {
     
     bool is_player_B() {return m_player_B;}
     void set_player_B( bool b ) { m_player_B = b; }
+
+    /* added by xhy*/
+    ALEScreen last5_screens[5]; //The last 5 game screens
+    int update_pos; //index of last5_screen to update when next screen comes
+    
   private:
     /** Actually emulates the emulator for a given number of steps. */
     void emulate(Action player_a_action, Action player_b_action, size_t num_steps = 1);

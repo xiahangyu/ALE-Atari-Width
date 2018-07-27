@@ -130,6 +130,7 @@ reward_t ALEController::applyActions(Action player_a, Action player_b) {
 	// if (sum_rewards != 0 )
 	//     std::cout << "reward: " << sum_rewards << std::endl;
 
+  
       break;
   }
   return sum_rewards;

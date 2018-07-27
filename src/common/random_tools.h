@@ -32,8 +32,7 @@ inline int rand_range(int lowest, int highest) {
 /* *********************************************************************
     Returns a random element of the given vector
  ******************************************************************** */
-template <class T> 
-inline T choice(const vector<T>* p_vec) {
+template <class T> inline T choice(const vector<T>* p_vec) {
     assert(p_vec->size() > 0);
     unsigned int index = rand_range(0, p_vec->size() - 1);
     assert(index >= 0);
