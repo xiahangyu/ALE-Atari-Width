@@ -92,9 +92,6 @@ def train(mean_img):
             batch_x = train_x[batch_i*BATCH_SIZE : batch_i*BATCH_SIZE + BATCH_SIZE]
             batch_y = train_y[batch_i*BATCH_SIZE : batch_i*BATCH_SIZE + BATCH_SIZE]
             batch_act = train_act[batch_i*BATCH_SIZE : batch_i*BATCH_SIZE + BATCH_SIZE]
-#             y_hh = sess.run(ae.y_hat, feed_dict={ae.x: batch_x, ae.y: batch_y, ae.n_step_acts: batch_act})
-#             for i in range(0,33600):
-#                 print(y_hh[0][0][i])
             sess.run(ae.optimizer, feed_dict={ae.x: batch_x, ae.y: batch_y, ae.n_step_acts: batch_act})
         summary, cost = sess.run([ae.merged, ae.cost], feed_dict={ae.x: dev_x, ae.y: dev_y ,ae.n_step_acts: dev_act})
         writer.add_summary(summary, epoch_i)

@@ -1,5 +1,5 @@
 
-BATCH_SIZE = 128
+BATCH_SIZE = 32
 
 NUM_ACTIONS = 18
 K = 5	#num of frames to look back

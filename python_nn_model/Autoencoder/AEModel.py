@@ -61,8 +61,6 @@ class AEModel(object):
 
         with tf.variable_scope("cost"):
             self.y_hat = tf.concat(y_hat_list, axis = 1)
-#             diff = tf.square(self.y_hat - self.y)
-#             diff = tf.contrib.layers.flatten(diff)
             self.cost = tf.reduce_mean(tf.square(self.y_hat - self.y), name="cost")
             tf.summary.scalar("cost", self.cost)
 
