@@ -1,1 +1,0 @@
-export PKG_CONFIG_PATH=/usr/local/Cellar/protobuf/3.5.1_1/lib/pkgconfig

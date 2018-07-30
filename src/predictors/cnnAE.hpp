@@ -4,8 +4,8 @@
 #include "cnnAE_model_loader.hxx"
 #include "../environment/ale_screen.hpp"
 #include "../common/Constants.h"
-#include "tensorflow/core/public/session.h"
-#include "tensorflow/core/platform/env.h"
+#include <tensorflow/core/public/session.h>
+#include <tensorflow/core/platform/env.h>
 
 class CNNAE {
 public:
@@ -16,12 +16,12 @@ public:
 	const int* get_pred(const ALEScreen* k_screens, int act);
 
 private:
-	Session* session;
+	tensorflow::Session* session;
 
 	//outputs
-    int hidden1[HIDDEN1_SIZE] = {0};
-    int hidden2[HIDDEN2_SIZE] = {0}
-    int pred[33600] = {0}
+    int* hidden1;
+    int* hidden2;
+    int* pred;
 };
 
 #endif

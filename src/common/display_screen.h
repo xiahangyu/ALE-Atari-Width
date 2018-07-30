@@ -90,7 +90,7 @@ public:
 
     /** Added by xhy, for counting background histogram*/
     void count_bghist();
-    /** Added by xhy, get background matrix from histogram*/
+    // * Added by xhy, get background matrix from histogram
     void count_bgMatrix();
 
     /** Added by xhy, save background as png*/

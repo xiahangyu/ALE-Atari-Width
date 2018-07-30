@@ -54,10 +54,9 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  //loadBgFromMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
+  // loadBgFromMatrix("./python_nn_model/Autoencoder/screens/tennis/subtracted/background/background.matrix");
 
   Action action_a, action_b;
-
   bool firstStep = true;
 
   int count = 1;
@@ -71,38 +70,35 @@ void InternalController::run() {
     }
     else {
       if (firstStep) {
-        //std::cout << "first step" << std::endl;
         // Start a new episode; obtain actions
         episodeStart(action_a, action_b);
         firstStep = false;
       }
       else
         // Poll agents for actions
-        //std::cout << "episode step" << std::endl;
         episodeStep(action_a, action_b);  //b is not used
     
       // Apply said actions'
-      //std::cout << "applyActions" << std::endl;
       m_episode_score += applyActions(action_a, action_b);
 
-      m_environment.last5_screens[m_environment.update_pos] = m_environment.getScreen();
-      m_environment.update_pos = (m_environment.update_pos+1)%5;
+      // m_environment.last5_screens[m_environment.update_pos] = m_environment.getScreen();
+      // m_environment.update_pos = (m_environment.update_pos+1)%5;
     }
 
     // Display if necessary
     display();
 
-    // string png_fn = "./supported_roms/group_1/backgrounds/alien/screens/png/" + std::to_string(count) + ".png";
-    // save_screen(png_fn);
-    // string matrix_fn = "./supported_roms/group_1/backgrounds/alien/screens/matrix/" + std::to_string(count) + ".matrix";
-    // string matrix_act_fn = "./supported_roms/group_1/backgrounds/alien/screens/matrix_act/" + std::to_string(count) + ".matrix";
-    // saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
+    string png_fn = "./python_nn_model/Autoencoder/screens/tennis/original/png/" + std::to_string(count) + ".png";
+    save_screen(png_fn);
+    string matrix_fn = "./python_nn_model/Autoencoder/screens/tennis/original/matrix/" + std::to_string(count) + ".matrix";
+    string matrix_act_fn = "./python_nn_model/Autoencoder/screens/tennis/original/matrix_act/" + std::to_string(count) + ".matrix";
+    saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
     // count_bghist();
     count++;
   }
   // count_bgMatrix();
-  // save_bg("./supported_roms/group_1/backgrounds/alien/background/background.png");
-  // saveBgAsMatrix("./supported_roms/group_1/backgrounds/alien/background/background.matrix");
+  // save_bg("./python_nn_model/Autoencoder/screens/alien/subtracted/background/background.png");
+  // saveBgAsMatrix("./python_nn_model/Autoencoder/screens/alien/subtracted/background/background.matrix");
   episodeEnd();
 }
 

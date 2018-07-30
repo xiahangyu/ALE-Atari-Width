@@ -88,6 +88,13 @@ TreeNode::TreeNode(	TreeNode* parent, ALEState &parentState,
 	}
 }
 
+// TreeNode::~TreeNode(){
+// 	for (size_t a = 0; a < v_children.size(); a++){
+//     	if(v_children[a])
+//     		delete v_children[a];
+// 	}
+// }
+
 void TreeNode::updateTreeNode(){
 	if(p_parent == NULL){
 		m_depth = 0;
@@ -133,7 +140,7 @@ int TreeNode::num_nodes() {
 }
 
 void TreeNode::set_last5_screens(const ALEScreen* new_last5_screens, int new_update_pos){
-	for(int i = 0; i < 5; i++){
+	for(int i = 0; i < NUM_K; i++){
 		last5_screens[i] = new_last5_screens[i];
 	}
 	update_pos = new_update_pos;
@@ -141,5 +148,5 @@ void TreeNode::set_last5_screens(const ALEScreen* new_last5_screens, int new_upd
 
 void TreeNode::update_last5_screens(){
 	last5_screens[update_pos] = state.getScreen();
-	update_pos = (update_pos+1)%5 ;
+	update_pos = (update_pos+1)%NUM_K ;
 }

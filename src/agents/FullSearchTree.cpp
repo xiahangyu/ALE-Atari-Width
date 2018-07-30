@@ -26,7 +26,7 @@
 FullSearchTree::FullSearchTree(RomSettings *rom_settings, Settings &settings,
 			       ActionVect &actions, StellaEnvironment* _env) :
     SearchTree(rom_settings, settings, actions, _env) {
-	m_ram_novelty_table = new aptk::Bit_Matrix( RAM_SIZE, 256 );
+	m_ram_novelty_table = new Bit_Matrix( RAM_SIZE, 256 );
 	m_screen_novelty_table = nullptr;	
 }
 
@@ -82,7 +82,7 @@ void FullSearchTree::update_novelty_table( const ALERAM& machine_state )
 bool FullSearchTree::check_novelty_1( const ALERAM& machine_state )
 {
 	for ( size_t i = 0; i < machine_state.size(); i++ )
-		if ( !m_ram_novelty_table->isset( i, machine_state.get(i) ) )
+		if ( !m_ram_novelty_table->iset( i, machine_state.get(i) ) )
 			return true;
 	return false;
 }
@@ -99,7 +99,7 @@ bool FullSearchTree::check_novelty_1( const ALEScreen& screen )
 {
 	for ( size_t i = 0; i < screen.height(); i++ )
 		for ( size_t j = 0; j < screen.width(); j++ )
-			if ( m_screen_novelty_table->isset( i * screen.width() + j, screen.get(i,j) ) )
+			if ( m_screen_novelty_table->iset( i * screen.width() + j, screen.get(i,j) ) )
 				return true;
 	return false;
 }

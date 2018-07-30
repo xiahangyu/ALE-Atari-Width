@@ -101,9 +101,9 @@ class layer():
                                                                     strides=[1, 2, 2, 1],padding='SAME'))
 
                 w4 = tf.get_variable("conv_transpose4_weights", [4, 4, 1, 32], initializer=tf.random_uniform_initializer(-0.1,0.1))
-                conv_transpose4 = tf.nn.relu(tf.nn.conv2d_transpose(conv_transpose3, w4, 
-                                                                    tf.stack([tf.shape(pred_encode)[0], cnn_shapes[0][1], cnn_shapes[0][2], 1]), 
-                                                                    strides=[1, 2, 2, 1],padding='SAME'))
+                conv_transpose4 = tf.nn.conv2d_transpose(conv_transpose3, w4, 
+                                                         tf.stack([tf.shape(pred_encode)[0], cnn_shapes[0][1], cnn_shapes[0][2], 1]), 
+                                                         strides=[1, 2, 2, 1],padding='SAME')
                 NCHW_conv_transpose4 = tf.transpose(conv_transpose4, [0, 3, 1, 2])
 
         pred_mean = tf.reshape(NCHW_conv_transpose4, [-1, 1, 33600])

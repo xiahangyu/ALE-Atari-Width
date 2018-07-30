@@ -20,8 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bit_array.hxx"
 #include <iostream>
 
-namespace aptk
-{
 
 Bit_Array::Bit_Array()
 	: m_packs( NULL ), m_pack_sz( 32 )
@@ -90,6 +88,4 @@ Bit_Array::~Bit_Array()
 {
 	if ( m_packs != NULL )
 		delete [] m_packs;
-}
-
 }

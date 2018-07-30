@@ -1,12 +1,10 @@
 #include <iostream>
 #include "cnnAE.hpp"
-#include "tensorflow/core/public/session.h"
-#include "tensorflow/core/platform/env.h"
 
 using namespace tensorflow;
 
 CNNAE::CNNAE(){
-    std::string model_path = "./nn_model/seq_nn_model/nn_model_frozen.pb"
+    std::string model_path = "./nn_model/seq_nn_model/nn_model_frozen.pb";
 
     // Create New Session
     Status status = NewSession(SessionOptions(), &session);
@@ -21,9 +19,17 @@ CNNAE::CNNAE(){
         std::cout << "Error: Model Loading failed..." << std::endl;
         exit(-1);
     }
+
+    hidden1 = new int [HIDDEN1_SIZE];
+    hidden2 = new int [HIDDEN2_SIZE];
+    pred = new int [33600];
 }
 
-CNNAE::~CNNAE(){}
+CNNAE::~CNNAE(){
+    delete [] hidden1;
+    delete [] hidden2;
+    delete [] pred;
+}
 
 const int* CNNAE::get_hidden1(const ALEScreen* k_screens){
     cnnAE_model::FeatureAdapter input_feat;
@@ -35,7 +41,7 @@ const int* CNNAE::get_hidden1(const ALEScreen* k_screens){
     }
 
     std::vector<tensorflow::Tensor> outputs;  
-    tensorflow::Status status = session->Run(input_feat.input, {"hidden1"}, {}, &outputs);
+    Status status = session->Run(input_feat.input, {"hidden1"}, {}, &outputs);
     if (!status.ok()) {
         std::cout << "ERROR: prediction failed..." << status.ToString() << std::endl;
         exit(-1);
@@ -55,7 +61,7 @@ const int* CNNAE::get_hidden1(const ALEScreen* k_screens){
 
     auto tmap = t.tensor<float, 2>();
     for (int i = 0; i < HIDDEN1_SIZE; i++) {
-        hidden1[i] = tmap[0][i];
+        hidden1[i] = tmap(0, i);
     }
     return hidden1;
 }
@@ -71,7 +77,7 @@ const int* CNNAE::get_hidden2(const ALEScreen* k_screens, int act){
     }
 
     std::vector<tensorflow::Tensor> outputs;  
-    tensorflow::Status status = session->Run(input_feat.input, {"hidden2"}, {}, &outputs);
+    Status status = session->Run(input_feat.input, {"hidden2"}, {}, &outputs);
     if (!status.ok()) {
         std::cout << "ERROR: prediction failed..." << status.ToString() << std::endl;
         exit(-1);
@@ -91,7 +97,7 @@ const int* CNNAE::get_hidden2(const ALEScreen* k_screens, int act){
 
     auto tmap = t.tensor<float, 2>();
     for (int i = 0; i < HIDDEN2_SIZE; i++) {
-        hidden2[i] = tmap[0][i];
+        hidden2[i] = tmap(0, i);
     }
     return hidden2;
 }
@@ -107,7 +113,7 @@ const int* CNNAE::get_pred(const ALEScreen* k_screens, int act){
     }
 
     std::vector<tensorflow::Tensor> outputs;  
-    tensorflow::Status status = session->Run(input_feat.input, {"pred"}, {}, &outputs);
+    Status status = session->Run(input_feat.input, {"pred"}, {}, &outputs);
     if (!status.ok()) {
         std::cout << "ERROR: prediction failed..." << status.ToString() << std::endl;
         exit(-1);
@@ -127,7 +133,7 @@ const int* CNNAE::get_pred(const ALEScreen* k_screens, int act){
 
     auto tmap = t.tensor<float, 3>();
     for (int i = 0; i < 33600; i++) {
-        pred[i] = tmap[0][0][i];
+        pred[i] = tmap(0, 0, i);
     }
     return pred;
 }

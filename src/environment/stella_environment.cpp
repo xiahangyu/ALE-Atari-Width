@@ -53,9 +53,9 @@ StellaEnvironment::StellaEnvironment(OSystem* osystem, RomSettings* settings):
   }
   m_player_B = false;
 
-  update_pos = 0;
-  last5_screens[update_pos] = m_screen;
-  update_pos = 1;
+  // update_pos = 0;
+  // last5_screens[update_pos] = m_screen;
+  // update_pos = 1;
 }
 
 /** Resets the system to its start state. */

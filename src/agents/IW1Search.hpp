@@ -60,9 +60,9 @@ protected:
 	virtual void	move_to_best_sub_branch();
 	
 	ALERAM 			m_ram;
-	aptk::Bit_Matrix*	m_ram_novelty_table;
-	aptk::Bit_Matrix*	m_ram_novelty_table_true;
-	aptk::Bit_Matrix*	m_ram_novelty_table_false;
+	Bit_Matrix*	m_ram_novelty_table;
+	Bit_Matrix*	m_ram_novelty_table_true;
+	Bit_Matrix*	m_ram_novelty_table_false;
 	unsigned		m_pruned_nodes;
 	bool			m_stop_on_first_reward;
 	unsigned		m_reward_horizon;	
@@ -72,10 +72,9 @@ protected:
 	bool 			m_screen_features_on;
 	bool 			m_bpros_features;
 	bool 			m_ae_features;
+	bool 			m_seq_ae_features;
 
 	/** Added by xhy*/
-	Settings* m_settings;
-	OSystem* m_osystem;
 	DisplayScreen* m_display;
 
 	BPROSFeature* m_bprosFeature;

@@ -41,7 +41,9 @@ class TreeNode {
 	*  of steps.
 	*/
 	TreeNode(	TreeNode *parent, ALEState &parentState, 
-  	SearchTree *tree, Action a, int num_simulate_steps, float discount = 1.0);	
+  				SearchTree *tree, Action a, int num_simulate_steps, float discount = 1.0);	
+
+  	// virtual ~TreeNode();
 
       	/** Properly generate this node by simulating it from the start state */
 	void init(SearchTree * tree, Action a, int num_simulate_steps);
@@ -101,7 +103,7 @@ class TreeNode {
     /* added by xhy*/
     void set_last5_screens(const ALEScreen* new_last5_screens, int new_update_pos);
     void update_last5_screens();
-    ALEScreen last5_screens[5]; //The last 5 game screens
+    ALEScreen *last5_screens; //The last [NUM_K] game screens
     int update_pos; //index of last5_screen to update when next screen comes
 };
 

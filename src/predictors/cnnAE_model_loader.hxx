@@ -2,11 +2,9 @@
 #define CNNAE_MODEL_LOADER_HXX
 
 #include <vector>
+#include <tensorflow/core/public/session.h>
+#include <tensorflow/core/platform/env.h>
 #include "../environment/ale_screen.hpp"
-#include "tensorflow/core/public/session.h"
-#include "tensorflow/core/platform/env.h"
-
-using namespace tensorflow;
 
 namespace cnnAE_model {
 

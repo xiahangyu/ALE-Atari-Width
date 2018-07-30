@@ -86,8 +86,8 @@ class FullSearchTree : public SearchTree {
 	virtual void	move_to_best_sub_branch();
 	
 	ALERAM 			m_ram;
-	aptk::Bit_Matrix*	m_ram_novelty_table;
-	aptk::Bit_Matrix*	m_screen_novelty_table;
+	Bit_Matrix*	m_ram_novelty_table;
+	Bit_Matrix*	m_screen_novelty_table;
 	unsigned		m_pruned_nodes;
 
 

@@ -72,12 +72,12 @@ void setDefaultSettings(Settings &settings) {
 	settings.setBool("novelty_boolean", false);
 
     /** Added by xhy, if true, apply screen images to IW(1) rather than RAM*/
-    settings.setBool("screen_features_on", true);
+    settings.setBool("screen_features_on", false);
 
     /** Added by xhy, if true, basic features are extracted from screens.
     Mind: When basic_features are used, novelty boolean should be set to false.
     */
     settings.setBool("bpros_features", false);
     settings.setBool("ae_features", false);
-    settings.setBool("seq_ae_features", true);
+    settings.setBool("seq_ae_features", false);
 }
