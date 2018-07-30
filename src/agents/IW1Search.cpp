@@ -705,17 +705,27 @@ void IW1Search::update_branch_return(TreeNode* node) {
 		best_return = node->node_reward;
 		best_branch = 0;		
 	} else {
-	    
 		for (size_t a = 0; a < node->v_children.size(); a++) {	
 			return_t child_return = node->v_children[a]->branch_return;
 			if (best_branch == -1 || child_return > best_return) {
 				best_return = child_return;
 				best_branch = a;
+				node->branch_depth = node->v_children[a]->branch_depth;
 				avg+=child_return;
 			}
-			if( node->v_children[a]->branch_depth > node->branch_depth  ) 
-				node->branch_depth = node->v_children[a]->branch_depth;
-
+			else if(child_return == best_return){
+				if(child_return==0 && node->v_children[a]->branch_depth > node->branch_depth ){
+					best_branch = a;
+					node->branch_depth = node->v_children[a]->branch_depth;
+					avg+=child_return;
+				}
+				else if(child_return!=0 && node->v_children[a]->branch_depth < node->branch_depth){
+					best_branch = a;
+					node->branch_depth = node->v_children[a]->branch_depth;
+					avg+=child_return;
+				}
+			}
+			
 			if( node->v_children.size() ) avg/=node->v_children.size();
 		}
 	}

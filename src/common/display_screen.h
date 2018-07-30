@@ -77,8 +77,6 @@ public:
 
     /** Added by xhy*/
     const IntMatrix& getDiff(const ALEScreen& curr_alescreen, const ALEScreen& next_alescreen);
-    /** Added by xhy, returns game screen in a format of matrix with background subtracted*/
-    const IntMatrix& subtractBg(const MediaSource& mediaSrc);
     /** Added by xhy, subtract current alescreen with background*/
     const IntMatrix& subtractBg(const ALEScreen& alescreen);
 
@@ -124,7 +122,7 @@ protected:
 
     //added by xhy, screen background and histogram, and subtracted game screen
     IntMatrix bg_matrix;
-    int bg_histogram[210][160][257] = {{{0}}};
+    int bg_histogram[210][160][256] = {{{0}}};
 };
 #else
 /** A dummy class that simply ignores display events. */

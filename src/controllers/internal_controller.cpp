@@ -54,13 +54,13 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  // loadBgFromMatrix("./python_nn_model/Autoencoder/screens/tennis/subtracted/background/background.matrix");
+  loadBgFromMatrix("./python_nn_model/screens/freeway/subtracted/background/background.matrix");
 
   Action action_a, action_b;
   bool firstStep = true;
 
   int count = 1;
-  while (!isDone() && count < 5120) {
+  while (!isDone() && count < 5000) {
     std::cout << "count:" << count << std::endl;
     // Start a new episode if we're in a terminal state... assume these agents need to be told
     //  about episode-end
@@ -88,17 +88,17 @@ void InternalController::run() {
     // Display if necessary
     display();
 
-    string png_fn = "./python_nn_model/Autoencoder/screens/tennis/original/png/" + std::to_string(count) + ".png";
+    string png_fn = "./python_nn_model/screens/freeway/subtracted/png/" + std::to_string(count) + ".png";
     save_screen(png_fn);
-    string matrix_fn = "./python_nn_model/Autoencoder/screens/tennis/original/matrix/" + std::to_string(count) + ".matrix";
-    string matrix_act_fn = "./python_nn_model/Autoencoder/screens/tennis/original/matrix_act/" + std::to_string(count) + ".matrix";
+    string matrix_fn = "./python_nn_model/screens/freeway/subtracted/matrix/" + std::to_string(count) + ".matrix";
+    string matrix_act_fn = "./python_nn_model/screens/freeway/subtracted/matrix_act/" + std::to_string(count) + ".matrix";
     saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
     // count_bghist();
     count++;
   }
   // count_bgMatrix();
-  // save_bg("./python_nn_model/Autoencoder/screens/alien/subtracted/background/background.png");
-  // saveBgAsMatrix("./python_nn_model/Autoencoder/screens/alien/subtracted/background/background.matrix");
+  // save_bg("./python_nn_model/screens/tennis/subtracted/background/background.png");
+  // saveBgAsMatrix("./python_nn_model/screens/tennis/subtracted/background/background.matrix");
   episodeEnd();
 }
 

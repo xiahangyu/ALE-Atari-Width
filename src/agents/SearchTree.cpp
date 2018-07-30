@@ -91,23 +91,30 @@ Action SearchTree::get_best_action(void) {
 		    curr_child->branch_return == best_child->branch_return && 
 		    curr_child->is_terminal == best_child->is_terminal) {
 			best_branches.push_back(c);
-			
 		}
 	}
 	
 	if (best_branches.size() > 1) {
-		best_branch = 0;
+		best_branch = best_branches[0];
 		unsigned best_depth = p_root->v_children[ best_branches[0] ]->branch_depth;
 				
 		for( unsigned i = 0; i < best_branches.size(); i++){
 		 	TreeNode* curr_child = p_root->v_children[ best_branches[i] ];
 
 		 	std::cout << "Best Action: " << action_to_string(curr_child->act) << "/" << action_to_string( p_root->available_actions[ best_branches[i] ] ) << " Depth: " << curr_child->branch_depth << " NumNodes: " << curr_child->num_nodes() << " Reward: "<< curr_child->branch_return   << std::endl;
-		 	//Why it prefers deep depth?
-		 	if(best_depth < curr_child->branch_depth ){
- 				best_depth = curr_child->branch_depth;
-				best_branch = best_branches[i];
-		 	}
+		 	//Why it prefers deeper depth?
+		 	if(curr_child->branch_return!=0){
+			 	if(best_depth > curr_child->branch_depth ){
+	 				best_depth = curr_child->branch_depth;
+					best_branch = best_branches[i];
+			 	}
+			 }
+			 else{
+			 	if(best_depth < curr_child->branch_depth ){
+	 				best_depth = curr_child->branch_depth;
+					best_branch = best_branches[i];
+			 	}
+			 }
 		}
 		//  when we have more than one best-branch, pick one randomly
 		// 	best_branch = choice(&best_branches);
@@ -118,7 +125,7 @@ Action SearchTree::get_best_action(void) {
 		std::cout << "Action: " << action_to_string(curr_child->act) << " Depth: " << curr_child->branch_depth  <<" NumNodes: " << curr_child->num_nodes() << " Reward: "<< curr_child->branch_return   << std::endl;
 	
 	}
-	
+	std::cout << "Choosen best action: " << action_to_string( p_root->available_actions[best_branch] ) << std::endl;
 	p_root->best_branch = best_branch;
 	
 	return p_root->available_actions[best_branch];
