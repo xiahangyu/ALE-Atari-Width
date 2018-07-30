@@ -7,7 +7,7 @@ ae = AEModel()
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 saver = tf.train.Saver()
-saver.restore(sess, "./python_nn_model/Autoencoder/ckpt/model")
+saver.restore(sess, ".ckpt/model")
 
 def predict(screen_values):
     screen = np.array(screen_values)

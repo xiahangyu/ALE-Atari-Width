@@ -1,8 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import constants as const
 
-K = const.K
 
 class layer():
 
@@ -12,7 +10,7 @@ class layer():
     #   encode : tensor, [None, 1024]
     #   cnn_shapes : python list, shapes of each convolution layers
     def conv_encoder(screens):
-        screens = tf.reshape(screens, [-1, 1, 210, 160])
+        screens = tf.reshape(screens, [-1, 210, 160, 1])
 
         cnn_shapes = []
         with tf.variable_scope("training"):

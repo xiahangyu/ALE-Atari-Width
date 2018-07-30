@@ -9,7 +9,7 @@ sess.run(tf.global_variables_initializer())
 saver = tf.train.Saver()
 saver.restore(sess, "./ckpt/model")
 
-#develop data
+#test data
 n_test_x = BATCH_SIZE
 test_x = np.zeros((n_test_x, 33600))
 

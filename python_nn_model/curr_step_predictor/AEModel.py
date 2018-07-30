@@ -1,9 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import constants as const
 from layers import layer
-
-BATCH_SIZE = const.BATCH_SIZE
 
 class AEModel(object):
     def __init__(self, mean_img = np.zeros([1, 33600])) :

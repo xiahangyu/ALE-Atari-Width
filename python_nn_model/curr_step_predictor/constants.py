@@ -1,5 +1,4 @@
 
 BATCH_SIZE = 32
 
-NUM_ACTIONS = 18
 
