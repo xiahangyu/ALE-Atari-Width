@@ -7,16 +7,16 @@ ae = AEModel()
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 saver = tf.train.Saver()
-saver.restore(sess, "./ckpt/model")
+saver.restore(sess, "./freeway/cs/ckpt/original/submean/model")
 
 #test data
 n_test_x = BATCH_SIZE
 test_x = np.zeros((n_test_x, 33600))
 
-screen_dir = "../screens/freeway/subtracted/matrix/"
+screen_dir = "../backup/screens/freeway/original/matrix/"
 def loadScreen():
     for i in range(0, n_test_x):
-        path = screen_dir + str(3840 + i + 1) + ".matrix"
+        path = screen_dir + str(4480 + i + 1) + ".matrix"
         with open(path, "r") as f:
             data = f.read().split(' ')
             pixels = data[:-1]
@@ -25,14 +25,17 @@ def loadScreen():
 loadScreen()
 
 x_hat = sess.run(ae.x_hat, feed_dict={ae.x: test_x})
+# hidden = sess.run(ae.hidden, feed_dict={ae.x: test_x})
+# print(np.sum(hidden>=256), np.sum(hidden>=256)/hidden.size)
+# print(np.sum(hidden>=512), np.sum(hidden>=512)/hidden.size)
+# print(np.sum(hidden>=1024), np.sum(hidden>=1024)/hidden.size)
 
-n_examples = 2
-fig, axs = plt.subplots(n_examples, 2, figsize=(210, 160), squeeze=False)
-for example_i in range(n_examples):
+fig, axs = plt.subplots(2, 2, figsize=(210, 160), squeeze=False)
+for example_i in range(2):
     axs[example_i][0].imshow(
-        np.reshape(test_x[49][0], (210, 160)))
+        np.reshape(test_x[example_i], (210, 160)))
     axs[example_i][1].imshow(
-        np.reshape(x_hat[49][0], (210, 160)))
+        np.reshape(x_hat[example_i], (210, 160)))
 fig.show()
 plt.show()
 
