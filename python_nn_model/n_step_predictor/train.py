@@ -11,7 +11,7 @@ T = const.T
 
 #    raw data    
 #training data
-n_train_screens = 32
+n_train_screens = 32    #
 train_screens = np.zeros((BATCH_SIZE+T, 33600))
 train_screens_acts = np.zeros((BATCH_SIZE+T, NUM_ACTIONS))    #one hot actions, [0...17]
 #develop data
@@ -28,17 +28,17 @@ dev_x = np.zeros((BATCH_SIZE, K, 33600))
 dev_y = np.zeros((BATCH_SIZE, NUM_STEP, 33600))
 dev_acts = np.zeros((BATCH_SIZE, NUM_STEP, NUM_ACTIONS))
 
-mean_img = np.zeros((33600))
-mean_img_path = "./screens/freeway/subtracted/mean.matrix"   #
-def loadMeanImg():
-    with open(mean_img_path, "r") as f:
-        data = f.read().split(' ')
-        pixels = data[:-1]
-        pixels = list(map(int, pixels))
-        mean_img = np.array(pixels)
+# mean_img = np.zeros((33600))
+# mean_img_path = "../screens/freeway/subtracted/mean.matrix"   #
+# def loadMeanImg():
+#     with open(mean_img_path, "r") as f:
+#         data = f.read().split(' ')
+#         pixels = data[:-1]
+#         pixels = list(map(int, pixels))
+#         mean_img = np.array(pixels)
 
 
-screen_dir = "./screens/freeway/subtracted/matrix_act/"  #
+screen_dir = "../screens/freeway/subtracted/matrix_act/"  #
 def loadDevData():
     for i in range(0, BATCH_SIZE+T):
         path = screen_dir + str(n_train_screens + i) + ".matrix"
@@ -49,7 +49,7 @@ def loadDevData():
 
             pixels = data[:-2]
             pixels = list(map(int, pixels))
-            dev_screenss[i] = np.array(pixels)
+            dev_screens[i] = np.array(pixels)
 
     #build training date
     for i in range(0, BATCH_SIZE):
@@ -85,7 +85,7 @@ def nextBatch():
 
 
 def train():
-    ae = AEModel(mean_img = mean_img)
+    ae = AEModel() #mean_img = mean_img
     sess = tf.Session()
     py_saver = tf.train.Saver()
     c_saver = tf.train.Saver(tf.global_variables())
@@ -110,6 +110,6 @@ def train():
 
 
 if __name__ == '__main__':
-    loadMeanImg()
+    #loadMeanImg()
     loadDevData()
     train()

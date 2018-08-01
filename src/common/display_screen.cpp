@@ -76,6 +76,8 @@ void DisplayScreen::display_screen(const MediaSource& mediaSrc) {
         // else
         //     screen_matrix[ind_i][ind_j] = -v;
 
+        // screen_matrix[ind_i][ind_j] = v - bg_matrix[ind_i][ind_j]
+
     }
 
     // Give our handlers a chance to mess with the screen
@@ -249,7 +251,7 @@ void DisplayScreen::count_bghist(){
     int color;
     for(int i = 0; i < screen_height; i++){
         for(int j = 0; j < screen_width; j++){
-            color = screen_matrix[i][j];
+            color = screen_matrix[i][j];       
             bg_histogram[i][j][color] += 1;
         }
     }
@@ -262,7 +264,7 @@ void DisplayScreen::count_bgMatrix(){
         for(int j=0; j<screen_width; j++){
             max_count=-1;
             color_max=-1;
-            for(int color=1; color<256; color++){
+            for(int color=0; color<256; color++){
                 if(max_count < bg_histogram[i][j][color]){
                     max_count = bg_histogram[i][j][color];
                     color_max = color;
@@ -320,11 +322,12 @@ void DisplayScreen::saveScreenAsMatrix(const MediaSource& mediaSrc, const string
         
         // screen_matrix[ind_i][ind_j] = v;
         
-        v = v - bg_matrix[ind_i][ind_j];
-        if(v >= 0)
-            screen_matrix[ind_i][ind_j] = v;
-        else
-            screen_matrix[ind_i][ind_j] = -v;
+        // v = v - bg_matrix[ind_i][ind_j];
+        // if(v >= 0)
+        //     screen_matrix[ind_i][ind_j] = v;
+        // else
+        //     screen_matrix[ind_i][ind_j] = -v;
+        screen_matrix[ind_i][ind_j] = v - bg_matrix[ind_i][ind_j];
     }
     export_screen->save_matrix(&screen_matrix, filename);
 }
@@ -340,11 +343,12 @@ void DisplayScreen::saveScreenAsMatrixAct(const MediaSource& mediaSrc, const str
         
         // screen_matrix[ind_i][ind_j] = v;
         
-        v = v - bg_matrix[ind_i][ind_j];
-        if(v >= 0)
-            screen_matrix[ind_i][ind_j] = v;
-        else
-            screen_matrix[ind_i][ind_j] = -v;
+        // v = v - bg_matrix[ind_i][ind_j];
+        // if(v >= 0)
+        //     screen_matrix[ind_i][ind_j] = v;
+        // else
+        //     screen_matrix[ind_i][ind_j] = -v;
+        screen_matrix[ind_i][ind_j] = v - bg_matrix[ind_i][ind_j];
     }
     export_screen->save_matrixAct(&screen_matrix, filename, action_a);
 }

@@ -6,7 +6,7 @@ from AEModel import AEModel
 BATCH_SIZE = const.BATCH_SIZE
 
 #training data
-n_train_screens = 32
+n_train_screens = 32    #4960 32, 
 train_x = np.zeros((BATCH_SIZE, 33600))
 train_y = np.zeros((BATCH_SIZE, 33600))
 train_act = np.zeros((BATCH_SIZE, 18))
@@ -17,14 +17,14 @@ dev_y = np.zeros((BATCH_SIZE, 33600))
 dev_act = np.zeros((BATCH_SIZE, 18))
 
 
-mean_img = np.zeros((33600))
-mean_img_path = "../screens/freeway/subtracted/mean.matrix"   #
-def loadMeanImg():
-    with open(mean_img_path, "r") as f:
-        data = f.read().split(' ')
-        pixels = data[:-1]
-        pixels = list(map(int, pixels))
-        mean_img = np.array(pixels)
+# mean_img = np.zeros((33600))
+# mean_img_path = "../screens/freeway/subtracted/mean.matrix"   #
+# def loadMeanImg():
+#     with open(mean_img_path, "r") as f:
+#         data = f.read().split(' ')
+#         pixels = data[:-1]
+#         pixels = list(map(int, pixels))
+#         mean_img = np.array(pixels)
 
 
 screen_act_dir = "../screens/freeway/subtracted/matrix_act/"  #
@@ -67,7 +67,7 @@ def nextBatch():
 
 
 def train():
-    ae = AEModel(mean_img = mean_img)
+    ae = AEModel() #mean_img = mean_img
     sess = tf.Session()
     py_saver = tf.train.Saver()
     c_saver = tf.train.Saver(tf.global_variables())
@@ -90,6 +90,6 @@ def train():
 
 
 if __name__ == '__main__':
-    loadMeanImg()
+    # loadMeanImg()
     loadDevData()
     train()

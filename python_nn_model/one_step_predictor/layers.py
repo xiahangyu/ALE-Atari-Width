@@ -48,17 +48,17 @@ class layer():
     #   pred_encoder : tensor, [None, 1024]
     def action_transform(encode, act):
         with tf.variable_scope("action_transform", reuse=tf.AUTO_REUSE):
-            w1 = tf.get_variable("encoder_factor_weights", [1024,2048], initializer=tf.random_uniform_initializer(-1,1))
-            b1 = tf.get_variable("encoder_factor_bias", [2048], initializer=tf.zeros_initializer())
+            w1 = tf.get_variable("encoder_factor_weights", [1024,1024], initializer=tf.random_uniform_initializer(-1,1))
+            b1 = tf.get_variable("encoder_factor_bias", [1024], initializer=tf.zeros_initializer())
             encode_factor = tf.matmul(encode, w1) + b1
 
-            w2 = tf.get_variable("act_emb_weights", [18,2048], initializer=tf.random_uniform_initializer(-0.1,0.1))
-            b2 = tf.get_variable("act_emb_bias", [2048], initializer=tf.zeros_initializer())
+            w2 = tf.get_variable("act_emb_weights", [18,1024], initializer=tf.random_uniform_initializer(-0.1,0.1))
+            b2 = tf.get_variable("act_emb_bias", [1024], initializer=tf.zeros_initializer())
             act_emb = tf.matmul(act, w2) + b2
 
             decode_factor = tf.multiply(encode_factor, act_emb)
 
-            w3 = tf.get_variable("pred_encode_weights", [2048,1024], initializer=tf.contrib.layers.xavier_initializer())
+            w3 = tf.get_variable("pred_encode_weights", [1024,1024], initializer=tf.contrib.layers.xavier_initializer())
             b3 = tf.get_variable("pred_encode_bias", [1024], initializer=tf.zeros_initializer())
             pred_encode = tf.matmul(decode_factor, w3) + b3
         return pred_encode, encode_factor

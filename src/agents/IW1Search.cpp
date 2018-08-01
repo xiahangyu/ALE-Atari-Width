@@ -34,7 +34,7 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 	}
 	else if(m_seq_ae_features){
 		std::cout << "Loading seq_cnn_ae model..." << std::endl;
-		m_ae = new CNNAE();
+		m_ae = new cs_predictor();
 		std::cout << "Loaded!" << std::endl;
 
 		if(m_novelty_boolean_representation){
@@ -425,7 +425,7 @@ void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, i
 	}
 	else if(m_seq_ae_features){
 		if(m_display){
-			const int* hidden_state = m_ae->get_hidden1(child->last5_screens);
+			const int* hidden_state = m_ae->get_hidden1();
 			if( check_novelty_1(hidden_state)){
 				update_novelty_table(hidden_state);
 				child->is_terminal = false;
@@ -574,7 +574,7 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 	else if(m_ae_features){
 	}
 	else if(m_seq_ae_features){
-		const int* hidden_state = m_ae->get_hidden1(start_node->last5_screens);
+		const int* hidden_state = m_ae->get_hidden1();
 		update_novelty_table(hidden_state);
 	}
 	else{
@@ -617,12 +617,14 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 			q.pop();
 	
 			if ( curr_node->depth() > m_reward_horizon - 1 ) continue;
-			if ( m_stop_on_first_reward && curr_node->node_reward != 0 ) 
+			if ( m_stop_on_first_reward && curr_node->node_reward != 0 && curr_node->accumulated_reward > 0) 
 			{
 				pivots.push_back( curr_node );
 				continue;
 			}
-			steps = expand_node( curr_node, q );
+
+			if(curr_node->accumulated_reward >= 0)
+				steps = expand_node( curr_node, q );
 			num_simulated_steps += steps;
 			// Stop once we have simulated a maximum number of steps
 			if (num_simulated_steps >= max_sim_steps_per_frame) {
@@ -641,11 +643,12 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 		}
 
 	} while ( !pivots.empty() );
-	
-	pivots.clear();
-	while(!q.empty()){
-		q.pop();
+	if(pivots.empty() && q.empty()){
+		std::cout << "I think i am dying..." << std::endl;
+		std::cout << "I think i am dying..." << std::endl;
+		std::cout << "I think i am dying..." << std::endl;
 	}
+	
 	update_branch_return(start_node);
 }
 

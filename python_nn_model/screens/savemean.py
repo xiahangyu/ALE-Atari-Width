@@ -14,6 +14,7 @@ def loadScreen():
             screens[i] = np.array(pixels)
 
 fp = "./freeway/subtracted/mean.matrix"     #
+fp = "./freeway/subtracted/submean.matrx"
 def save_mean():
     mean_img = np.around(np.mean(screens, 0))
     mean_img = mean_img.astype(int)
@@ -21,6 +22,11 @@ def save_mean():
         for i in range(33600):
             f.write(str(mean_img[i])+" ")
     print("cost:",np.mean(np.square(screens-mean_img)))
+
+    submean_img = np.
+    with open(fp, "w") as f:
+        for i in range(33600):
+            f.write(str(mean_img[i])+" ")
 
 if __name__ == '__main__':
     loadScreen()

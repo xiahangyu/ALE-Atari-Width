@@ -106,6 +106,8 @@ ALEState ALEState::save(OSystem* osystem, RomSettings* settings, std::string md5
 
   //if (!m_colour_averaging) 
   //{
+      if(m_screen)
+        delete m_screen;
   	  m_screen = new ALEScreen(osystem->console().mediaSource().height(),osystem->console().mediaSource().width());
   	  // Copy screen over and we're done! 
   	  memcpy(m_screen->getArray(), osystem->console().mediaSource().currentFrameBuffer(), m_screen->arraySize());

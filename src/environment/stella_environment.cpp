@@ -184,8 +184,6 @@ reward_t StellaEnvironment::oneStepAct(Action player_a_action, Action player_b_a
   // Increment the number of frames seen so far
   m_state.incrementFrame();
 
-
-
   return m_settings->getReward();
 }
 

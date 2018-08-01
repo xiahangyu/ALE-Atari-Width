@@ -6,7 +6,7 @@
 #include "../environment/ale_ram.hpp"
 #include "../common/Constants.h"
 #include "BPROSFeature.hpp"
-#include "../predictors/cnnAE.hpp"
+#include "../predictors/cs_predictor.hpp"
 
 #include <queue>
 
@@ -78,7 +78,7 @@ protected:
 	DisplayScreen* m_display;
 
 	BPROSFeature* m_bprosFeature;
-	CNNAE* m_ae;
+	cs_predictor* m_ae;
 };
 
 
