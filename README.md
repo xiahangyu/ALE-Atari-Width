@@ -59,7 +59,7 @@ The command to run Rollout_IW(1) is
 
       ./ale -display_screen true -discount_factor 0.995 -randomize_successor_novelty true -max_sim_steps_per_frame 150000  -player_agent search_agent -search_method rollout_iw1  (ROM_PATH)
 
-Mind that Rollout_IW(1) can only work with Bpros features right now. 
+Note that Rollout_IW(1) can only work with Bpros features right now. 
 
 and you have to substitute ROM_PATH for any of the games under *supported_roms* folder.
 
