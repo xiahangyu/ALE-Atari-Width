@@ -55,14 +55,15 @@ bool InternalController::isDone() {
 
 void InternalController::run() {
   // bool save_img = false;
-  // bool background = false;
-  loadBgFromMatrix("./backgrounds/ms_pacman/subtracted/background/background.matrix");
+  bool background = false;
+  if(!background)
+    loadBgFromMatrix("./backgrounds/ms_pacman/background.matrix");
 
   Action action_a, action_b;
   bool firstStep = true;
 
   int count = 1;
-  while (!isDone() && count < 4900) {
+  while (!isDone()) {
     std::cout << "count:" << count << " score:"<< m_episode_score << std::endl;
     // Start a new episode if we're in a terminal state... assume these agents need to be told
     //  about episode-end
@@ -94,17 +95,20 @@ void InternalController::run() {
     //   string matrix_act_fn = "./backgrounds/ms_pacman/subtracted/matrix_act/" + std::to_string(count) + ".matrix";
     //   saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
     // }
-    // if(background)
-    //   count_bghist();
+    if(background){
+      count_bghist();
+      if(count > 3000)
+        break;
+    }
     count++;
   }
-  // if(background){
-  //   count_bgMatrix();
-  //   save_bg("./backgrounds/ms_pacman/subtracted/background/background.png");
-  //   saveBgAsMatrix("./backgrounds/ms_pacman/subtracted/background/background.matrix");
-  // }
+  if(background){
+    count_bgMatrix();
+    save_bg("./backgrounds/ms_pacman/background.png");
+    saveBgAsMatrix("./backgrounds/ms_pacman/background.matrix");
+  }
 
-  string png_fn = "./backgrounds/ms_pacman/subtracted/last.png";
+  string png_fn = "./backgrounds/ms_pacman/last.png";
   save_screen(png_fn);
   episodeEnd();
 }

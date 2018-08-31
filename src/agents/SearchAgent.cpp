@@ -23,12 +23,14 @@
 
 #include "BreadthFirstSearch.hpp"
 #include "IW1Search.hpp"
+#include "RolloutIW1Search.hpp"
 
 #include "UniformCostSearch.hpp"
 #include "BestFirstSearch.hpp"
 
 #include "UCTSearchTree.hpp"
 #include "../common/time.hxx"
+
 
 SearchAgent::SearchAgent(OSystem* _osystem, RomSettings* _settings, StellaEnvironment* _env, bool player_B) : 
     PlayerAgent(_osystem, _settings),
@@ -52,21 +54,27 @@ SearchAgent::SearchAgent(OSystem* _osystem, RomSettings* _settings, StellaEnviro
 	
 		m_trace.open( "ucs.search-agent.trace" );
 			
-	}else if( search_method == "iw1"){
+	} else if( search_method == "iw1"){
 		search_tree = new IW1Search(	_settings, _osystem->settings(),
 						available_actions, _env);
 	
 		search_tree->set_novelty_pruning();
 		m_trace.open( "iw1.search-agent.trace" );
     
-	}else if( search_method == "bfs"){
+	} else if( search_method == "rollout_iw1"){
+		search_tree = new RolloutIW1Search(	_settings, _osystem->settings(),
+						available_actions, _env);
+	
+		search_tree->set_novelty_pruning();
+		m_trace.open( "rollout_iw1.search-agent.trace" );
+	} else if( search_method == "bfs"){
 		search_tree = new BestFirstSearch(	_settings, _osystem->settings(),
 						available_actions, _env);
 	
 		search_tree->set_novelty_pruning();
 		m_trace.open( "bfs.search-agent.trace" );
     
-	}  else if (search_method == "uct") {
+	} else if (search_method == "uct") {
 		search_tree = new UCTSearchTree(_settings, _osystem->settings(),
 					    available_actions, _env);
 
@@ -156,7 +164,6 @@ Action SearchAgent::act() {
 	
 	search_tree->print_frame_data( frame_number, elapsed, m_curr_action, m_trace );
 	search_tree->print_frame_data( frame_number, elapsed, m_curr_action, std::cout );
-
 
 	
 	return m_curr_action;
