@@ -9,7 +9,6 @@ BPROSFeature::BPROSFeature(int bh, int bw):
 	num_Columns = ((SCREEN_WIDTH % blockWidth == 0) ? SCREEN_WIDTH/blockWidth : (SCREEN_WIDTH/blockWidth + 1));
 
 	basicFeatureSize = BPROS_NUM_COLORS * num_Rows * num_Columns;
-	//bprosFeatureSize = BPROS_NUM_COLORS * BPROS_NUM_COLORS * num_Rows * num_Columns;
 	bprosFeatureSize = BPROS_NUM_COLORS * BPROS_NUM_COLORS * (num_Rows + num_Columns);
 
     bprosFeatures.resize(BPROS_NUM_COLORS);
@@ -68,20 +67,12 @@ void BPROSFeature::addRelativeFeatures( vector<vector<tuple<int,int>> > &basicFe
         for(int c2 = c1+1; c2 < BPROS_NUM_COLORS; c2++){
             if(basicFeatures[c1].size() > 0 && basicFeatures[c2].size() > 0){
                 for(vector<tuple<int,int> >::iterator it1 = basicFeatures[c1].begin(); it1 != basicFeatures[c1].end(); it1++){
-                	// vector<tuple<int,int> >::iterator it2;
-                	// if(c1 == c2)
-                	// 	it2 = it1;
-                	// else
-                	// 	it2 = basicFeatures[c2].begin();
 
                     for(vector<tuple<int,int> >::iterator it2 = basicFeatures[c2].begin(); it2 != basicFeatures[c2].end(); it2++){
-                        // int rowDelta = get<0>(*it1) - get<0>(*it2) + num_Rows - 1;
-                        // int columnDelta = get<1>(*it1) - get<1>(*it2) + num_Columns - 1;
-
 						int rowDelta = get<0>(*it1) - get<0>(*it2);
                         int columnDelta = get<1>(*it1) - get<1>(*it2);
                         rowDelta = rowDelta>0? rowDelta:-rowDelta;
-                        columnDelta = columnDelta>0?columnDelta:-columnDelta;
+                        columnDelta = columnDelta>0? columnDelta:-columnDelta;
 
                         int relativeDis = rowDelta+columnDelta;
                         bool newPair = true;
@@ -101,6 +92,5 @@ void BPROSFeature::addRelativeFeatures( vector<vector<tuple<int,int>> > &basicFe
 }
 
 void BPROSFeature::getFeaturesFromScreen(const IntMatrix& screen){
-	// addRelativeFeatures(getBasicFeatures(screen));
-	getBasicFeatures(screen);
+	addRelativeFeatures(getBasicFeatures(screen));
 }

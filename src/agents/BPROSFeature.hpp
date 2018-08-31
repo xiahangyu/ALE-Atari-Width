@@ -10,7 +10,6 @@ public:
 	BPROSFeature(int bh, int bw);
 	void getFeaturesFromScreen(const IntMatrix& screen);
 	const vector<vector<tuple<int, int>>>& getBasicFeatures(){return basicFeatures;}
-	//const vector<vector<vector<tuple<int, int>>>>& getBprosFeatures(){return bprosFeatures;}
 	const vector<vector<vector<int>>>& getBprosFeatures(){return bprosFeatures;}
 
 	int n_rows(){return num_Rows;}

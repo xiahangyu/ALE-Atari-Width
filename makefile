@@ -8,7 +8,7 @@ USE_SDL     := 1
 # Set this to 1 to enable the RLGlue interface
 USE_RLGLUE  := 0
 # Set this to 1 to enable C++ tensorflow
-USE_CPPTF	:= 1
+USE_CPPTF	:= 0
 # Set this to 1 to enable python-dev
 USE_PYDEV		:= 0
 DEFINES     := -DRLGENV_NOMAINLOOP
@@ -146,7 +146,7 @@ MODULES += \
 	src/agents \
   src/games \
   src/environment \
-  src/predictors \
+  # src/predictors \
 
 
 ######################################################################

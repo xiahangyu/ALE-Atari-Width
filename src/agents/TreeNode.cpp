@@ -139,14 +139,14 @@ int TreeNode::num_nodes() {
   return numNodes + 1;
 }
 
-void TreeNode::set_last5_screens(const ALEScreen* new_last5_screens, int new_update_pos){
-	for(int i = 0; i < NUM_K; i++){
-		last5_screens[i] = new_last5_screens[i];
-	}
-	update_pos = new_update_pos;
-}
+// void TreeNode::set_last5_screens(const ALEScreen* new_last5_screens, int new_update_pos){
+// 	for(int i = 0; i < NUM_K; i++){
+// 		last5_screens[i] = new_last5_screens[i];
+// 	}
+// 	update_pos = new_update_pos;
+// }
 
-void TreeNode::update_last5_screens(){
-	last5_screens[update_pos] = state.getScreen();
-	update_pos = (update_pos+1)%NUM_K ;
-}
+// void TreeNode::update_last5_screens(){
+// 	last5_screens[update_pos] = state.getScreen();
+// 	update_pos = (update_pos+1)%NUM_K ;
+// }

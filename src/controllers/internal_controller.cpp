@@ -54,10 +54,9 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  bool save_img = false;
-  bool background = false;
-  // if(save_img)
-    loadBgFromMatrix("../train_models/screens/ms_pacman/subtracted/background/background.matrix");
+  // bool save_img = false;
+  // bool background = false;
+  loadBgFromMatrix("./backgrounds/ms_pacman/subtracted/background/background.matrix");
 
   Action action_a, action_b;
   bool firstStep = true;
@@ -83,32 +82,30 @@ void InternalController::run() {
     
       // Apply said actions'
       m_episode_score += applyActions(action_a, action_b);
-
-      // m_environment.last5_screens[m_environment.update_pos] = m_environment.getScreen();
-      // m_environment.update_pos = (m_environment.update_pos+1)%5;
     }
 
     // Display if necessary
     display();
 
     // if(save_img){
-      // string png_fn = "../train_models/screens/tennis/rewards/png/" + std::to_string(count) + ".png";
-      // save_screen(png_fn);
-    //   string matrix_fn = "../train_models/screens/tennis/rewards/matrix/" + std::to_string(count) + ".matrix";
-    //   string matrix_act_fn = "../train_models/screens/tennis/rewards/matrix_act/" + std::to_string(count) + ".matrix";
+    //   string png_fn = "./backgrounds/ms_pacman/subtracted/png/" + std::to_string(count) + ".png";
+    //   save_screen(png_fn);
+    //   string matrix_fn = "./backgrounds/ms_pacman/subtracted/matrix/" + std::to_string(count) + ".matrix";
+    //   string matrix_act_fn = "./backgrounds/ms_pacman/subtracted/matrix_act/" + std::to_string(count) + ".matrix";
     //   saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
     // }
     // if(background)
     //   count_bghist();
     count++;
   }
-  string png_fn = "../train_models/screens/ms_pacman/subtracted/last.png";
-  save_screen(png_fn);
   // if(background){
   //   count_bgMatrix();
-  //   save_bg("../train_models/screens/tennis/subtracted/background/background.png");
-  //   saveBgAsMatrix("../train_models/screens/tennis/subtracted/background/background.matrix");
+  //   save_bg("./backgrounds/ms_pacman/subtracted/background/background.png");
+  //   saveBgAsMatrix("./backgrounds/ms_pacman/subtracted/background/background.matrix");
   // }
+
+  string png_fn = "./backgrounds/ms_pacman/subtracted/last.png";
+  save_screen(png_fn);
   episodeEnd();
 }
 

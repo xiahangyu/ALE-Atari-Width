@@ -75,8 +75,6 @@ public:
 
     void usage();
 
-    /** Added by xhy*/
-    const IntMatrix& getDiff(const ALEScreen& curr_alescreen, const ALEScreen& next_alescreen);
     /** Added by xhy, subtract current alescreen with background*/
     const IntMatrix& subtractBg(const ALEScreen& alescreen);
 
