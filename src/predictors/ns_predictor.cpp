@@ -20,10 +20,10 @@ ns_predictor::ns_predictor(){
         exit(-1);
     }
 
-    // hidden1 = new int [HIDDEN1_SIZE];
-    hidden2 = new int [HIDDEN2_SIZE];
+    // hidden1 = new int [HIDDEN_SIZE];
+    hidden2 = new int [HIDDEN_SIZE];
 
-    // hidden3 = new int [HIDDEN3_SIZE];
+    // hidden3 = new int [HIDDEN_SIZE];
     pred = new int [33600];
 }
 
@@ -80,7 +80,7 @@ void ns_predictor::predict(const ALEScreen* k_screens, int act){
     }
 
     auto t_hidden_map = t_hidden.tensor<float, 2>();
-    for (int i = 0; i < HIDDEN2_SIZE; i++) {
+    for (int i = 0; i < HIDDEN_SIZE; i++) {
         hidden2[i] = t_hidden_map(0, i);   
     }
 

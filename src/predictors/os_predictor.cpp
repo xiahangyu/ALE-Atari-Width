@@ -20,10 +20,10 @@ os_predictor::os_predictor(){
         exit(-1);
     }
 
-    // hidden1 = new int [HIDDEN1_SIZE];
-    hidden2 = new int [HIDDEN2_SIZE];
+    // hidden1 = new int [HIDDEN_SIZE];
+    hidden2 = new int [HIDDEN_SIZE];
 
-    // hidden3 = new int [HIDDEN3_SIZE];
+    // hidden3 = new int [HIDDEN_SIZE];
     // pred = new int [33600];
 }
 
@@ -72,13 +72,13 @@ void os_predictor::predict(const ALEScreen* screen, int act){
     }
 
     Tensor t = outputs[0];                   // Fetch the first tensor
-    if(t.shape().dim_size(0)!=1 || t.shape().dim_size(1) != HIDDEN2_SIZE){
+    if(t.shape().dim_size(0)!=1 || t.shape().dim_size(1) != HIDDEN_SIZE){
         std::cout << "Tensor t size Error..." << std::endl;
         exit(-1);
     }
 
     auto tmap = t.tensor<float, 2>();
-    for (int i = 0; i < HIDDEN2_SIZE; i++) {
+    for (int i = 0; i < HIDDEN_SIZE; i++) {
         hidden2[i] = tmap(0, i);
     }
 }

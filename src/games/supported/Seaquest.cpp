@@ -39,6 +39,8 @@ void SeaquestSettings::step(const System& system) {
 
     // update terminal status
     m_terminal = readRam(&system, 0xA3) != 0;
+    if(m_terminal)
+        m_reward = -1;
 }
 
 

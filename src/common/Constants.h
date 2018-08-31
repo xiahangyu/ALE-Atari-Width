@@ -97,18 +97,17 @@ typedef float return_t;
 #define SECAM_COLOR_IND 1010        // starting index in the custom palette for
                                     // the eight SECAM colors
 // Added by xhy, used in IW1Search.cpp
-#define SCREEN_WIDTH 160
 #define SCREEN_HEIGHT 210
+#define SCREEN_WIDTH 160
 #define SCREEN_SIZE (210*160)
 
 #define NUM_COLORS 256
+#define BPROS_NUM_COLORS 32
 
 #define NUM_K 3
 #define NUM_STEP 1
 
-#define HIDDEN1_SIZE 1024
-#define HIDDEN2_SIZE 1024 
-#define HIDDEN3_SIZE 1024
+#define HIDDEN_SIZE 4480
 
 #endif // __CONSTANTS_H__
 

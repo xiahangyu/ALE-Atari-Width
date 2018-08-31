@@ -27,23 +27,27 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 	/** Modified by xhy */
 	if(m_bpros_features){
 		std::cout<<"Bpros features on!"<<std::endl;
-		m_bprosFeature = new BPROSFeature(15, 10); // divide screen into 14 x 16 tiles of size 15 x 10 pixels
-		m_ram_novelty_table = new Bit_Matrix( m_bprosFeature->get_basicFeatureSize() + m_bprosFeature->get_bprosFeatureSize(), 1);
+		m_bprosFeature = new BPROSFeature(5, 5); // divide screen into 14 x 16 tiles of size 15 x 10 pixels
+		// m_ram_novelty_table_true = new Bit_Matrix( m_bprosFeature->get_basicFeatureSize() + m_bprosFeature->get_bprosFeatureSize(), 1);
+		m_ram_novelty_table_true = new Bit_Matrix(m_bprosFeature->get_basicFeatureSize(), 1);
+		//m_ram_novelty_table_false = new Bit_Matrix( m_bprosFeature->get_basicFeatureSize() + m_bprosFeature->get_bprosFeatureSize(), 1);
+		m_ram_novelty_table_false = new Bit_Matrix(1,1);
 	}
 	else if(m_ae_features){
-	}
-	else if(m_seq_ae_features){
-		std::cout << "Loading seq_cnn_ae model..." << std::endl;
+		std::cout << "Loading cr_predictor..." << std::endl;
 		m_ae = new cs_predictor();
 		std::cout << "Loaded!" << std::endl;
 
 		if(m_novelty_boolean_representation){
-			m_ram_novelty_table_true = new Bit_Matrix( HIDDEN1_SIZE , 8 );
-			m_ram_novelty_table_false = new Bit_Matrix( HIDDEN1_SIZE , 8 );
+			m_ram_novelty_table_true = new Bit_Matrix( HIDDEN_SIZE , 10 );
+			m_ram_novelty_table_false = new Bit_Matrix( HIDDEN_SIZE , 10 );
 		}
 		else{
-			m_ram_novelty_table = new Bit_Matrix( HIDDEN1_SIZE , 255);
+			m_ram_novelty_table = new Bit_Matrix( HIDDEN_SIZE , 1024);
 		}
+	}
+	else if(m_seq_ae_features){
+		
 	}
 	else{
 		if(m_novelty_boolean_representation){
@@ -58,9 +62,9 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 		}
 		else{
 			if(!m_screen_features_on)
-				m_ram_novelty_table = new Bit_Matrix( RAM_SIZE, 256 );
+				m_ram_novelty_table = new Bit_Matrix( RAM_SIZE, NUM_COLORS );
 			else
-				m_ram_novelty_table = new Bit_Matrix( SCREEN_SIZE, 256);
+				m_ram_novelty_table = new Bit_Matrix( SCREEN_SIZE, NUM_COLORS);
 		}
 	}
 }
@@ -139,6 +143,8 @@ void IW1Search::update_tree() {
 	if(m_seq_ae_features)
 		p_root->set_last5_screens(m_env->last5_screens, m_env->update_pos);
 
+	if(p_root->accumulated_reward < 0)
+		p_root->accumulated_reward = 0;
 	expand_tree(p_root);
 	// for(unsigned byte = 0; byte < RAM_SIZE; byte++){
 	//     std::cout << "Byte: " << byte << std::endl;
@@ -175,29 +181,29 @@ void IW1Search::update_novelty_table( const ALERAM& machine_state )
 
 /** Added by xhy*/
 void IW1Search::update_novelty_table( const ALEScreen& curr_alescreen){
-	for( int i = 0; i < 210; i++){
-		for( int j = 0; j < 160; j++){
+	for( int i = 0; i < SCREEN_HEIGHT; i++){
+		for( int j = 0; j < SCREEN_WIDTH; j++){
 			int pixel = curr_alescreen.get(i,j);
 			if(m_novelty_boolean_representation){
 				unsigned char mask = 1;
 				for( int k = 0; k < 8; k++){
 					bool bit_is_set = (pixel & (mask << k)) != 0;
 					if(bit_is_set)
-						m_ram_novelty_table_true->set( i * 160 + j, k);
+						m_ram_novelty_table_true->set( i * SCREEN_WIDTH + j, k);
 					else
-						m_ram_novelty_table_false->set( i * 160 + j, k);
+						m_ram_novelty_table_false->set( i * SCREEN_WIDTH + j, k);
 				}
 			}
 			else
-				m_ram_novelty_table->set(i * 160 + j, pixel );
+				m_ram_novelty_table->set(i * SCREEN_WIDTH + j, pixel );
 		}
 	}
 }
 
 /** Added by xhy, to update novelty table with subtracted game screen*/
 void IW1Search::update_novelty_table( const IntMatrix &screen){
-	for( int i = 0; i < 210; i++){
-		for( int j = 0; j < 160; j++){
+	for( int i = 0; i < SCREEN_HEIGHT; i++){
+		for( int j = 0; j < SCREEN_WIDTH; j++){
 			int pixel = screen[i][j];
 			//if(screen[i][j] != 0){//only pixles with non-zero value(not background) should be considered
 				if(m_novelty_boolean_representation){
@@ -205,13 +211,13 @@ void IW1Search::update_novelty_table( const IntMatrix &screen){
 					for( int k = 0; k < 8; k++){
 						bool bit_is_set = (pixel & (mask << k)) != 0;
 						if(bit_is_set)
-							m_ram_novelty_table_true->set( i * 160 + j, k);
+							m_ram_novelty_table_true->set( i * SCREEN_WIDTH + j, k);
 						else
-							m_ram_novelty_table_false->set( i * 160 + j, k);
+							m_ram_novelty_table_false->set( i * SCREEN_WIDTH + j, k);
 					}
 				}
 				else
-					m_ram_novelty_table->set(i * 160 + j, pixel );
+					m_ram_novelty_table->set(i * SCREEN_WIDTH + j, pixel );
 			//}
 		}
 	}
@@ -219,26 +225,28 @@ void IW1Search::update_novelty_table( const IntMatrix &screen){
 
 void IW1Search::update_novelty_table( const BPROSFeature* m_bprosFeature){
 	const vector<int>& novelty_true_pos = m_bprosFeature->novel_true_pos;
+	//const vector<int>& novelty_false_pos = m_bprosFeature->novel_false_pos;
 
 	for( unsigned k = 0; k < novelty_true_pos.size(); k++){
 		int pos = novelty_true_pos[k];
-			m_ram_novelty_table->set( pos , 1 );
+		m_ram_novelty_table_true->set( pos , 1 );
 	}
+	// for( unsigned k = 0; k < novelty_false_pos.size(); k++){
+	// 	int pos = novelty_false_pos[k];
+	// 	m_ram_novelty_table_false->set( pos , 1 );
+	// }
 }
 
 void IW1Search::update_novelty_table(const int* hidden_state){
-	int hidden_state_size = 0;
-	int novelty_boolean_size = 0;
+	int novelty_boolean_size = 12;
 	if(m_ae_features){
-		// hidden_state_size = AE_HIDDEN_STATE_SIZE;
-		// novelty_boolean_size = 10
+		novelty_boolean_size = 10;
 	}
 	else if(m_seq_ae_features){
-		hidden_state_size = HIDDEN1_SIZE;
-		novelty_boolean_size = 8;
+		// novelty_boolean_size = 8;
 	}
 
-	for(int i = 0; i < hidden_state_size; i++){
+	for(int i = 0; i < HIDDEN_SIZE; i++){
 		int state = hidden_state[i];
 		if(m_novelty_boolean_representation){
 			unsigned char mask = 1;
@@ -283,25 +291,25 @@ bool IW1Search::check_novelty_1( const ALERAM& machine_state )
 /** Added by xhy*/
 bool IW1Search::check_novelty_1( const ALEScreen& curr_alescreen)
 {
-	for( int i = 0; i < 210; i++){
-		for( int j = 0; j < 160; j++){
+	for( int i = 0; i < SCREEN_HEIGHT; i++){
+		for( int j = 0; j < SCREEN_WIDTH; j++){
 			int pixel = curr_alescreen.get(i, j);
 			if(m_novelty_boolean_representation){
 				unsigned char mask = 1;
 				for( int k = 0; k < 8; k++) {
                     bool bit_is_set = (pixel & (mask << k)) != 0;
                     if (bit_is_set) {
-                        if (!m_ram_novelty_table_true->iset(i * 160 + j, k))
+                        if (!m_ram_novelty_table_true->iset(i * SCREEN_WIDTH + j, k))
                             return true;
                     }
 					else{
-                        if (!m_ram_novelty_table_false->iset(i * 160 + j, k))
+                        if (!m_ram_novelty_table_false->iset(i * SCREEN_WIDTH + j, k))
                             return true;
                         }
 				}
 			}
 			else{
-				if ( !m_ram_novelty_table->iset( i * 160 + j, pixel ) )
+				if ( !m_ram_novelty_table->iset( i * SCREEN_WIDTH + j, pixel ) )
 					return true;
 			}
 		}
@@ -312,8 +320,8 @@ bool IW1Search::check_novelty_1( const ALEScreen& curr_alescreen)
 /** Added by xhy*/
 bool IW1Search::check_novelty_1( const IntMatrix &screen)
 {
-	for( int i = 0; i < 210; i++){
-		for( int j = 0; j < 160; j++){
+	for( int i = 0; i < SCREEN_HEIGHT; i++){
+		for( int j = 0; j < SCREEN_WIDTH; j++){
 			int pixel = screen[i][j];
 			//if(screen[i][j] != 0){//only pixles with non-zero value should be considered
 				if(m_novelty_boolean_representation){
@@ -321,17 +329,17 @@ bool IW1Search::check_novelty_1( const IntMatrix &screen)
 					for( int k = 0; k < 8; k++) {
                         bool bit_is_set = (pixel & (mask << k)) != 0;
                         if (bit_is_set) {
-                            if (!m_ram_novelty_table_true->iset(i * 160 + j, k))
+                            if (!m_ram_novelty_table_true->iset(i * SCREEN_WIDTH + j, k))
                                 return true;
                         }
 						else {
-                                if (!m_ram_novelty_table_false->iset(i * 160 + j, k))
+                                if (!m_ram_novelty_table_false->iset(i * SCREEN_WIDTH + j, k))
                                     return true;
                         }
 					}
 				}
 				else{
-					if ( !m_ram_novelty_table->iset( i * 160 + j, pixel ) )
+					if ( !m_ram_novelty_table->iset( i * SCREEN_WIDTH + j, pixel ) )
 						return true;
 				}
 			//}
@@ -340,49 +348,96 @@ bool IW1Search::check_novelty_1( const IntMatrix &screen)
 	return false;
 }
 
+// bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
+// 	const vector<vector<tuple<int, int>>>& basicFeatures = m_bprosFeature->getBasicFeatures();
+// 	const vector<vector<vector<tuple<int, int>>>>& bprosFeatures = m_bprosFeature->getBprosFeatures();
+// 	m_bprosFeature->novel_true_pos.clear();
+// 	m_bprosFeature->novel_false_pos.clear();
+
+// 	bool novelty = false;
+// 	for( int c = 0; c < BPROS_NUM_COLORS; c++){
+// 		for( unsigned k = 0; k < basicFeatures[c].size(); k++){
+// 			int pos = (c * m_bprosFeature->n_rows() + get<0>(basicFeatures[c][k])) * m_bprosFeature->n_cols() + get<1>(basicFeatures[c][k]);
+// 			if(!m_ram_novelty_table_true->iset( pos, 1)){
+// 				m_bprosFeature->novel_true_pos.push_back(pos);
+// 				novelty = true;
+// 			}
+// 			else if(!m_ram_novelty_table_false->iset( pos, 1)){
+// 				m_bprosFeature->novel_false_pos.push_back(pos);
+// 				novelty = true;
+// 			}
+// 		}
+// 	}
+
+// 	for( unsigned c1 = 0; c1 < bprosFeatures.size(); c1++){
+// 		for( unsigned c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
+// 			for( unsigned k = 0; k < bprosFeatures[c1][c2].size(); k++){
+// 				int pos = m_bprosFeature->get_basicFeatureSize() + ((c1 * BPROS_NUM_COLORS + c2) * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k])) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]);
+// 				if( !m_ram_novelty_table_true->iset(pos , 1) ){
+// 					m_bprosFeature->novel_true_pos.push_back(pos);
+// 					novelty = true;
+// 				}
+// 				else if(!m_ram_novelty_table_false->iset( pos, 1)){
+// 					m_bprosFeature->novel_false_pos.push_back(pos);
+// 					novelty = true;
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return novelty;
+// }
+
 bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
 	const vector<vector<tuple<int, int>>>& basicFeatures = m_bprosFeature->getBasicFeatures();
-	const vector<vector<vector<tuple<int, int>>>>& bprosFeatures = m_bprosFeature->getBprosFeatures();
+	// const vector<vector<vector<int>>>& bprosFeatures = m_bprosFeature->getBprosFeatures();
+	m_bprosFeature->novel_true_pos.clear();
+	//m_bprosFeature->novel_false_pos.clear();
 
 	bool novelty = false;
-	m_bprosFeature->novel_true_pos.clear();
-	for( int c = 0; c < NUM_COLORS; c++){
+	for( int c = 0; c < BPROS_NUM_COLORS; c++){
 		for( unsigned k = 0; k < basicFeatures[c].size(); k++){
 			int pos = (c * m_bprosFeature->n_rows() + get<0>(basicFeatures[c][k])) * m_bprosFeature->n_cols() + get<1>(basicFeatures[c][k]);
-			if(!m_ram_novelty_table->iset( pos, 1)){
+			if(!m_ram_novelty_table_true->iset( pos, 1)){
 				m_bprosFeature->novel_true_pos.push_back(pos);
 				novelty = true;
 			}
+			// else if(!m_ram_novelty_table_false->iset( pos, 1)){
+			// 	m_bprosFeature->novel_false_pos.push_back(pos);
+			// 	novelty = true;
+			// }
 		}
 	}
 
-	for( unsigned c1 = 0; c1 < bprosFeatures.size(); c1++){
-		for( unsigned c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
-			for( unsigned k = 0; k < bprosFeatures[c1][c2].size(); k++){
-				int pos = m_bprosFeature->get_basicFeatureSize() + ((c1 * NUM_COLORS + c2) * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k])) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]);
-				if( !m_ram_novelty_table->iset(pos , 1) ){
-					m_bprosFeature->novel_true_pos.push_back(pos);
-					novelty = true;
-				}
-			}
-		}
-	}
+	// for( unsigned c1 = 0; c1 < bprosFeatures.size(); c1++){
+	// 	for( unsigned c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
+	// 		for( unsigned k = 0; k < bprosFeatures[c1][c2].size(); k++){
+	// 			int pos = m_bprosFeature->get_basicFeatureSize() + (c1 * BPROS_NUM_COLORS + c2) * (m_bprosFeature->n_rows() + m_bprosFeature->n_cols()) + bprosFeatures[c1][c2][k];
+	// 			// int pos = (c1 * BPROS_NUM_COLORS + c2) * (m_bprosFeature->n_rows() + m_bprosFeature->n_cols()) + bprosFeatures[c1][c2][k];
+	// 			if( !m_ram_novelty_table_true->iset(pos , 1) ){
+	// 				m_bprosFeature->novel_true_pos.push_back(pos);
+	// 				novelty = true;
+	// 			}
+	// 			// else if(!m_ram_novelty_table_false->iset( pos, 1)){
+	// 			// 	m_bprosFeature->novel_false_pos.push_back(pos);
+	// 			// 	novelty = true;
+	// 			// }
+	// 		}
+	// 	}
+	// }
 	return novelty;
 }
 
 bool IW1Search::check_novelty_1(const int* hidden_state){
-	int hidden_state_size = 0;
-	int novelty_boolean_size = 0;
+	int novelty_boolean_size = 8;
 	if(m_ae_features){
-		// hidden_state_size = AE_HIDDEN_STATE_SIZE;
-		// novelty_boolean_size = 10
+		novelty_boolean_size = 10;
 	}
 	else if(m_seq_ae_features){
-		hidden_state_size = HIDDEN1_SIZE;
-		novelty_boolean_size = 8;
+		// hidden_state_size = HIDDEN1_SIZE;
+		// novelty_boolean_size = 8;
 	}
 
-	for(int i = 0; i < hidden_state_size; i++){
+	for(int i = 0; i < HIDDEN_SIZE; i++){
 		int state = hidden_state[i];
 		if(m_novelty_boolean_representation){
 			unsigned char mask = 1;
@@ -422,9 +477,8 @@ void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, i
 		}
 	}
 	else if(m_ae_features){
-	}
-	else if(m_seq_ae_features){
 		if(m_display){
+			m_ae->predict(m_display->subtractBg(child->state.getScreen()));
 			const int* hidden_state = m_ae->get_hidden1();
 			if( check_novelty_1(hidden_state)){
 				update_novelty_table(hidden_state);
@@ -437,6 +491,9 @@ void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, i
 				//continue;	
 			}
 		}
+	}
+	else if(m_seq_ae_features){
+		
 	}
 	else{
 		if(!m_screen_features_on){
@@ -501,10 +558,10 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 						act,
 						sim_steps_per_node);
 
-			if(m_seq_ae_features){
-				child->set_last5_screens(curr_node->last5_screens, curr_node->update_pos);
-				child->update_last5_screens();
-			}
+			// if(m_seq_ae_features){
+			// 	child->set_last5_screens(curr_node->last5_screens, curr_node->update_pos);
+			// 	child->update_last5_screens();
+			// }
 
 			checkAndUpdate_novelty(curr_node, child, a);
 			if (child->depth() > m_max_depth ) 
@@ -564,18 +621,21 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 	pivots.push_back( start_node );
 
 	/** modified by xhy*/
-	if(m_bpros_features){
+	if(m_bpros_features){	
 		if(m_display){
 			const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
 			m_bprosFeature->getFeaturesFromScreen(subtracted_screen);
+			check_novelty_1(m_bprosFeature);
 			update_novelty_table(m_bprosFeature);
 		}
 	}
 	else if(m_ae_features){
-	}
-	else if(m_seq_ae_features){
+		m_ae->predict(m_display->subtractBg(start_node->state.getScreen()));
 		const int* hidden_state = m_ae->get_hidden1();
 		update_novelty_table(hidden_state);
+	}
+	else if(m_seq_ae_features){
+		
 	}
 	else{
 		if(!m_screen_features_on){	
@@ -643,10 +703,10 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 		}
 
 	} while ( !pivots.empty() );
-	if(pivots.empty() && q.empty()){
-		std::cout << "I think i am dying..." << std::endl;
-		std::cout << "I think i am dying..." << std::endl;
-		std::cout << "I think i am dying..." << std::endl;
+	if( num_simulated_steps < max_sim_steps_per_frame && pivots.empty() && q.empty()){
+		std::cout << "No nodes to expand..." << std::endl;
+		std::cout << "No nodes to expand..." << std::endl;
+		std::cout << "No nodes to expand..." << std::endl;
 	}
 	
 	update_branch_return(start_node);

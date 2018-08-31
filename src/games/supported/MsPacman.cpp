@@ -15,7 +15,7 @@
 
 
 MsPacmanSettings::MsPacmanSettings() {
-
+    m_lives = 0;
     reset();
 }
 
@@ -43,6 +43,9 @@ void MsPacmanSettings::step(const System& system) {
     // MGB Did not work int black_screen_byte = readRam(&system, 0x94);
     int death_timer = readRam(&system, 0xA7);
     m_terminal = lives == 0 && death_timer == 0x53;
+    if(m_lives!=0 && lives < m_lives)
+        m_reward = -1;
+    m_lives = lives;
 }
 
 

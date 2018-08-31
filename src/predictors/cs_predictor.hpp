@@ -11,11 +11,11 @@ class cs_predictor {
 public:
 	cs_predictor();
 	virtual ~cs_predictor();
-	void predict(const ALEScreen* screen);
+	void predict(const IntMatrix& subtracted_screen);
 	const int* get_hidden1(){return hidden1;}
 
 private:
-	tensorflow::Session* session;
+	tensorflow::Session* session = NULL;
 
 	//outputs
     int* hidden1;

@@ -54,17 +54,17 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  bool save_img = true;
+  bool save_img = false;
   bool background = false;
-  if(save_img)
-    loadBgFromMatrix("./python_nn_model/screens/pong/subtracted/background/background.matrix");
+  // if(save_img)
+    loadBgFromMatrix("../train_models/screens/ms_pacman/subtracted/background/background.matrix");
 
   Action action_a, action_b;
   bool firstStep = true;
 
   int count = 1;
-  while (!isDone() && count < 5000) {
-    std::cout << "count:" << count << std::endl;
+  while (!isDone() && count < 4900) {
+    std::cout << "count:" << count << " score:"<< m_episode_score << std::endl;
     // Start a new episode if we're in a terminal state... assume these agents need to be told
     //  about episode-end
     if (m_environment.isTerminal()) {
@@ -91,22 +91,24 @@ void InternalController::run() {
     // Display if necessary
     display();
 
-    if(save_img){
-      string png_fn = "./python_nn_model/screens/pong/subtracted/png/" + std::to_string(count) + ".png";
-      save_screen(png_fn);
-      string matrix_fn = "./python_nn_model/screens/pong/subtracted/matrix/" + std::to_string(count) + ".matrix";
-      string matrix_act_fn = "./python_nn_model/screens/pong/subtracted/matrix_act/" + std::to_string(count) + ".matrix";
-      saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
-    }
-    if(background)
-      count_bghist();
+    // if(save_img){
+      // string png_fn = "../train_models/screens/tennis/rewards/png/" + std::to_string(count) + ".png";
+      // save_screen(png_fn);
+    //   string matrix_fn = "../train_models/screens/tennis/rewards/matrix/" + std::to_string(count) + ".matrix";
+    //   string matrix_act_fn = "../train_models/screens/tennis/rewards/matrix_act/" + std::to_string(count) + ".matrix";
+    //   saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
+    // }
+    // if(background)
+    //   count_bghist();
     count++;
   }
-  if(background){
-    count_bgMatrix();
-    save_bg("./python_nn_model/screens/pong/subtracted/background/background.png");
-    saveBgAsMatrix("./python_nn_model/screens/pong/subtracted/background/background.matrix");
-  }
+  string png_fn = "../train_models/screens/ms_pacman/subtracted/last.png";
+  save_screen(png_fn);
+  // if(background){
+  //   count_bgMatrix();
+  //   save_bg("../train_models/screens/tennis/subtracted/background/background.png");
+  //   saveBgAsMatrix("../train_models/screens/tennis/subtracted/background/background.matrix");
+  // }
   episodeEnd();
 }
 

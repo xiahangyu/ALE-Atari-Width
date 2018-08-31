@@ -56,7 +56,7 @@ void setDefaultSettings(Settings &settings) {
     
     	// Agent settings
     	settings.setString("player_agent", "search_agent");
-    	settings.setFloat("discount_factor", .995);
+    	settings.setFloat("discount_factor", .99);
 	//settings.setFloat("discount_factor", 0.995);
 
 	// Max reward
@@ -67,9 +67,9 @@ void setDefaultSettings(Settings &settings) {
 	//settings.setInt("iw1_reward_horizon", 50 );
 	settings.setBool("iw1_stop_on_first_reward", true);
 	settings.setInt("iw1_reward_horizon", 300 );
-	settings.setBool("randomize_successor_novelty", true );
+	settings.setBool("randomize_successor_novelty", true);
 
-	settings.setBool("novelty_boolean", false);
+	settings.setBool("novelty_boolean", true);
 
     /** Added by xhy, if true, apply screen images to IW(1) rather than RAM*/
     settings.setBool("screen_features_on", false);
@@ -77,7 +77,7 @@ void setDefaultSettings(Settings &settings) {
     /** Added by xhy, if true, basic features are extracted from screens.
     Mind: When basic_features are used, novelty boolean should be set to false.
     */
-    settings.setBool("bpros_features", false);
+    settings.setBool("bpros_features", true);
     settings.setBool("ae_features", false);
     settings.setBool("seq_ae_features", false);
 }

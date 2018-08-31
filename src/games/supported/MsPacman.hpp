@@ -54,6 +54,7 @@ class MsPacmanSettings : public RomSettings {
         bool m_terminal;
         reward_t m_reward;
         reward_t m_score;
+        int m_lives;
 };
 
 #endif // __MSPACMAN_HPP__

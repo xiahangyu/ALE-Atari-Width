@@ -47,6 +47,8 @@ void AlienSettings::step(const System& system) {
     int byte = readRam(&system, 0xC0);
     byte = byte & 15;
     m_terminal = byte <= 0;
+    if(m_terminal)
+        m_reward = -1;
 }
 
 

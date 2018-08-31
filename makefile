@@ -10,14 +10,14 @@ USE_RLGLUE  := 0
 # Set this to 1 to enable C++ tensorflow
 USE_CPPTF	:= 1
 # Set this to 1 to enable python-dev
-USE_PY		:= 0
+USE_PYDEV		:= 0
 DEFINES     := -DRLGENV_NOMAINLOOP
 LDFLAGS     := -g -Wall -D_DEBUG -Wshadow -Wno-sign-compare -w #`pkg-config --cflags --libs protobuf`
 # /opt/local/include for MacPorts
 INCLUDES    := -Isrc/controllers -Isrc/os_dependent -I/opt/local/SDL/include -Isrc/environment -I/usr/include 
 LIBS_SDL 	:= -lSDL -lSDLmain -lSDL_gfx -lSDL_image
 LIBS_RLGLUE := -lrlutils -lrlgluenetdev
-LIBS_CPPTF	:= -L/usr/local/lib/libtensorflow_cc -ltensorflow_framework -ltensorflow_cc #-L/usr/local/lib
+LIBS_CPPTF	:= -L/usr/local/lib/libtensorflow -ltensorflow_framework -ltensorflow #-ltensorflow_cc #-L/usr/local/lib
 LIBS_PYDEV	:= -L/Library/Frameworks/Python.framework/Versions/3.6/lib -lpython3.6m
 LIBS	    := -L/opt/local/lib 
 OBJS	    :=

@@ -4,7 +4,7 @@
 using namespace tensorflow;
 
 cs_predictor::cs_predictor(){
-    std::string model_path = "./models/freeway/subtracted/nn_model_frozen.pb";
+    std::string model_path = "./models/freeway/cs/27X20X16/model_frozen.pb";
 
     // Create New Session
     Status status = NewSession(SessionOptions(), &session);
@@ -20,31 +20,29 @@ cs_predictor::cs_predictor(){
         exit(-1);
     }
 
-    hidden1 = new int [HIDDEN1_SIZE];   
+    hidden1 = new int [HIDDEN_SIZE];   
 }
 
 cs_predictor::~cs_predictor(){
     delete [] hidden1;
 }
 
-void cs_predictor::predict(const ALEScreen* screen){
+void cs_predictor::predict(const IntMatrix& subtracted_screen){
     if(!session) {
         std::cout << "Session Error..." << std::endl;
         exit(-1);
     }
 
-
     std::vector<std::pair<std::string, tensorflow::Tensor> > input;
     // Create New tensor and set value
-        Tensor x(tensorflow::DT_FLOAT, TensorShape({1, 33600})); 
-        auto x_map = x.tensor<float, 2>();
+    Tensor x(tensorflow::DT_FLOAT, TensorShape({1, 33600})); 
+    auto x_map = x.tensor<float, 2>();
 
-        for(int h = 0; h < 210; h++)
-            for(int w = 0; w < 160; w++)
-                x_map(0, h*160 + w) = screen->get(h, w);
-
-        // Append <tname, Tensor> to input
-        input.push_back(std::pair<std::string, Tensor>("x", x));
+    for(int h = 0; h < 210; h++)
+        for(int w = 0; w < 160; w++)
+            x_map(0, h*160 + w) = subtracted_screen[h][w];
+    // Append <tname, Tensor> to input
+    input.push_back(std::pair<std::string, Tensor>("x", x));
 
     std::vector<tensorflow::Tensor> outputs;  
     Status status = session->Run(input, {"hidden"}, {}, &outputs);
@@ -60,13 +58,24 @@ void cs_predictor::predict(const ALEScreen* screen){
     }
 
     Tensor t = outputs[0];                   // Fetch the first tensor
-    if(t.shape().dim_size(0)!=1 || t.shape().dim_size(1) != HIDDEN1_SIZE){
-        std::cout << "Tensor t size Error..." << std::endl;
-        exit(-1);
-    }
+    // if(t.shape().dim_size(1) != HIDDEN_SIZE){
+    //     std::cout << "Tensor t size Error..." << std::endl;
+    //     exit(-1);
+    // }
 
-    auto tmap = t.tensor<float, 2>();
-    for (int i = 0; i < HIDDEN1_SIZE; i++) {
-        hidden1[i] = tmap(0, i);
+    // auto tmap = t.tensor<int, 2>();
+    // for (int i = 0; i < HIDDEN_SIZE; i++) {
+    //     hidden1[i] = tmap(0, i);
+    //     if(hidden1[i] >= 1024)
+    //         hidden1[i] = 1023;
+    // }
+
+    auto tmap = t.tensor<int, 4>();
+    for(int h=0;h<14;h++){
+        for(int w=0;w<10;w++){
+            for(int c=0;c<32;c++){
+                hidden1[h*10*32+w*32+c] = tmap(0, h, w, c);
+            }
+        }
     }
 }
