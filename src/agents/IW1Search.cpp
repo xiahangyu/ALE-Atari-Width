@@ -537,17 +537,17 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 	// 	const int* hidden_state = m_ae->get_hidden1();
 	// 	update_novelty_table(hidden_state);
 	// }
-	// else{
-	// 	if(!m_screen_features_on){	
-	// 		update_novelty_table( start_node->state.getRAM() );
-	// 	}
-	// 	else{
-	// 		if(m_display){
-	// 			const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
-	// 			update_novelty_table(subtracted_screen);
-	// 		}
-	// 	}
-	// }
+	else{
+		if(!m_screen_features_on){	
+			update_novelty_table( start_node->state.getRAM() );
+		}
+		else{
+			if(m_display){
+				const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
+				update_novelty_table(subtracted_screen);
+			}
+		}
+	}
 
 	int num_simulated_steps = 0;
 
