@@ -31,6 +31,8 @@ RUNNING ALE with IW(1) and RolloutIW(1)
 ===========
 1. Loading game background. This is done in the src/controllers/internal_controller.cpp at line 60 with background set to false. Parameter for the loadBgFromMatrix should be set to the format of "./backgrounds/game_name/background.matrix".
 
+Note that screens of game Space Invaders are of size (250, 160), not (210, 160) any more. Screen size variables should be updated in src/common/Constants.h at line 100 and 102 by changing 210 to 250. Besides, since we have changed a head file. The whole project should be recompiled.
+
 2. Set screen feature types(Game RAM, Background subtracted game screen, Bpros game screen). Screen feature types can be set in the src\common\Default.cpp with configurations set to:
 
   Game RAM: 
