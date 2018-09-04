@@ -89,10 +89,10 @@ void InternalController::run() {
     display();
 
     // if(save_img){
-    //   string png_fn = "./backgrounds/ms_pacman/subtracted/png/" + std::to_string(count) + ".png";
+    //   string png_fn = "./backgrounds/tennis/subtracted/png/" + std::to_string(count) + ".png";
     //   save_screen(png_fn);
-    //   string matrix_fn = "./backgrounds/ms_pacman/subtracted/matrix/" + std::to_string(count) + ".matrix";
-    //   string matrix_act_fn = "./backgrounds/ms_pacman/subtracted/matrix_act/" + std::to_string(count) + ".matrix";
+    //   string matrix_fn = "./backgrounds/tennis/subtracted/matrix/" + std::to_string(count) + ".matrix";
+    //   string matrix_act_fn = "./backgrounds/tennis/subtracted/matrix_act/" + std::to_string(count) + ".matrix";
     //   saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
     // }
     if(background){
