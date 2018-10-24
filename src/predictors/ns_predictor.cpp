@@ -4,7 +4,7 @@
 using namespace tensorflow;
 
 ns_predictor::ns_predictor(){
-    std::string model_path = "./models/freeway/subtracted/nn_model_frozen.pb";
+    std::string model_path = "XXX";
 
     // Create New Session
     Status status = NewSession(SessionOptions(), &session);

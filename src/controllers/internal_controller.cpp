@@ -54,8 +54,8 @@ bool InternalController::isDone() {
 }
 
 void InternalController::run() {
-  // bool save_img = false;
-  bool background = false;
+  bool save_img = false;  //If true, saving game screens when runing the game 
+  bool background = false;  //If true, computing and then saving the background of the game 
   if(!background)
     loadBgFromMatrix("./backgrounds/alien/background.matrix");
 
@@ -90,13 +90,13 @@ void InternalController::run() {
     // Display if necessary
     display();
 
-    // if(save_img){
-    //   string png_fn = "./backgrounds/tennis/subtracted/png/" + std::to_string(count) + ".png";
-    //   save_screen(png_fn);
-    //   string matrix_fn = "./backgrounds/tennis/subtracted/matrix/" + std::to_string(count) + ".matrix";
-    //   string matrix_act_fn = "./backgrounds/tennis/subtracted/matrix_act/" + std::to_string(count) + ".matrix";
-    //   saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
-    // }
+    if(save_img){
+      string png_fn = "./python/screens/freeway/subtracted/png/" + std::to_string(count) + ".png";
+      save_screen(png_fn);
+      string matrix_fn = "./python/screens/freeway/subtracted/matrix/" + std::to_string(count) + ".matrix";
+      string matrix_act_fn = "./python/screens/freeway/subtracted/matrix_act/" + std::to_string(count) + ".matrix";
+      saveScreenAsMatrix(matrix_fn, matrix_act_fn, action_a);
+    }
     if(background){
       count_bghist();
       if(count > 3000)
@@ -106,7 +106,7 @@ void InternalController::run() {
   }
   if(background){
     count_bgMatrix();
-    save_bg("./backgrounds/alien/background.png");
+    save_bg("./backgrounds/freeway/background.png");
     saveBgAsMatrix("./backgrounds/freeway/background.matrix");
   }
 
