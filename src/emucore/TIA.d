@@ -5,6 +5,7 @@ src/emucore/TIA.o: src/emucore/TIA.cxx src/emucore/Console.hxx \
   src/emucore/Cart.hxx src/emucore/M6532.hxx src/emucore/Random.hxx \
   src/emucore/AtariVox.hxx src/emucore/m6502/src/M6502.hxx \
   src/emucore/m6502/src/System.hxx src/emucore/m6502/src/NullDev.hxx \
-  src/common/Array.hxx src/emucore/Serializer.hxx \
-  src/emucore/Deserializer.hxx src/emucore/Settings.hxx \
+  src/common/Array.hxx src/common/../emucore/m6502/src/bspf/src/bspf.hxx \
+  src/emucore/Serializer.hxx src/emucore/Deserializer.hxx \
+  src/emucore/Settings.hxx src/emucore/../common/Array.hxx \
   src/common/GuiUtils.hxx

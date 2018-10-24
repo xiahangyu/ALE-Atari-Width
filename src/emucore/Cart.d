@@ -11,4 +11,5 @@ src/emucore/Cart.o: src/emucore/Cart.cxx \
   src/emucore/CartCV.hxx src/emucore/CartUA.hxx \
   src/emucore/m6502/src/System.hxx src/emucore/m6502/src/NullDev.hxx \
   src/emucore/MD5.hxx src/emucore/Props.hxx src/emucore/Settings.hxx \
-  src/emucore/../common/Array.hxx
+  src/emucore/../common/Array.hxx \
+  src/common/../emucore/m6502/src/bspf/src/bspf.hxx

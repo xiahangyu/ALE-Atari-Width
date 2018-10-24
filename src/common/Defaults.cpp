@@ -56,7 +56,7 @@ void setDefaultSettings(Settings &settings) {
     
     	// Agent settings
     	settings.setString("player_agent", "search_agent");
-    	settings.setFloat("discount_factor", .99);
+    	settings.setFloat("discount_factor", .995);
 	//settings.setFloat("discount_factor", 0.995);
 
 	// Max reward
@@ -65,7 +65,7 @@ void setDefaultSettings(Settings &settings) {
 	// Stop IW(1) on the first reward found
 	//settings.setBool("iw1_stop_on_first_reward", true);
 	//settings.setInt("iw1_reward_horizon", 50 );
-	settings.setBool("iw1_stop_on_first_reward", true);
+	settings.setBool("iw1_stop_on_first_reward", false);
 	settings.setInt("iw1_reward_horizon", 300 );
 	settings.setBool("randomize_successor_novelty", true);
 
@@ -73,10 +73,10 @@ void setDefaultSettings(Settings &settings) {
 
     /** Added by xhy, if true, apply screen images to IW(1) rather than RAM*/
     settings.setBool("screen_features_on", false);
-
     /** Added by xhy, if true, basic features are extracted from screens.
     Mind: When basic_features are used, novelty boolean should be set to false.
     */
-    settings.setBool("bpros_features", false);
-    settings.setBool("ae_features", false);
+    settings.setBool("bpros_features", true);   //Whether use the B-PROS features or not
+    settings.setBool("mht_bpros_features", false);  //Whether use the Manhattan B-PROS features or not
+    settings.setBool("ae_features", false); //Whether use the features extracted with the Autoencoder or not. If true, the item "USE_CPPTF" in the makefile should be set to 1 first.
 }

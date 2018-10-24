@@ -8,10 +8,13 @@ src/emucore/Console.o: src/emucore/Console.cxx src/emucore/AtariVox.hxx \
   src/emucore/Keyboard.hxx src/emucore/m6502/src/M6502Hi.hxx \
   src/emucore/m6502/src/M6502.hxx src/emucore/m6502/src/System.hxx \
   src/emucore/m6502/src/NullDev.hxx src/common/Array.hxx \
+  src/common/../emucore/m6502/src/bspf/src/bspf.hxx \
   src/emucore/m6502/src/M6502Low.hxx src/emucore/Paddles.hxx \
   src/emucore/PropsSet.hxx src/emucore/Settings.hxx \
-  src/emucore/Switches.hxx src/emucore/OSystem.hxx \
-  src/emucore/../common/SoundNull.hxx \
-  src/emucore/../common/export_screen.h src/common/Constants.h \
-  src/emucore/../common/display_screen.h \
+  src/emucore/../common/Array.hxx src/emucore/Switches.hxx \
+  src/emucore/OSystem.hxx src/emucore/../common/SoundNull.hxx \
+  src/common/../emucore/Sound.hxx src/emucore/../common/export_screen.h \
+  src/common/../emucore/Props.hxx src/common/Constants.h \
+  src/emucore/../common/display_screen.h src/common/export_screen.h \
+  src/common/../emucore/MediaSrc.hxx \
   src/common/../environment/ale_screen.hpp src/common/Version.hxx

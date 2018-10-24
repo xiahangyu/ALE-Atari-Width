@@ -23,7 +23,7 @@
 
 #include "BreadthFirstSearch.hpp"
 #include "IW1Search.hpp"
-#include "RolloutIW1Search.hpp"
+#include "EFeatureIW1Search.hpp"
 
 #include "UniformCostSearch.hpp"
 #include "BestFirstSearch.hpp"
@@ -61,8 +61,8 @@ SearchAgent::SearchAgent(OSystem* _osystem, RomSettings* _settings, StellaEnviro
 		search_tree->set_novelty_pruning();
 		m_trace.open( "iw1.search-agent.trace" );
     
-	} else if( search_method == "rollout_iw1"){
-		search_tree = new RolloutIW1Search(	_settings, _osystem->settings(),
+	} else if( search_method == "efeature_iw1"){
+		search_tree = new EFeatureIW1Search(	_settings, _osystem->settings(),
 						available_actions, _env);
 	
 		search_tree->set_novelty_pruning();

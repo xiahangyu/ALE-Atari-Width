@@ -16,10 +16,11 @@ MODULE_OBJS := \
 	src/agents/UCTTreeNode.o \
 	src/agents/BreadthFirstSearch.o \
 	src/agents/IW1Search.o \
-	src/agents/RolloutIW1Search.o \
+	src/agents/EFeatureIW1Search.o \
 	src/agents/BestFirstSearch.o \
 	src/agents/UniformCostSearch.o \
-	src/agents/BPROSFeature.o
+	src/agents/BPROSFeature.o \
+	src/agents/MhtBPROSFeature.o
 
 MODULE_DIRS += \
 	src/agents

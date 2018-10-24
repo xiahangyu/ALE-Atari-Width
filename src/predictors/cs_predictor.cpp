@@ -4,7 +4,7 @@
 using namespace tensorflow;
 
 cs_predictor::cs_predictor(){
-    std::string model_path = "./models/freeway/cs/27X20X16/model_frozen.pb";
+    std::string model_path = "./python/trained_models/freeway/af_cnn/model_frozen.pb";
 
     // Create New Session
     Status status = NewSession(SessionOptions(), &session);

@@ -19,6 +19,7 @@
 
 #include "ale_controller.hpp"
 #include "../agents/PlayerAgent.hpp"
+#include "../common/time.hxx"
 
 #include <string>
 

@@ -51,6 +51,11 @@ void SpaceInvadersSettings::step(const System& system) {
         int lives = readRam(&system, 0xC9);
         //m_terminal = (some_byte & 0x80) || lives == 0;
 	m_terminal = (some_byte & 0x80) || lives == 0;
+
+    // /* added by xhy*/
+    // if(m_terminal && m_reward==0)
+    //     m_reward = -1;
+
 	if (m_lives == 0) m_lives = lives;
 	
 	if (lives < m_lives){

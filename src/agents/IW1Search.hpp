@@ -6,7 +6,8 @@
 #include "../environment/ale_ram.hpp"
 #include "../common/Constants.h"
 #include "BPROSFeature.hpp"
-// #include "../predictors/cs_predictor.hpp"
+#include "MhtBPROSFeature.hpp"
+#include "../predictors/cs_predictor.hpp"
 
 #include <queue>
 
@@ -45,12 +46,14 @@ protected:
 	void	update_novelty_table( const ALERAM &machine_state);
 	void	update_novelty_table( const IntMatrix &screen);
 	void 	update_novelty_table( const BPROSFeature* m_bprosFeature);
-	// void 	update_novelty_table( const int* hidden_state);
+	void 	update_novelty_table( const MhtBPROSFeature* m_mht_bprosFeature);
+	void 	update_novelty_table( const int* hidden_state);
 
 	bool	check_novelty_1( const ALERAM& machine_state);
 	bool	check_novelty_1( const IntMatrix& screen);
 	bool 	check_novelty_1( BPROSFeature* m_bprosFeature);
-	// bool 	check_novelty_1( const int* hidden_state);
+	bool 	check_novelty_1( MhtBPROSFeature* m_mht_bprosFeature);
+	bool 	check_novelty_1( const int* hidden_state);
 
 	void	checkAndUpdate_novelty(TreeNode *curr_node, TreeNode *child, int a);
 
@@ -69,13 +72,15 @@ protected:
 	// added by xhy
 	bool 			m_screen_features_on;
 	bool 			m_bpros_features;
-	// bool 			m_ae_features;
+	bool 			m_mht_bpros_features;
+	bool 			m_ae_features;
 
 	/** Added by xhy*/
 	DisplayScreen* m_display;
 
 	BPROSFeature* m_bprosFeature;
-	// cs_predictor* m_ae;
+	MhtBPROSFeature* m_mht_bprosFeature;
+	cs_predictor* m_ae;
 };
 
 

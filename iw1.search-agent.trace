@@ -1,2 +1,0 @@
-frame=0,expanded=223,generated=4014,pruned=3772,depth_tree=57,tree_size=4015,best_action=PLAYER_A_NOOP,branch_reward=30.0623,elapsed=10.3552
-frame=5,expanded=440,generated=4014,pruned=7436,depth_tree=56,tree_size=8011,best_action=PLAYER_A_LEFTFIRE,branch_reward=30.2134,elapsed=9.59281

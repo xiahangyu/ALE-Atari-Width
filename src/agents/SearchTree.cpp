@@ -229,7 +229,7 @@ int SearchTree::simulate_game(	ALEState & state, Action act, int num_steps,
 			
 		return_t r = normalize_rewards ? normalize(curr_reward) : curr_reward;
 		if(r<0)
-			r = 1000*r;
+			r = 100000*r;
 
 		// Add curr_reward to the trajectory return
 		if (discount_return) {

@@ -57,14 +57,16 @@ void InternalController::run() {
   // bool save_img = false;
   bool background = false;
   if(!background)
-    loadBgFromMatrix("./backgrounds/ms_pacman/background.matrix");
+    loadBgFromMatrix("./backgrounds/alien/background.matrix");
 
   Action action_a, action_b;
   bool firstStep = true;
 
+  float t0 = aptk::time_used();
   int count = 1;
   while (!isDone()) {
-    std::cout << "count:" << count << " score:"<< m_episode_score << std::endl;
+    float tf = aptk::time_used();
+    std::cout << "count:" << count << " score:"<< m_episode_score << " time:" << tf-t0 <<std::endl;
     // Start a new episode if we're in a terminal state... assume these agents need to be told
     //  about episode-end
     if (m_environment.isTerminal()) {
@@ -104,11 +106,11 @@ void InternalController::run() {
   }
   if(background){
     count_bgMatrix();
-    save_bg("./backgrounds/ms_pacman/background.png");
-    saveBgAsMatrix("./backgrounds/ms_pacman/background.matrix");
+    save_bg("./backgrounds/alien/background.png");
+    saveBgAsMatrix("./backgrounds/freeway/background.matrix");
   }
 
-  string png_fn = "./backgrounds/ms_pacman/last.png";
+  string png_fn = "./backgrounds/alien/last.png";
   save_screen(png_fn);
   episodeEnd();
 }

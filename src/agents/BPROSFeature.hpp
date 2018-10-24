@@ -10,7 +10,7 @@ public:
 	BPROSFeature(int bh, int bw);
 	void getFeaturesFromScreen(const IntMatrix& screen);
 	const vector<vector<tuple<int, int>>>& getBasicFeatures(){return basicFeatures;}
-	const vector<vector<vector<int>>>& getBprosFeatures(){return bprosFeatures;}
+	const vector<vector<vector<tuple<int, int>>>>& getBprosFeatures(){return bprosFeatures;}
 
 	int n_rows(){return num_Rows;}
 	int n_cols(){return num_Columns;}
@@ -40,7 +40,7 @@ private:
 	int bprosFeatureSize;
 
 	vector<vector<tuple<int, int>>> basicFeatures;	//(color, blockPos) pairs
-	vector<vector<vector<int>>> bprosFeatures;
+	vector<vector<vector<tuple<int, int>>>> bprosFeatures;	//(color1, color2, relativeBlockPos) pairs
 };
 
 #endif //__BPROS_Feature_HPP__

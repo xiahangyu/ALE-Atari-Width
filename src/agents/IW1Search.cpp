@@ -18,30 +18,36 @@ IW1Search::IW1Search(RomSettings *rom_settings, Settings &settings,
 	m_display = settings.get_OSystem()->p_display_screen;
 
 	/** Added by xhy, if true, apply game screens instead of ALE_RAM to IW1 */
+	std::cout<<"----Use the IW1 Search!----"<<std::endl;
 	m_screen_features_on = settings.getBool("screen_features_on", false);
 	m_bpros_features = settings.getBool("bpros_features", false);
-	// m_ae_features = settings.getBool("ae_features", false);
+	m_mht_bpros_features = settings.getBool("mht_bpros_features", false);
+	m_ae_features = settings.getBool("ae_features", false);
 	
 
 	/** Modified by xhy */
 	if(m_bpros_features){
-		std::cout<<"Bpros features on!"<<std::endl;
 		m_bprosFeature = new BPROSFeature(5, 5); // divide screen into 14 x 16 tiles of size 15 x 10 pixels
 		m_ram_novelty_table = new Bit_Matrix( m_bprosFeature->get_basicFeatureSize() + m_bprosFeature->get_bprosFeatureSize(), 1);
 	}
-	// else if(m_ae_features){
-	// 	std::cout << "Loading cr_predictor..." << std::endl;
-	// 	m_ae = new cs_predictor();
-	// 	std::cout << "Loaded!" << std::endl;
+	else if(m_mht_bpros_features){
+		m_mht_bprosFeature = new MhtBPROSFeature(5, 5); // divide screen into 14 x 16 tiles of size 15 x 10 pixels
+		m_ram_novelty_table = new Bit_Matrix( m_mht_bprosFeature->get_basicFeatureSize() + m_mht_bprosFeature->get_bprosFeatureSize(), 1);
+	
+	}
+	else if(m_ae_features){
+		std::cout << "----Loading deep learning model...----" << std::endl;
+		m_ae = new cs_predictor();
+		std::cout << "----Loaded!----" << std::endl;
 
-	// 	if(m_novelty_boolean_representation){
-	// 		m_ram_novelty_table_true = new Bit_Matrix( HIDDEN_SIZE , 10 );
-	// 		m_ram_novelty_table_false = new Bit_Matrix( HIDDEN_SIZE , 10 );
-	// 	}
-	// 	else{
-	// 		m_ram_novelty_table = new Bit_Matrix( HIDDEN_SIZE , 1024);
-	// 	}
-	// }
+		if(m_novelty_boolean_representation){
+			m_ram_novelty_table_true = new Bit_Matrix( HIDDEN_SIZE , 10 );
+			m_ram_novelty_table_false = new Bit_Matrix( HIDDEN_SIZE , 10 );
+		}
+		else{
+			m_ram_novelty_table = new Bit_Matrix( HIDDEN_SIZE , 1024);
+		}
+	}
 	else{
 		if(m_novelty_boolean_representation){
 			if(!m_screen_features_on){
@@ -72,6 +78,9 @@ IW1Search::~IW1Search() {
 
 	if(m_bprosFeature)
 		delete m_bprosFeature;
+
+	if(m_mht_bprosFeature)
+		delete m_mht_bprosFeature;
 
 	// if(m_ae)
 	// 	delete m_ae;
@@ -202,28 +211,32 @@ void IW1Search::update_novelty_table( const BPROSFeature* m_bprosFeature){
 	}
 }
 
-// void IW1Search::update_novelty_table(const int* hidden_state){
-// 	int novelty_boolean_size = 12;
-// 	if(m_ae_features){
-// 		novelty_boolean_size = 10;
-// 	}
+void IW1Search::update_novelty_table( const MhtBPROSFeature* m_mht_bprosFeature){
+	const vector<int>& novelty_true_pos = m_mht_bprosFeature->novel_true_pos;
 
-// 	for(int i = 0; i < HIDDEN_SIZE; i++){
-// 		int state = hidden_state[i];
-// 		if(m_novelty_boolean_representation){
-// 			unsigned char mask = 1;
-// 			for( int k = 0; k < novelty_boolean_size; k++){
-// 				bool bit_is_set = (state & (mask << k)) != 0;
-// 				if(bit_is_set)
-// 					m_ram_novelty_table_true->set(i, k);
-// 				else
-// 					m_ram_novelty_table_false->set(i, k);
-// 			}
-// 		}
-// 		else
-// 			m_ram_novelty_table->set(i, state);
-// 	}
-// }
+	for( unsigned k = 0; k < novelty_true_pos.size(); k++){
+		int pos = novelty_true_pos[k];
+		m_ram_novelty_table->set( pos , 1 );
+	}
+}
+
+void IW1Search::update_novelty_table(const int* hidden_state){
+	for(int i = 0; i < HIDDEN_SIZE; i++){
+		int state = hidden_state[i];
+		if(m_novelty_boolean_representation){
+			unsigned char mask = 1;
+			for( int k = 0; k < 10; k++){
+				bool bit_is_set = (state & (mask << k)) != 0;
+				if(bit_is_set)
+					m_ram_novelty_table_true->set(i, k);
+				else
+					m_ram_novelty_table_false->set(i, k);
+			}
+		}
+		else
+			m_ram_novelty_table->set(i, state);
+	}
+}
 
 bool IW1Search::check_novelty_1( const ALERAM& machine_state )
 {
@@ -281,10 +294,10 @@ bool IW1Search::check_novelty_1( const IntMatrix &screen)
 	return false;
 }
 
-/* novelty test for Manhattan Bpros features */
+/* novelty test for original Bpros features */
 bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
 	const vector<vector<tuple<int, int>>>& basicFeatures = m_bprosFeature->getBasicFeatures();
-	const vector<vector<vector<int>>>& bprosFeatures = m_bprosFeature->getBprosFeatures();
+	const vector<vector<vector<tuple<int, int>>>>& bprosFeatures = m_bprosFeature->getBprosFeatures();
 	m_bprosFeature->novel_true_pos.clear();
 
 	bool novelty = false;
@@ -301,7 +314,7 @@ bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
 	for( unsigned c1 = 0; c1 < bprosFeatures.size(); c1++){
 		for( unsigned c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
 			for( unsigned k = 0; k < bprosFeatures[c1][c2].size(); k++){
-				int pos = m_bprosFeature->get_basicFeatureSize() + (c1 * BPROS_NUM_COLORS + c2) * (m_bprosFeature->n_rows() + m_bprosFeature->n_cols()) + bprosFeatures[c1][c2][k];
+				int pos = m_bprosFeature->get_basicFeatureSize() + ((c1 * BPROS_NUM_COLORS + c2) * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k])) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]);
 				if( !m_ram_novelty_table->iset(pos , 1) ){
 					m_bprosFeature->novel_true_pos.push_back(pos);
 					novelty = true;
@@ -312,66 +325,61 @@ bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
 	return novelty;
 }
 
-/* novelty test for original Bpros features */
-// bool IW1Search::check_novelty_1(BPROSFeature* m_bprosFeature){
-// 	const vector<vector<tuple<int, int>>>& basicFeatures = m_bprosFeature->getBasicFeatures();
-// 	const vector<vector<vector<tuple<int, int>>>>& bprosFeatures = m_bprosFeature->getBprosFeatures();
-// 	m_bprosFeature->novel_true_pos.clear();
+/* novelty test for Manhattan Bpros features */
+bool IW1Search::check_novelty_1(MhtBPROSFeature* m_mht_bprosFeature){
+	const vector<vector<tuple<int, int>>>& basicFeatures = m_mht_bprosFeature->getBasicFeatures();
+	const vector<vector<vector<int>>>& bprosFeatures = m_mht_bprosFeature->getBprosFeatures();
+	m_mht_bprosFeature->novel_true_pos.clear();
 
-// 	bool novelty = false;
-// 	for( int c = 0; c < BPROS_NUM_COLORS; c++){
-// 		for( unsigned k = 0; k < basicFeatures[c].size(); k++){
-// 			int pos = (c * m_bprosFeature->n_rows() + get<0>(basicFeatures[c][k])) * m_bprosFeature->n_cols() + get<1>(basicFeatures[c][k]);
-// 			if(!m_ram_novelty_table->iset( pos, 1)){
-// 				m_bprosFeature->novel_true_pos.push_back(pos);
-// 				novelty = true;
-// 			}
-// 		}
-// 	}
+	bool novelty = false;
+	for( int c = 0; c < BPROS_NUM_COLORS; c++){
+		for( unsigned k = 0; k < basicFeatures[c].size(); k++){
+			int pos = (c * m_mht_bprosFeature->n_rows() + get<0>(basicFeatures[c][k])) * m_mht_bprosFeature->n_cols() + get<1>(basicFeatures[c][k]);
+			if(!m_ram_novelty_table->iset( pos, 1)){
+				m_mht_bprosFeature->novel_true_pos.push_back(pos);
+				novelty = true;
+			}
+		}
+	}
 
-// 	for( unsigned c1 = 0; c1 < bprosFeatures.size(); c1++){
-// 		for( unsigned c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
-// 			for( unsigned k = 0; k < bprosFeatures[c1][c2].size(); k++){
-// 				int pos = m_bprosFeature->get_basicFeatureSize() + ((c1 * BPROS_NUM_COLORS + c2) * m_bprosFeature->n_rows() + get<0>(bprosFeatures[c1][c2][k])) * m_bprosFeature->n_cols() + get<1>(bprosFeatures[c1][c2][k]);
-// 				if( !m_ram_novelty_table->iset(pos , 1) ){
-// 					m_bprosFeature->novel_true_pos.push_back(pos);
-// 					novelty = true;
-// 				}
-// 			}
-// 		}
-// 	}
-// 	return novelty;
-// }
+	for( unsigned c1 = 0; c1 < bprosFeatures.size(); c1++){
+		for( unsigned c2 = 0; c2 < bprosFeatures[c1].size(); c2++){
+			for( unsigned k = 0; k < bprosFeatures[c1][c2].size(); k++){
+				int pos = m_mht_bprosFeature->get_basicFeatureSize() + (c1 * BPROS_NUM_COLORS + c2) * (m_mht_bprosFeature->n_rows() + m_mht_bprosFeature->n_cols()) + bprosFeatures[c1][c2][k];
+				if( !m_ram_novelty_table->iset(pos , 1) ){
+					m_mht_bprosFeature->novel_true_pos.push_back(pos);
+					novelty = true;
+				}
+			}
+		}
+	}
+	return novelty;
+}
 
-// bool IW1Search::check_novelty_1(const int* hidden_state){
-// 	int novelty_boolean_size = 8;
-// 	if(m_ae_features){
-// 		novelty_boolean_size = 10;
-// 	}
-
-// 	for(int i = 0; i < HIDDEN_SIZE; i++){
-// 		int state = hidden_state[i];
-// 		if(m_novelty_boolean_representation){
-// 			unsigned char mask = 1;
-// 			for( int k = 0; k < novelty_boolean_size; k++) {
-// 	            bool bit_is_set = (state & (mask << k)) != 0;
-// 	            if (bit_is_set) {
-// 	                if (!m_ram_novelty_table_true->iset(i, k))
-// 	                    return true;
-// 	            }
-// 				else{
-// 	                if (!m_ram_novelty_table_false->iset(i, k))
-// 	                    return true;
-// 	            }
-// 			}
-// 		}
-// 		else{
-// 			if ( !m_ram_novelty_table->iset(i, state ) )
-// 				return true;
-// 		}
-// 	}
-// 	return false;
-// }
+bool IW1Search::check_novelty_1(const int* hidden_state){
+	for(int i = 0; i < HIDDEN_SIZE; i++){
+		int state = hidden_state[i];
+		if(m_novelty_boolean_representation){
+			unsigned char mask = 1;
+			for( int k = 0; k < 10; k++) {
+	            bool bit_is_set = (state & (mask << k)) != 0;
+	            if (bit_is_set) {
+	                if (!m_ram_novelty_table_true->iset(i, k))
+	                    return true;
+	            }
+				else{
+	                if (!m_ram_novelty_table_false->iset(i, k))
+	                    return true;
+	            }
+			}
+		}
+		else{
+			if ( !m_ram_novelty_table->iset(i, state ) )
+				return true;
+		}
+	}
+	return false;
+}
 
 void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, int a){
 	if(m_bpros_features){
@@ -388,22 +396,36 @@ void IW1Search::checkAndUpdate_novelty(TreeNode * curr_node, TreeNode * child, i
 			//continue;
 		}
 	}
-	// else if(m_ae_features){
-	// 	if(m_display){
-	// 		m_ae->predict(m_display->subtractBg(child->state.getScreen()));
-	// 		const int* hidden_state = m_ae->get_hidden1();
-	// 		if( check_novelty_1(hidden_state)){
-	// 			update_novelty_table(hidden_state);
-	// 			child->is_terminal = false;
-	// 		}
-	// 		else{
-	// 			curr_node->v_children[a] = child;
-	// 			child->is_terminal = true;
-	// 			m_pruned_nodes++;
-	// 			//continue;	
-	// 		}
-	// 	}
-	// }
+	else if(m_mht_bpros_features){
+		const IntMatrix& subtracted_screen = m_display->subtractBg(child->state.getScreen());
+		m_mht_bprosFeature->getFeaturesFromScreen(subtracted_screen);
+		if( check_novelty_1(m_mht_bprosFeature)){
+			update_novelty_table(m_mht_bprosFeature);
+			child->is_terminal = false;
+		}
+		else{
+			curr_node->v_children[a] = child;
+			child->is_terminal = true;
+			m_pruned_nodes++;
+			//continue;
+		}
+	}
+	else if(m_ae_features){
+		if(m_display){
+			m_ae->predict(m_display->subtractBg(child->state.getScreen()));
+			const int* hidden_state = m_ae->get_hidden1();
+			if( check_novelty_1(hidden_state)){
+				update_novelty_table(hidden_state);
+				child->is_terminal = false;
+			}
+			else{
+				curr_node->v_children[a] = child;
+				child->is_terminal = true;
+				m_pruned_nodes++;
+				//continue;	
+			}
+		}
+	}
 	else{
 		if(!m_screen_features_on){
 			if ( check_novelty_1( child->state.getRAM() ) ) {
@@ -494,7 +516,7 @@ int IW1Search::expand_node( TreeNode* curr_node, queue<TreeNode*>& q )
 		if (!child->is_terminal) {
 			if (! (ignore_duplicates && test_duplicate(child)) )
 			    if( child->num_nodes_reusable < max_nodes_per_frame )
-					q.push(child);
+						q.push(child);
 		}
 	}
 	return num_simulated_steps;
@@ -532,11 +554,19 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 			update_novelty_table(m_bprosFeature);
 		}
 	}
-	// else if(m_ae_features){
-	// 	m_ae->predict(m_display->subtractBg(start_node->state.getScreen()));
-	// 	const int* hidden_state = m_ae->get_hidden1();
-	// 	update_novelty_table(hidden_state);
-	// }
+	else if(m_mht_bpros_features){	
+		if(m_display){
+			const IntMatrix& subtracted_screen = m_display->subtractBg(start_node->state.getScreen());
+			m_mht_bprosFeature->getFeaturesFromScreen(subtracted_screen);
+			check_novelty_1(m_mht_bprosFeature);
+			update_novelty_table(m_mht_bprosFeature);
+		}
+	}
+	else if(m_ae_features){
+		m_ae->predict(m_display->subtractBg(start_node->state.getScreen()));
+		const int* hidden_state = m_ae->get_hidden1();
+		update_novelty_table(hidden_state);
+	}
 	else{
 		if(!m_screen_features_on){	
 			update_novelty_table( start_node->state.getRAM() );
@@ -576,7 +606,7 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 			q.pop();
 	
 			if ( curr_node->depth() > m_reward_horizon - 1 ) continue;
-			if ( m_stop_on_first_reward && curr_node->node_reward != 0 && curr_node->accumulated_reward > 0) 
+			if ( m_stop_on_first_reward && curr_node->node_reward != 0 && curr_node->accumulated_reward > 0) // if( m_stop_on_first_reward && curr_node->node_reward > 0 )
 			{
 				pivots.push_back( curr_node );
 				continue;
@@ -584,6 +614,8 @@ void IW1Search::expand_tree(TreeNode* start_node) {
 
 			if(curr_node->accumulated_reward >= 0)
 				steps = expand_node( curr_node, q );
+			else
+				steps = 0;
 			num_simulated_steps += steps;
 			// Stop once we have simulated a maximum number of steps
 			if (num_simulated_steps >= max_sim_steps_per_frame) {

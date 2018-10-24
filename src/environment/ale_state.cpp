@@ -68,7 +68,10 @@ const ALEState&	ALEState::operator=( const ALEState& other )
 	 	m_screen = nullptr;
 	else
 	{
-		m_screen = new ALEScreen( *(other.m_screen) );
+		if(!m_screen)
+      m_screen = new ALEScreen( *(other.m_screen) );
+    else
+      *(m_screen) = *(other.m_screen);
 	}
 	m_ram = other.m_ram;
 
