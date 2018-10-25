@@ -76,7 +76,7 @@ void setDefaultSettings(Settings &settings) {
     /** Added by xhy, if true, basic features are extracted from screens.
     Mind: When basic_features are used, novelty boolean should be set to false.
     */
-    settings.setBool("bpros_features", true);   //Whether use the B-PROS features or not
-    settings.setBool("mht_bpros_features", false);  //Whether use the Manhattan B-PROS features or not
+    settings.setBool("bpros_features", false);   //Whether use the B-PROS features or not
+    settings.setBool("mht_bpros_features", true);  //Whether use the Manhattan B-PROS features or not
     settings.setBool("ae_features", false); //Whether use the features extracted with the Autoencoder or not. If true, the item "USE_CPPTF" in the makefile should be set to 1 first.
 }

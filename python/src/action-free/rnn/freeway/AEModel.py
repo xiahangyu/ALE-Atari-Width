@@ -31,5 +31,5 @@ class AEModel(object):
             tf.summary.scalar('cost', self.cost)
 
         with tf.variable_scope("optimize"):
-            learning_rate = 0.001
+            learning_rate = 0.0001
             self.optimizer = tf.train.AdamOptimizer(learning_rate, name="optimizer").minimize(self.cost)

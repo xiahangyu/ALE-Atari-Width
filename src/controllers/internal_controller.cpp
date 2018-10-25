@@ -57,7 +57,7 @@ void InternalController::run() {
   bool save_img = false;  //If true, saving game screens when runing the game 
   bool background = false;  //If true, computing and then saving the background of the game 
   if(!background)
-    loadBgFromMatrix("./backgrounds/alien/background.matrix");
+    loadBgFromMatrix("./backgrounds/space_invaders/background.matrix");
 
   Action action_a, action_b;
   bool firstStep = true;
@@ -110,8 +110,8 @@ void InternalController::run() {
     saveBgAsMatrix("./backgrounds/freeway/background.matrix");
   }
 
-  string png_fn = "./backgrounds/alien/last.png";
-  save_screen(png_fn);
+  // string png_fn = "./backgrounds/pong/last.png";
+  // save_screen(png_fn);
   episodeEnd();
 }
 
